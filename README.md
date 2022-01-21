@@ -5,7 +5,7 @@ University: West University Of Timișoara
 # Graduate
 Anamaria Bica
 
-Group ..., Year 3
+Group 1, Year 3
 
 Faculty of Mathematics and Computer Science
 
