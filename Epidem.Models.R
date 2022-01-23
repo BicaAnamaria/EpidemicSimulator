@@ -298,15 +298,6 @@ initSIR_Vaccine = function(list1 ,end.time, p.old = 2,  flt="Old")
   
   # O = S0 * proportie_varstnici; [ex. 0.2]
 }
-filter.out = function(x, flt, lbl) {
-  id = match(flt, names(x));
-  id = id[ ! is.na(id)];
-  if(length(id) > 0) {
-    x = x[, - id];
-    lbl = lbl[-id];
-  }
-  return(list(out=x, lbl=lbl));
-}
 
 
 ### Daily Mortality
@@ -319,3 +310,54 @@ lines(times, dD * 30, col="red") # * 30 = uses a different scaling!
 max(dD*100)
 plot(cut(dD*100, breaks = 100))
 }
+
+
+
+###################
+
+###############################
+### Vaccination Stratified ###
+###############################
+
+sirVacc <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    
+    
+  }
+  )}
+
+
+initSIR_VaccineStrat = function(list ,end.time, p.old = 2,  flt="All")
+{
+  
+  times = seq(0,end.time, by = 1)
+  
+  parameters = list(infect = list$infect, 
+                    recov = list$recov, 
+                    recov.h = (1 -list$death.hosp) * list$recov.hosp, 
+                    recov.y = list$recov.y,
+                    recov.old = list$recov.old,
+                    death.y = list$recov * list$death, 
+                    death.h = list$death.hosp * list$recov.hosp, 
+                    hosp = list$hosp,
+                    hosp.y = list$hosp.y,
+                    hosp.old = list$hosp.old,
+                    hosp.vaccY = list$hosp.vaccY,
+                    hosp.vaccOld = list$hosp.vaccOld,     
+                    vacc.y = list$vacc.young,     
+                    vacc.old = list$vacc.old,    
+                    death.o = list$recov * list$death.old,
+                    death.oh = list$recov.hosp * list$death.oldhosp)
+  init = c(T = 1 - 1e-6, S = (1 - 1e-6) * (1 - p.old), I = 1e-6,  O = (1 - 1e-6) * p.old, Hcum = 0.0, H = 0.0, Dy = 0.0, Do = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
+  
+  
+  ### Solve using ode
+  out = solve.sir(sir.vacc, init, parameters, times)
+  head(out, 10)
+  lbl = c("Total", "Young", "Infected", "Recovered", "Death", "Hosp", "Old", "OldDeath", "VaccinatedYoung", "VaccinatedOld");
+  leg.off=c(-0.1, 0.3);
+  
+  
+ 
+}
+

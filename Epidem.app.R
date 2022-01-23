@@ -20,7 +20,7 @@ library(shinyjs)
 
 # setam calea proiectului
 
-setwd("C:\\Users\\anama\\OneDrive - e-uvt.ro\\Documents\\ANUL III\\Semestrul 1\\Licenta\\Epidem.app.Leo-2021-10-28")
+setwd("C:\\Users\\anama\\OneDrive - e-uvt.ro\\Documents\\ANUL III\\Semestrul 1\\Licenta\\Simulator")
 
 # se incarca 4 fisiere externe cu comanda source
 

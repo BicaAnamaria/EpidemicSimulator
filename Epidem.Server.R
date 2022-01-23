@@ -26,6 +26,7 @@ server <- function(input, output){
   output$BasicT = renderText("Basic Model: (S)usceptible (I)nfectious and (R)emoved model")
   output$HospT  = renderText("Complex model: includes a hospitalization compartment")
   output$VaccT  = renderText("Complex model: includes a vaccination compartment")
+  output$VaccStratifiedT = renderText("Complex model: inlude age-stratified vaccination model")
   output$TwoVirus = renderText("Complex model: includes two viruses")
   
   values = reactiveValues();
@@ -106,6 +107,32 @@ server <- function(input, output){
       initSIR_Vaccine(custom, input$timeV, flt=input$optTypeV)
     else
       diagram3(scaleX=0.9, scaleY=0.9)
+  })
+  
+  output$VaccStratifiedT = renderPlot({
+    
+    custom = list(
+      infect = input$infectVS,
+      recov = input$recovVS,
+      recov.y = input$recov.yVS,
+      recov.old = input$recov.oldVS,
+      recov.hosp = input$recov.hospVS,
+      hosp = input$hospVS,
+      hosp.y = input$hosp.yVS,
+      hosp.old = input$hosp.oldVS,
+      hosp.vaccY = input$hosp.vaccYVS,
+      hosp.vaccOld = input$hosp.vaccOldVS,
+      vacc.old = input$vacc.oVS,
+      vacc.young = input$vacc.yVS,
+      death.y = input$death.yVS,
+      death.old=input$death.oVS,
+      death.oldhosp=input$death.ohVS
+      
+      )
+    
+    
+    if(init$toggleC==FALSE)
+      break;
   })
   
   ### 2 Viruses
