@@ -47,7 +47,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                 tabsetPanel(
                   tabPanel("Hospitalization SIR model",
                            fluidRow(
-                             column(4, textOutput("HospT"),
+                             column(4, textOutput("txtHosp"),
                                     checkboxInput("toggleH", "Toggle between plot and diagram")),
                              column(4, selectInput("optType", "Display", getDisplayTypes(), selected="Old")),
                              column(4, selectInput("optSensitivity", "Sensitivity Analysis", getSensitivity(), selected="SIR"))
@@ -83,9 +83,9 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   
                   tabPanel("Vaccination SIR model",
                            tabPanel("Vaccination SIR model",
-                                    column(4, textOutput("VaccT"),
+                                    column(4, textOutput("txtVacc"),
                                            checkboxInput("toggleC","Toggle between plot and diagram")),
-                                    column(4, selectInput("optTypeV", "Display", getDisplayTypes(), selected="Old")),
+                                    column(4, selectInput("optTypeV", "Display", getDisplayTypesVacc(), selected="Old")),
                                     plotOutput("Vacc"),
                                     hr(), 
                            
@@ -107,6 +107,33 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     sliderBase("vacc.yV", label="Rate of vaccination for old people", max = 0.01, val = 0.001))
                            ))),
                   
+                  tabPanel("Vaccinacion Stratified Model",
+                           textOutput("txtVaccStrat"),
+                           plotOutput("Vaccination"),
+                           checkboxInput("toggleC","Toggle between plot and diagram")),
+                           hr(),
+                           
+                           fluidRow(
+                             column(3, sliderTime("timeV"),
+                                    sliderBase("recovVacc", label="Rate of recovery"),
+                                    sliderBase("recov.HVacc", label="Rate of recovery in hospitals")),
+                             column(3,
+                                    sliderBase("infectYoungVacc", label="Rate of infection for old people", 0.25),
+                                    sliderBase("infectOldVacc", label="Rate of infection for young people", 0.25),
+                                    sliderBase("deathV", label="Rate of death"),
+                                    sliderBase("death.hV", label="Rate of death in hospitals")),
+                             column(3,
+                                    sliderBase("hospVacc", label="Rate of hospitalisation"),
+                                    sliderBase("death.OldVacc", label="Rate of death in old people"),
+                                    sliderBase("death.OldHVacc", label="Rate of death in hospitalised old people")),
+                             column(3,
+                                    sliderBase("hosp.OldVacc", label="Rate of hospitalisation for old people"),
+                                    sliderBase("hosp.YoungVacc", label="Rate of hospitalisation for young people"),
+                                    sliderBase("vacc.OldVacc", label="Rate of vaccination for young people", max = 0.01, val = 0.001),
+                                    sliderBase("vacc.YoungVacc", label="Rate of vaccination for old people", max = 0.01, val = 0.001))          
+                           )),
+                
+                  
                   tabPanel("Two Viruses",
                            textOutput("VirusT"),
                            plotOutput("Virus"),
@@ -117,7 +144,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     sliderInput(inputId = "iters", label="Number of iterations",
                                                 value=1, min=1, max=720, step=1,
                                                 animate = animationOptions(interval = 250, loop = FALSE))           
-                             )))
+                             ))
                 )
 )
 

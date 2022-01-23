@@ -163,7 +163,7 @@ filter.out = function(x, flt, lbl) {
 	}
 	return(list(out=x, lbl=lbl));
 }
-sir_H <- function(time, state, parameters) {
+sirHosp <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
 	IYng = I;
 	ITot = IYng + IOld; # all infected (young & old) can infect!
@@ -218,21 +218,22 @@ getDisplayTypesVacc = function(){
   c("All", "Young", "Old")
 }
 
-sir.vacc <- function(time, state, parameters) {
+sirVacc <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
 	# TODO: debug;
-    dV = min(S, vacc);
+    dVy = min(S, vacc);
     dVo = min(O, vacc.o);
-    dS = -infect * S * I - infect * S * H - dV; # both I & H infect! S = young
+    dS = -infect * S * I - infect * S * H - dVy; # both I & H infect! S = young
     dO = -infect * O * I - infect * O * H - dVo;
-    dT = (-infect * S * I - infect * S * H) + (-infect * O * I - infect * O * H) - dV -dVo;
-    dI =  infect * S * I + infect * S * H + infect * O * I + infect * O * H - recov * I - death * I - hosp * I;
+    dT = (-infect * S * I - infect * S * H) + (-infect * O * I - infect * O * H) - dVy -dVo;
+    dI =  infect * S * I + infect * S * H + infect * O * I + infect * O * H - recov * I - death.y * I - hosp * I;
     dH =  hosp * I - recov.h * H - death.h * H;
     dR =  recov * I + recov.h * H;
-    dD =  death * (I * 0.8) + death.h * H;
+    dDy =  death.y * (I * 0.8) + death.h * H;
     dDo = death.o * (I * 0.2) + death.oh * H;
+    dHcum = hosp * I;
     #return(list(c(dT, dS, dI, dR, dD, dH, dV, dRo, dHo, dDo)));
-    return(list(c(dT, dS, dI, dR, dD, dH, dO, dDo,dV,dVo)));
+    return(list(c(dT, dS, dI, dO, dHcum, dH, dDy, dDo, dR, dVy, dVo)));
   })
 }
 
@@ -241,7 +242,7 @@ sir.vacc <- function(time, state, parameters) {
 # death rate;
 # hospitalization
 # vaccination rate
-initSIR_Vaccine = function(list1 ,end.time,  flt="Old")
+initSIR_Vaccine = function(list1 ,end.time, p.old = 2,  flt="Old")
 {
   
   times = seq(0,end.time, by = 1)
@@ -249,7 +250,7 @@ initSIR_Vaccine = function(list1 ,end.time,  flt="Old")
   parameters = list(infect = list1$infect, #list1$param
                  recov = list1$recov, # => 2 categorii death.h
                  recov.h = (1 -list1$death.hosp) * list1$recov.hosp, #list1$recov.hosp,
-                 death = list1$recov * list1$death, 
+                 death.y = list1$recov * list1$death, 
                  death.h = list1$death.hosp * list1$recov.hosp, #recov.h - nu il recunoaste #list1$recov.hosp * list1$death.hosp, 
                  hosp = list1$hosp,             
                  hosp.v = list1$hosp.vacc,           # recov.h = (1 - death.h.base) * recov.h 
@@ -257,37 +258,54 @@ initSIR_Vaccine = function(list1 ,end.time,  flt="Old")
                  vacc.o = list1$vacc.old,     #list1$vacc.young,
                  death.o = list1$recov * list1$death.old,
                  death.oh = list1$recov.hosp * list1$death.oldhosp)
-  init = c(T = 1 - 1e-6, S = (1 - 1e-6) * 0.8, I = 1e-6, R = 0.0, D = 0.0, H = 0.0, O = (1 - 1e-6) * 0.2, Do = 0.0, V =0.0, Vo = 0.0)
+  init = c(T = 1 - 1e-6, S = (1 - 1e-6) * (1 - p.old), I = 1e-6,  O = (1 - 1e-6) * p.old, Hcum = 0.0, H = 0.0, Dy = 0.0, Do = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
   
   
   ### Solve using ode
   out = solve.sir(sir.vacc, init, parameters, times)
   head(out, 10)
   lbl = c("Total", "Young", "Infected", "Recovered", "Death", "Hosp", "Old", "OldDeath", "VaccinatedYoung", "VaccinatedOld");
+  leg.off=c(-0.1, 0.3);
+  
   
   type = match(flt, getDisplayTypesVacc());
   if(type > 1) {
+    out$DeathAll = out$O; #out$Dc + out$Dh;
+    hosp.rate.scale = 20;
+    out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
+    lbl = c(lbl, "Death", paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
+    if(type == 2) {
+      r = filter.out(out, c("T", "O", "Do","Vo"), lbl);
+    } else if(type == 3) {
+      r = filter.out(out, c("T", "Dy", "Vy"), lbl);
+      leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
+    } else r = filter.out(out, c("dT"), lbl=lbl);
+    out = r$out; lbl = r$lbl;
+    
   }
   
-  lines(c(0, times), (c(out$D, 0) - c(0, out$D)) * 30, col="red")
-  dD = diff(out$D, lag=1)
-  dD = c(0, dD)
-  lines(times, dD * 30, col="red")
+
+  lines(c(0, times), (c(out$Dy, 0) - c(0, out$Dy)) * 30, col="red")
+  dDy = diff(out$Dy, lag=1)
+  dDy = c(0, dDy)
+  lines(times, dDy * 30, col="red")
   
   ### Plot
-  plot.sir(out, times, legend.lbl =  lbl, leg.off=c(-0.1, 0.3))
+  plot.sir(out, times, legend.lbl =  lbl, leg.off=leg.off)
+ 
   
-  filter.out = function(x, flt, lbl) {
-    id = match(flt, names(x));
-    id = id[ ! is.na(id)];
-    if(length(id) > 0) {
-      x = x[, - id];
-      lbl = lbl[-id];
-    }
-    return(list(out=x, lbl=lbl));
-  }
+
   
   # O = S0 * proportie_varstnici; [ex. 0.2]
+}
+filter.out = function(x, flt, lbl) {
+  id = match(flt, names(x));
+  id = id[ ! is.na(id)];
+  if(length(id) > 0) {
+    x = x[, - id];
+    lbl = lbl[-id];
+  }
+  return(list(out=x, lbl=lbl));
 }
 
 
