@@ -242,7 +242,7 @@ sirVacc <- function(time, state, parameters) {
 # death rate;
 # hospitalization
 # vaccination rate
-initSIR_Vaccine = function(list1 ,end.time, p.old = 2,  flt="Old")
+initSIR_Vaccine = function(list1 ,end.time, p.old = 0.2,  flt="Old")
 {
   
   times = seq(0,end.time, by = 1)
@@ -279,7 +279,7 @@ initSIR_Vaccine = function(list1 ,end.time, p.old = 2,  flt="Old")
     } else if(type == 3) {
       r = filter.out(out, c("T", "Dy", "Vy"), lbl);
       leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
-    } else r = filter.out(out, c("dT"), lbl=lbl);
+    } else r = filter.out(out, c("T"), lbl=lbl);
     out = r$out; lbl = r$lbl;
     
   }
@@ -319,7 +319,7 @@ plot(cut(dD*100, breaks = 100))
 ### Vaccination Stratified ###
 ###############################
 
-sirVacc <- function(time, state, parameters) {
+sirVaccStrat <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
     
@@ -327,7 +327,7 @@ sirVacc <- function(time, state, parameters) {
   )}
 
 
-initSIR_VaccineStrat = function(list ,end.time, p.old = 2,  flt="All")
+initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt="All")
 {
   
   times = seq(0,end.time, by = 1)

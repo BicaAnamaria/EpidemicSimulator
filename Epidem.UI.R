@@ -109,15 +109,15 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   
                   tabPanel("Vaccinacion Stratified Model",
                            textOutput("txtVaccStrat"),
-                           plotOutput("Vaccination"),
-                           checkboxInput("toggleC","Toggle between plot and diagram")),
+                           plotOutput("VaccS"),
+                           checkboxInput("toggleC","Toggle between plot and diagram"),
                            hr(),
                            
                            fluidRow(
                              column(3, sliderTime("timeV"),
                                     sliderBase("recovVacc", label="Rate of recovery"),
                                     sliderBase("recov.HVacc", label="Rate of recovery in hospitals")),
-                             column(3,
+                             column(4,
                                     sliderBase("infectYoungVacc", label="Rate of infection for old people", 0.25),
                                     sliderBase("infectOldVacc", label="Rate of infection for young people", 0.25),
                                     sliderBase("deathV", label="Rate of death"),
@@ -126,13 +126,14 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     sliderBase("hospVacc", label="Rate of hospitalisation"),
                                     sliderBase("death.OldVacc", label="Rate of death in old people"),
                                     sliderBase("death.OldHVacc", label="Rate of death in hospitalised old people")),
-                             column(3,
+                             column(4,
                                     sliderBase("hosp.OldVacc", label="Rate of hospitalisation for old people"),
                                     sliderBase("hosp.YoungVacc", label="Rate of hospitalisation for young people"),
                                     sliderBase("vacc.OldVacc", label="Rate of vaccination for young people", max = 0.01, val = 0.001),
-                                    sliderBase("vacc.YoungVacc", label="Rate of vaccination for old people", max = 0.01, val = 0.001))          
-                           )),
+                                    sliderBase("vacc.YoungVacc", label="Rate of vaccination for old people", max = 0.01, val = 0.001))
+                             )),
                 
+                  
                   
                   tabPanel("Two Viruses",
                            textOutput("VirusT"),
@@ -146,7 +147,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                                 animate = animationOptions(interval = 250, loop = FALSE))           
                              ))
                 )
-)
+))
 
 ##############
 

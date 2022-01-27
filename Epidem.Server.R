@@ -131,8 +131,7 @@ server <- function(input, output){
       )
     
     
-    if(init$toggleC==FALSE)
-      break;
+    
   })
   
   ### 2 Viruses
