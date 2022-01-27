@@ -17,11 +17,11 @@
 
 library(diagram)
 
-diagram1  = function(file="BasicSIR.png", save.png=FALSE) {
+diagram1  = function(file = "BasicSIR.png", save.png = FALSE) {
   
   if(save.png) {
     # run this to save as png;
-    png(file=file, width = 11.7, height = 8.3, units="in", res=100)
+    png(file = file, width = 11.7, height = 8.3, units = "in", res = 100)
   } else {
    # dev.new(width = 11.7, height = 8.3)
   }
@@ -32,8 +32,8 @@ diagram1  = function(file="BasicSIR.png", save.png=FALSE) {
   m <- as.data.frame(DiffMat)
   
   # names and colors of boxes
-  name <- c('S','I','R')
-  color <-  c("yellow","red","green")
+  name <- c('S', 'I', 'R')
+  color <-  c("yellow", "red", "green")
   
   # arrows 
   m[[2,1]] = ""
@@ -54,11 +54,11 @@ diagram1  = function(file="BasicSIR.png", save.png=FALSE) {
 
 diagram1() 
 
-diagram3  = function(file="SIR + Vaccination.png", save.png=FALSE,scaleX=1/2, scaleY=1/2) {
+diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1/2, scaleY = 1/2) {
   
   if(save.png) {
     # run this to save as png;
-    png(file=file, width = 11.7, height = 8.3, units="in", res=100)
+    png(file = file, width = 11.7, height = 8.3, units="in", res = 100)
   } else {
     #dev.new(width = 11.7, height = 8.3)
   }
@@ -158,11 +158,11 @@ diagram3  = function(file="SIR + Vaccination.png", save.png=FALSE,scaleX=1/2, sc
 }
 
 diagram3()
-diagram.H  = function(file="SIR + Vaccination.png", save.png=FALSE,scaleX=3/4, scaleY=3/4) {
+diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
   
   if(save.png) {
     # run this to save as png;
-    png(file=file, width = 11.7, height = 8.3, units="in", res=100)
+    png(file = file, width = 11.7, height = 8.3, units = "in", res = 100)
   } else {
     #dev.new(width = 11.7, height = 8.3)
   }
@@ -182,7 +182,7 @@ diagram.H  = function(file="SIR + Vaccination.png", save.png=FALSE,scaleX=3/4, s
     expression(S[O]), #6
     "R") #7
   
-  color <-  c("yellow","orange","red","red","dark red","grey","green")
+  color <-  c("yellow", "orange", "red", "red", "dark red", "grey", "green")
   
   # arrows 
   m[[3,1]] = ""
@@ -264,18 +264,18 @@ diagram.H  = function(file="SIR + Vaccination.png", save.png=FALSE,scaleX=3/4, s
 ### Test
 diagram.H()
 
-diagram.2V = function(file="2 Virusess.png", save.png=FALSE, scaleX=1/2, scaleY=1/2){
+diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/2, scaleY = 1/2){
   
   if(save.png) {
     # run this to save as png;
-    png(file=file, width = 11.7, height = 8.3, units="in", res=100)
+    png(file = file, width = 11.7, height = 8.3, units = "in", res=100)
   } else {
     #dev.new(width = 11.7, height = 8.3)
   }
   
   # numarul de categorii ale modelului
   Numgenerations <- 10;
-  Diffmatrix = matrix(data=0, nrow = Numgenerations, ncol = Numgenerations)
+  Diffmatrix = matrix(data = 0, nrow = Numgenerations, ncol = Numgenerations)
   
   m <- as.data.frame(Diffmatrix)
   
@@ -293,7 +293,7 @@ diagram.2V = function(file="2 Virusess.png", save.png=FALSE, scaleX=1/2, scaleY=
             
             
             )
-  color <-  c("light green","yellow","yellow","red","red","grey","grey","green","light green", "white")
+  color <-  c("light green", "yellow", "yellow", "red", "red", "grey", "grey", "green", "light green", "white")
   
   #sageti
   m[[2,1]] = ""

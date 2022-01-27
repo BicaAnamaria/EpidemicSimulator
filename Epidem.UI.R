@@ -28,17 +28,17 @@
 
 
 ### Options
-opt = list(hosp.young = 0.01, hosp.old=0.1, death.young=0.001, death.old=0.05);
+opt = list(hosp.young = 0.01, hosp.old = 0.1, death.young = 0.001, death.old = 0.05);
 
 
 ### Helper Functions
-sliderTime = function(id, label="Number of days", val=200, max=720, step=1) {
-  sliderInput(inputId = id, label=label,
-              value=val, min=1, max=max, step=step)
+sliderTime = function(id, label = "Number of days", val = 200, max = 720, step = 1) {
+  sliderInput(inputId = id, label = label,
+              value = val, min = 1, max = max, step = step)
 }
-sliderBase = function(id, label, val=0.05, min=0, max=0.8, step=0.001) {
+sliderBase = function(id, label, val = 0.05, min = 0, max = 0.8, step = 0.001) {
   sliderInput(inputId = id, label=label,
-              value=val, min=min, max=max, step=step)
+              value = val, min = min, max = max, step = step)
 }
 
 

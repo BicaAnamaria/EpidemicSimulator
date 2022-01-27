@@ -41,7 +41,7 @@ server <- function(input, output){
     } else {
       values$Active = type;
       valTime = values$time;
-      updateNumericInput(inputId=idInput, value=valTime);
+      updateNumericInput(inputId = idInput, value = valTime);
     }
     return(valTime);
   }
@@ -61,11 +61,11 @@ server <- function(input, output){
   ### Extended Model: Old Age + Hospital
   output$Hosp <- renderPlot({
     valTime = GetTime("H", "timeH");
-    custom = list(infect=input$infectH,
-                  recov=input$recovH, recov.h=input$recov.hH,
-                  death=input$deathH, death.old=input$death.oldH,
-                  death.h=input$death.hH,
-                  hosp=input$hospH, hosp.old=input$hosp.vH);
+    custom = list(infect = input$infectH,
+                  recov = input$recovH, recov.h = input$recov.hH,
+                  death = input$deathH, death.old = input$death.oldH,
+                  death.h = input$death.hH,
+                  hosp = input$hospH, hosp.old = input$hosp.vH);
     # Page:
     if(input$toggleH == FALSE) {
       if(input$optSensitivity == "SIR") {
@@ -92,19 +92,19 @@ server <- function(input, output){
     #input$death.oV,
     #input$death.ohV)
     valTime = GetTime("V", "timeV");
-    custom = list(infect=input$infectV,
-                  recov=input$recovV,
-                  recov.hosp=input$recov.hV,
-                  death=input$deathV,
-                  death.hosp=input$death.hV,
-                  hosp=input$hospV,
-                  hosp.vacc=input$hosp.vV,
-                  vacc.old=input$vacc.oV,
-                  vacc.young=input$vacc.yV,
-                  death.old=input$death.oV,
-                  death.oldhosp=input$death.ohV)
-    if(input$toggleC==FALSE)
-      initSIR_Vaccine(custom, input$timeV, flt=input$optTypeV)
+    custom = list(infect = input$infectV,
+                  recov = input$recovV,
+                  recov.hosp = input$recov.hV,
+                  death = input$deathV,
+                  death.hosp = input$death.hV,
+                  hosp = input$hospV,
+                  hosp.vacc = input$hosp.vV,
+                  vacc.old = input$vacc.oV,
+                  vacc.young = input$vacc.yV,
+                  death.old = input$death.oV,
+                  death.oldhosp = input$death.ohV)
+    if(input$toggleC == FALSE)
+      initSIR_Vaccine(custom, input$timeV, flt = input$optTypeV)
     else
       diagram3(scaleX=0.9, scaleY=0.9)
   })
