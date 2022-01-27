@@ -128,7 +128,7 @@ initSIR_Hosp_Com = function(opt, end.time, p.old = 0.2, flt="Old", add = FALSE, 
 		Hcum = 0.0, H = 0.0, Hy = 0.0, Ho = 0.0, Dc = 0.0, Dh = 0.0);
   
   ### Solve using ode
-  out = solve.sir(sir_Hosp, init, parameters, times)
+  out = solve.sir(sirHosp, init, parameters, times)
   # head(out, 10)
   
   ### Plot
@@ -279,10 +279,10 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
     out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
     lbl = c(lbl, "Death", paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
     if(type == 2) {
-      r = filter.out(out, c("T", "O", "Do","Vo"), lbl);
+      r = filter.out(out, c("T", "O", "Do", "Vo"), lbl);
     } else if(type == 3) {
       r = filter.out(out, c("T", "Dy", "Vy"), lbl);
-      leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
+     # leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } else r = filter.out(out, c("T"), lbl=lbl);
     out = r$out; lbl = r$lbl;
     
