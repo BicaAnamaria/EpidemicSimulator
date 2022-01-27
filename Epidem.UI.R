@@ -114,7 +114,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            hr(),
                            
                            fluidRow(
-                             column(3, sliderTime("timeV"),
+                             column(3, sliderTime("timeVS"),
                                     sliderBase("recovVacc", label="Rate of recovery"),
                                     sliderBase("recov.HVacc", label="Rate of recovery in hospitals")),
                              column(4,

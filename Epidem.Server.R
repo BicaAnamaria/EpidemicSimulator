@@ -22,12 +22,12 @@
 
 ### Server
 server <- function(input, output){
-  output$VirusT = renderText("A model showcasing the spread of two viruses over time")
-  output$BasicT = renderText("Basic Model: (S)usceptible (I)nfectious and (R)emoved model")
-  output$HospT  = renderText("Complex model: includes a hospitalization compartment")
-  output$VaccT  = renderText("Complex model: includes a vaccination compartment")
-  output$VaccStratifiedT = renderText("Complex model: inlude age-stratified vaccination model")
-  output$TwoVirus = renderText("Complex model: includes two viruses")
+  output$txtVirus = renderText("A model showcasing the spread of two viruses over time")
+  output$txtBasic = renderText("Basic Model: (S)usceptible (I)nfectious and (R)emoved model")
+  output$txtHosp  = renderText("Complex model: includes a hospitalization compartment")
+  output$txtVacc  = renderText("Complex model: includes a vaccination compartment")
+  output$txtVaccStratified = renderText("Complex model: inlude age-stratified vaccination model")
+  output$txtTwoVirus = renderText("Complex model: includes two viruses")
   
   values = reactiveValues();
   # active Tab
@@ -91,7 +91,7 @@ server <- function(input, output){
     #input$vacc.yV,
     #input$death.oV,
     #input$death.ohV)
-    
+    valTime = GetTime("V", "timeV");
     custom = list(infect=input$infectV,
                   recov=input$recovV,
                   recov.hosp=input$recov.hV,
@@ -110,7 +110,7 @@ server <- function(input, output){
   })
   
   output$VaccStratifiedT = renderPlot({
-    
+    valTime = GetTime("VS", "timeVS");
     custom = list(
       infect = input$infectVS,
       recov = input$recovVS,
