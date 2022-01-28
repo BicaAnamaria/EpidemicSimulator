@@ -231,13 +231,12 @@ sirVacc <- function(time, state, parameters) {
     dO = -infect * O * I - infect * O * H - dVo;
     dT = (-infect * S * I - infect * S * H) + (-infect * O * I - infect * O * H) - dVy -dVo;
     dI =  infect * S * I + infect * S * H + infect * O * I + infect * O * H - recov * I - death.y * I - hosp * I;
+    dD =  death.h * I; 
     dH =  hosp * I - recov.h * H - death.h * H;
     dR =  recov * I + recov.h * H;
-    dDy =  death.y * (I * 0.8) + death.h * H;
-    dDo = death.o * (I * 0.2) + death.oh * H;
     dHcum = hosp * I;
     #return(list(c(dT, dS, dI, dR, dD, dH, dV, dRo, dHo, dDo)));
-    return(list(c(dT, dS, dI, dO, dHcum, dH, dDy, dDo, dR, dVy, dVo)));
+    return(list(c(dT, dS, dI, dO, dHcum, dH, dD, dR, dVy, dVo)));
   })
 }
 
@@ -262,7 +261,7 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
                  vacc.o = list1$vacc.old,     #list1$vacc.young,
                  death.o = list1$recov * list1$death.old,
                  death.oh = list1$recov.hosp * list1$death.oldhosp)
-  init = c(T = 1 - 1e-6, S = (1 - 1e-6) * (1 - p.old), I = 1e-6,  O = (1 - 1e-6) * p.old, Hcum = 0.0, H = 0.0, Dy = 0.0, Do = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
+  init = c(T = 1 - 1e-6, S = (1 - 1e-6) * (1 - p.old), I = 1e-6,  O = (1 - 1e-6) * p.old, Hcum = 0.0, H = 0.0, D = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
   
   
   ### Solve using ode
@@ -279,9 +278,9 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
     out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
     lbl = c(lbl, "Death", paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
     if(type == 2) {
-      r = filter.out(out, c("T", "O", "Do", "Vo"), lbl);
+      r = filter.out(out, c("T", "O", "Vo"), lbl);
     } else if(type == 3) {
-      r = filter.out(out, c("T", "Dy", "Vy"), lbl);
+      r = filter.out(out, c("T", "Vy"), lbl);
      # leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } else r = filter.out(out, c("T"), lbl=lbl);
     out = r$out; lbl = r$lbl;
