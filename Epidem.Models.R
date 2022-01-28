@@ -231,7 +231,7 @@ sirVacc <- function(time, state, parameters) {
     dO = -infect * O * I - infect * O * H - dVo;
     dT = (-infect * S * I - infect * S * H) + (-infect * O * I - infect * O * H) - dVy -dVo;
     dI =  infect * S * I + infect * S * H + infect * O * I + infect * O * H - recov * I - death.y * I - hosp * I;
-    dD =  death.h * I; 
+    dD =  death.h * H + death.y * I;
     dH =  hosp * I - recov.h * H - death.h * H;
     dR =  recov * I + recov.h * H;
     dHcum = hosp * I;
@@ -253,22 +253,22 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
   parameters = list(infect = list1$infect, #list1$param
                  recov = list1$recov, # => 2 categorii death.h
                  recov.h = (1 -list1$death.hosp) * list1$recov.hosp, #list1$recov.hosp,
-                 death.y = list1$recov * list1$death, 
+                 death.y = list1$recov * list1$death,
+                 death.o = list1$recov * list1$death.old,
                  death.h = list1$death.hosp * list1$recov.hosp, #recov.h - nu il recunoaste #list1$recov.hosp * list1$death.hosp, 
                  hosp = list1$hosp,             
                  hosp.v = list1$hosp.vacc,           # recov.h = (1 - death.h.base) * recov.h 
                  vacc = list1$vacc.young,     #list1$vacc.old,
-                 vacc.o = list1$vacc.old,     #list1$vacc.young,
-                 death.o = list1$recov * list1$death.old,
-                 death.oh = list1$recov.hosp * list1$death.oldhosp)
+                 vacc.o = list1$vacc.old     #list1$vacc.young,
+                 )
   init = c(T = 1 - 1e-6, S = (1 - 1e-6) * (1 - p.old), I = 1e-6,  O = (1 - 1e-6) * p.old, Hcum = 0.0, H = 0.0, D = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
-  
+  # de mutat o inainte de I
   
   ### Solve using ode
   out = solve.sir(sirVacc, init, parameters, times)
   head(out, 10)
-  lbl = c("Total", "Young", "Infected", "Recovered", "Death", "Hosp", "Old", "OldDeath", "VaccinatedYoung", "VaccinatedOld");
-  leg.off=c(-0.1, 0.3);
+  lbl = c("Total", "Young", "Infected",  "Old", "Hosp (cumulative)", "Hosp", "Death", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
+  leg.off=c(-0.0, 0.3);
   
   
   type = match(flt, getDisplayTypesVacc());
@@ -283,6 +283,8 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
       r = filter.out(out, c("T", "Vy"), lbl);
      # leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } else r = filter.out(out, c("T"), lbl=lbl);
+    
+    
     out = r$out; lbl = r$lbl;
     
   }
