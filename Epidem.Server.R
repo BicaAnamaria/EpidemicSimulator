@@ -113,21 +113,19 @@ server <- function(input, output){
     valTime = GetTime("VS", "timeVS");
     custom = list(
       infect = input$infectVS,
-      recov = input$recovVS,
       recov.y = input$recov.yVS,
-      recov.old = input$recov.oldVS,
-      recov.hosp = input$recov.hospVS,
-      hosp = input$hospVS,
+      recov.old = input$recov.oldVS, # aprox 0.14
+      recov.hosp = input$recov.hospVS, # aprox 0.07
       hosp.y = input$hosp.yVS,
       hosp.old = input$hosp.oldVS,
-      hosp.vaccY = input$hosp.vaccYVS,
-      hosp.vaccOld = input$hosp.vaccOldVS,
+      # hosp.vaccY = input$hosp.vaccYVS, nu e in model
+      # hosp.vaccOld = input$hosp.vaccOldVS,
       vacc.old = input$vacc.oVS,
       vacc.young = input$vacc.yVS,
       death.y = input$death.yVS,
-      death.old=input$death.oVS,
-      death.oldhosp=input$death.ohVS
-      
+      death.old = input$death.oVS,
+      death.hosp.y = input$death.hyVS,
+      death.hosp.o = input$death.hoVS
       )
     
     

@@ -280,7 +280,7 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
     if(type == 2) {
       r = filter.out(out, c("T", "O", "Vo"), lbl);
     } else if(type == 3) {
-      r = filter.out(out, c("T", "Vy"), lbl);
+      r = filter.out(out, c("T", "Vy", "R"), lbl);
      # leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } else r = filter.out(out, c("T"), lbl=lbl);
     
