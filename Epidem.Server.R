@@ -109,6 +109,7 @@ server <- function(input, output){
       diagram3(scaleX=0.9, scaleY=0.9)
   })
   
+  
   output$VaccStratifiedT = renderPlot({
     valTime = GetTime("VS", "timeVS");
     custom = list(
@@ -128,6 +129,10 @@ server <- function(input, output){
       death.hosp.o = input$death.hoVS
       )
     
+    if(input$toggleVS == FALSE)
+      print("V")
+    else
+      diagramVS(scaleX=0.9, scaleY=0.9)
     
     
   })
