@@ -131,8 +131,7 @@ server <- function(input, output){
     
     if(input$toggleVS == FALSE)
       print("V")
-    else
-      diagramVS(scaleX=0.9, scaleY=0.9)
+    else diagramVS(scaleX=0.9, scaleY=0.9)
     
     
   })

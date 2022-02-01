@@ -230,8 +230,8 @@ sirVacc <- function(time, state, parameters) {
     dS = -infect * S * Iy - infect * S * Io - infect * S * H - dVy; # both I & H infect! S = young
     dO = -infect * O * Iy - infect * O * Io - infect * O * H - dVo;
     dT = (-infect * S * Iy - infect * S * Io - infect * S * H) + (-infect * O * Iy - infect * O * Io - infect * O * H) - dVy -dVo;
-    dIy = infect * S * Iy + infect * S * Io + (-infect * O * Iy - infect * O * H) - dVy;
-    dIo = infect * O * Iy + infect * O * Io + (-infect * O * Io - infect * O * H) -dVo;
+    dIy = infect * S * (Iy + Io + H) - (death.y + hosp + recov) * Iy;
+    dIo = infect * O * (Iy + Io + H) - (death.o + hosp + recov) * Io;
     #dI =  infect * S * I + infect * S * H + infect * O * I + infect * O * H - recov * I - death.y * I - hosp * I;
     dD =  death.h * H + death.y * Iy + death.o * Io;
     dH =  hosp * Iy + hosp * Io - recov.h * H - death.h * H;
@@ -358,4 +358,3 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt = "All")
   
   
 }
-
