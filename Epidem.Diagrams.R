@@ -64,7 +64,7 @@ diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
   }
   
   # number of categories in the sir model
-  Numgenerations <- 10
+  Numgenerations <- 9
   DiffMat <- matrix(data = 0, nrow = Numgenerations, ncol = Numgenerations)
   m <- as.data.frame(DiffMat)
   
@@ -77,8 +77,7 @@ diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
             "D", #6
             expression(S[O]), #7
             "R", #8
-            expression(V[O]))#, #9
-            #expression(V[I])) #10
+            expression(V[O])) #9
   
   color <-  c("light green","yellow","orange","red","red","dark red","grey","green","light green")
   
@@ -118,7 +117,7 @@ diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
   coord[5,2] = 0.5 -0.2 * scaleY
   
   # D
-  coord[6,1] = 0.5 + 0.4*scaleX
+  coord[6,1] = 0.5 + 0.4 * scaleX
   coord[6,2] = 0.5
   
   # So
@@ -141,23 +140,23 @@ diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
   
   # the curved arrows (coordinates hard coded)
   # from Inf young to SusYoung
-  curvedarrow(from = c(0.5, 0.5 + 0.2 * scaleY), to = c(0.5 - 0.15*scaleX, 0.5 + 0.2*scaleY), lcol = "red",
+  curvedarrow(from = c(0.5, 0.5 + 0.2 * scaleY), to = c(0.5 - 0.15 * scaleX, 0.5 + 0.2 * scaleY), lcol = "red",
               curve =0.7, arr.pos = 0.95)
   
   # from Inf old to SusOld
-  curvedarrow(from = c(0.5, 0.5 -0.25 * scaleY), to = c(0.5 - 0.15*scaleX, 0.5 - 0.22 *scaleY), lcol = "red",
+  curvedarrow(from = c(0.5, 0.5 -0.25 * scaleY), to = c(0.5 - 0.15 * scaleX, 0.5 - 0.22 * scaleY), lcol = "red",
               curve =-0.7, arr.pos = 0.95)
   
   # from H to Sy
-  curvedarrow(from = c(0.5 + 0.18*scaleX, 0.5 + 0.4 * scaleY), to = c(0.5 - 0.1*scaleX, 0.5 + 0.3*scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 + 0.18 * scaleX, 0.5 + 0.4 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.3 * scaleY), lcol = "orange",
               curve = 0.2, arr.pos = 0.9)
   
   # from H to So
-  curvedarrow(from = c(0.5 + 0.21*scaleX, 0.5 +0.37*scaleY), to = c(0.5 -0.1*scaleX, 0.5 - 0.34*scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 + 0.21 * scaleX, 0.5 +0.37 * scaleY), to = c(0.5 -0.1 * scaleX, 0.5 - 0.34 *  scaleY), lcol = "orange",
               curve = -0.2, arr.pos = 0.9)     
   
 }
-
+diagram3()
 
 diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FALSE,scaleX = 1/2, scaleY = 1/2) {
   
@@ -193,78 +192,86 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   m[[5,2]] = ""
   m[[6,9]] = ""
   m[[11,9]] = ""
-  m[[3,4]] = ""
   m[[3,5]] = ""
- 
-   m[[6,4]] = ""
-  m[[6,5]] = ""
+  m[[4,6]] = ""
+  m[[7,3]] = ""
   m[[8,4]] = ""
-  m[[8,5]] = ""
+  m[[10,5]] = ""
+  m[[10,6]] = ""
+  
   
   # positions of boxes
   coord = matrix(nrow = Numgenerations, ncol = 2)
   
   # Vy
-  coord[1,1] = 0.5 - 0.2 * scaleX
+  coord[1,1] = 0.5 - 0.8 * scaleX
   coord[1,2] = 0.5 + 0.4 * scaleY
   
   # Sy
-  coord[2,1] = 0.5 - 0.4 * scaleX
+  coord[2,1] = 0.5 - 0.55 * scaleX
   coord[2,2] = 0.5 + 0.2 * scaleY
   
-  # H
-  coord[3,1] = 0.5 + 0.2 * scaleX
-  coord[3,2] = 0.5 + 0.4 * scaleY
+  # H[Y]
+  coord[3,1] = 0.5 + 0.4 * scaleX
+  coord[3,2] = 0.5 + 0.3 * scaleY
   
-  # Inf young
-  coord[4,1] = 0.5
-  coord[4,2] = 0.5 + 0.2 * scaleY
+  # H[O]
+  coord[4,1] = 0.5 + 0.4 * scaleX
+  coord[4,2] = 0.5 - 0.3 * scaleY
   
-  # Inf old
-  coord[5,1] = 0.5
-  coord[5,2] = 0.5 -0.2 * scaleY
+  # I[Y]
+  coord[5,1] = 0.5 - 0.1 * scaleX
+  coord[5,2] = 0.5 + 0.1 * scaleY
   
-  # D
-  coord[6,1] = 0.5 + 0.4*scaleX
-  coord[6,2] = 0.5
+  # I[O]
+  coord[6,1] = 0.5 - 0.2 * scaleX
+  coord[6,2] = 0.5 - 0.2 * scaleY
   
-  # So
-  coord[7,1] = 0.5 - 0.4 * scaleX
-  coord[7,2] =0.5 - 0.2 * scaleY
+  # D[Y]
+  coord[7,1] = 0.5 + 0.75 * scaleX
+  coord[7,2] =0.5 + 0.2 * scaleY
+  
+  # D[O]
+  coord[8,1] = 0.5 + 0.75 * scaleX
+  coord[8,2] = 0.5 - 0.2 * scaleY
+  
+  # S[O]
+  coord[9,1] = 0.5 - 0.55 * scaleX
+  coord[9,2] = 0.5 - 0.2 * scaleY
   
   # R
-  coord[8,1] = 0.5 + 0.2 * scaleY
-  coord[8,2] = 0.5 - 0.4 * scaleY
+  coord[10,1] = 0.5 + 0.2 * scaleX
+  coord[10,2] = 0.5 - 0.6 * scaleY
   
-  # Vo
-  coord[9,1] = 0.5 - 0.2 * scaleX
-  coord[9,2] = 0.5 - 0.4 * scaleY
+  # V[O]
+  coord[11,1] = 0.5 - 0.8 * scaleX
+  coord[11,2] = 0.5 - 0.4 * scaleY
   
   # plotting the diagram
   plotmat(A = m, pos = coord, name = name, lwd = 2,
-          arr.width = 0.25, curve = 0,
-          box.size = 0.021, box.col = color, arr.type = "simple", 
-          arr.pos = 0.85, main = "SIR + Vaccination model")
+          arr.width = 0.5, curve = 0,
+          box.size = 0.05, box.col = color, arr.type = "simple", 
+          arr.pos = 0.67, main = "SIR + Vaccination Stratified model")
   
   # the curved arrows (coordinates hard coded)
-  # from Inf young to SusYoung
-  curvedarrow(from = c(0.5, 0.5 + 0.2 * scaleY), to = c(0.5 - 0.15*scaleX, 0.5 + 0.2*scaleY), lcol = "red",
-              curve =0.7, arr.pos = 0.95)
+  # from H[Y] -> I[Y]
+  curvedarrow(from = c(0.5 + 0.4 * scaleX, 0.5 + 0.35 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.15 * scaleY), lcol = "red",
+              curve =0.5, arr.pos = 0.9)
   
-  # from Inf old to SusOld
-  curvedarrow(from = c(0.5, 0.5 -0.25 * scaleY), to = c(0.5 - 0.15*scaleX, 0.5 - 0.22 *scaleY), lcol = "red",
-              curve =-0.7, arr.pos = 0.95)
+  # from I[Y] -> S[Y]
+  curvedarrow(from = c(0.5 - 0.1 * scaleX, 0.5 + 0.05 * scaleY), to = c(0.5 - 0.55 * scaleX,  0.5 + 0.15 * scaleY), lcol = "orange",
+              curve =-0.4, arr.pos = 0.95)
   
-  # from H to Sy
-  curvedarrow(from = c(0.5 + 0.18*scaleX, 0.5 + 0.4 * scaleY), to = c(0.5 - 0.1*scaleX, 0.5 + 0.3*scaleY), lcol = "orange",
-              curve = 0.2, arr.pos = 0.9)
+  # from H[O] to I[O]
+  curvedarrow(from = c(0.5 + 0.4 * scaleX, 0.5 - 0.25 * scaleY), to = c(0.5 - 0.15 * scaleX, 0.5 - 0.15 * scaleY), lcol = "red",
+              curve = 0.25, arr.pos = 0.9)
   
-  # from H to So
-  curvedarrow(from = c(0.5 + 0.21*scaleX, 0.5 +0.37*scaleY), to = c(0.5 -0.1*scaleX, 0.5 - 0.34*scaleY), lcol = "orange",
-              curve = -0.2, arr.pos = 0.9)     
+  # from I[O] to S[O]
+  curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 - 0.25 * scaleY), to = c(0.5 - 0.55 * scaleX, 0.5 - 0.25 * scaleY), lcol = "orange",
+              curve = -0.5, arr.pos = 0.9)     
   
 }
-
+diagramVS()
 
 diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
   
@@ -329,7 +336,7 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
   coord[4,2] = 0.5 -0.2 * scaleY
   
   # D
-  coord[5,1] = 0.5 + 0.4*scaleX
+  coord[5,1] = 0.5 + 0.4 * scaleX
   coord[5,2] = 0.5
   
   # So
@@ -352,19 +359,19 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
   
   # the curved arrows (coordinates hard coded)
   # from Inf young to SusYoung
-  curvedarrow(from = c(0.5, 0.5 + 0.2 * scaleY), to = c(0.5 - 0.15*scaleX, 0.5 + 0.2*scaleY), lcol = "red",
+  curvedarrow(from = c(0.5, 0.5 + 0.2 * scaleY), to = c(0.5 - 0.15 * scaleX, 0.5 + 0.2 * scaleY), lcol = "red",
               curve =0.7, arr.pos = 0.95)
   
   # from Inf old to SusOld
-  curvedarrow(from = c(0.5, 0.5 -0.25 * scaleY), to = c(0.5 - 0.15*scaleX, 0.5 - 0.22 *scaleY), lcol = "red",
+  curvedarrow(from = c(0.5, 0.5 -0.25 * scaleY), to = c(0.5 - 0.15 * scaleX, 0.5 - 0.22 * scaleY), lcol = "red",
               curve =-0.7, arr.pos = 0.95)
   
   # from H to Sy
-  curvedarrow(from = c(0.5 + 0.18*scaleX, 0.5 + 0.4 * scaleY), to = c(0.5 - 0.1*scaleX, 0.5 + 0.3*scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 + 0.18*scaleX, 0.5 + 0.4 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.3 * scaleY), lcol = "orange",
               curve = 0.2, arr.pos = 0.9)
   
   # from H to So
-  curvedarrow(from = c(0.5 + 0.21*scaleX, 0.5 +0.37*scaleY), to = c(0.5 -0.1*scaleX, 0.5 - 0.34*scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 + 0.21 * scaleX, 0.5 +0.37 * scaleY), to = c(0.5 -0.1 * scaleX, 0.5 - 0.34 * scaleY), lcol = "orange",
               curve = -0.2, arr.pos = 0.9)     
   
 }
