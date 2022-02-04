@@ -130,7 +130,7 @@ server <- function(input, output){
       )
     
     if(input$toggleVS == FALSE)
-      print("V")
+      initSIR_VaccineStrat(custom, input$timeVS, flt = input$optTypeVS)
     else diagramVS(scaleX=0.9, scaleY=0.9)
     
     

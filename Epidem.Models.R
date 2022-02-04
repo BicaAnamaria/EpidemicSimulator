@@ -327,7 +327,7 @@ sirVaccStrat <- function(time, state, parameters) {
     dVy = min(Sy, vacc.y); # den provin din state
     dVo = min(So, vacc.o);
     dSy = -infect * Sy * Io - infect * Sy * Hy - dVy;
-    dS0 = -infect * So * Iy - infect * So * Ho - dV0;
+    dSo = -infect * So * Iy - infect * So * Ho - dV0;
     dIy = infect * Sy * (Iy + Io + Hy) - (death.y + hosp.y + recov.y) * Iy;
     dIo = infect * So * (Iy + Io + Ho) - (death.o + hosp.o + recov.o) * Io;
     dHy = hosp.y * Iy - recov.y * Hy - death.hosp.y * Hy;
@@ -337,7 +337,7 @@ sirVaccStrat <- function(time, state, parameters) {
     dR = recov * Iy + recov * Io + recov.y * Hy + recov.o * Ho;
     dHcum = hosp.y * Iy + hosp.o * Io;
     
-    
+    return(c(dT, dSy, dSo, dIy, dIo, dHcum, dHy, dHo, dDy, dDo, dR, dVy, dVo))
     
   }
   )}
@@ -349,27 +349,28 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt = "All")
   times = seq(0, end.time, by = 1)
   
   parameters = list(infect = list$infect,
-                    recov.h = (1 - list$death.hosp.y - list$death.hosp.o) * list$recov.hosp, 
                     recov.y = list$recov.y,
                     recov.o = list$recov.old,
                     death.y = list$death.y, 
                     death.o = list$death.old,
                     death.hosp.y = list$death.hosp.y,
-                    death.hosp.o = list$recov.hosp * list$death.oldhosp,
+                    death.hosp.o = list$recov.hosp.o,
                     hosp.y   = list$hosp.y,
                     hosp.o = list$hosp.old,
-                    vacc.y = list$vacc.young,     
+                    vacc.y = list$vacc.y,     
                     vacc.o = list$vacc.old)
   
-  init = c(T = 1, Sy = 1e-6 * (1 - p.old), So = (1 - 1e-6) * p.old, O = (1 - 1e-6) * p.old, 
-  Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, Hcum = 0.0, Hy = 0.0, Ho = 0.0, Dy = 0.0, 
-  Do = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
+  init = c(T = 1, Sy = 1e-6 * (1 - p.old), So = (1 - 1e-6) * p.old,
+  Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, Hcum = 0.0, Hy = 0.0, 
+  Ho = 0.0, Dy = 0.0, Do = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
   
   
   ### Solve using ode
   out = solve.sir(sirVaccStrat, init, parameters, times)
   head(out, 10)
-  #lbl = c("Total", "Young", "Infected", "Recovered", "Death", "Hosp", "Old", "OldDeath", "VaccinatedYoung", "VaccinatedOld");
+  lbl = c("Total", "Susceptible (young)", "Susceptible (old)", "Infected (young)", 
+          "Infected (old)", "Hosp (cumulated)", "Hosp (young)", "Hosp (old)", 
+          "Death (young)", "Death (old)", "Recovered", "VaccinatedYoung", "VaccinatedOld");
   leg.off=c(-0.1, 0.3);
   
   
