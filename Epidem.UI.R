@@ -108,7 +108,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            ))),
                   
                   tabPanel("Vaccination Stratified Model",
-                           textOutput("txtVaccStrat"),
+                           textOutput("txtVaccStratified"),
                            plotOutput("VaccS"),
                            checkboxInput("toggleVS","Toggle between plot and diagram"),
                            hr(),
