@@ -115,24 +115,23 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            
                            fluidRow(
                              column(4, sliderTime("timeVS"),
-                                    sliderBase("infectedVS", label="Rate of recovery"),
+                                    sliderBase("infectVS", label="Rate of infection"),
                                     sliderBase("recov.yVS", label="Rate of recovery (young)"),
                                     sliderBase("recov.hospVS", label="Rate of death in hospitals")),
-                             column(4,
+                             column(3,
                                     sliderBase("hosp.yVS", label="Rate of hospitalization (young)", 0.25),
                                     sliderBase("hosp.oldVS", label="Rate of hospitalisation (old)", 0.25),
-                                    sliderBase("recov.oldVS", label="Rate of recovery (old)"),
-                                    sliderBase("recov.hospVS", label="Rate of death in hospitals")),
-                             column(4,
-                                    sliderBase("input$death.y", label="Rate of death (young)"),
-                                    sliderBase("input$death.o", label="Rate of death (old)"),
-                                    sliderBase("input$death.hyVS", label="Rate of death in hospital (young)"),
-                                    sliderBase("input$death.hoVS", label="Rate of death in hospital (old)")),
-                             column(4,
-                                    sliderBase("hosp.OldVacc", label="Rate of hospitalisation for old people"),
-                                    sliderBase("hosp.YoungVacc", label="Rate of hospitalisation for young people"),
+                                    sliderBase("recov.oldVS", label="Rate of recovery (old)")),
+                             column(3,
+                                    sliderBase("death.yVS", label="Rate of death (young)"),
+                                    sliderBase("death.oVS", label="Rate of death (old)"),
+                                    sliderBase("death.hyVS", label="Rate of death in hospital (young)")
+                                    ),
+                             
+                             column(3,
                                     sliderBase("vacc.yVS", label="Rate of vaccination (young)", max = 0.01, val = 0.001),
-                                    sliderBase("vacc.oVS", label="Rate of vaccination (old)", max = 0.01, val = 0.001))
+                                    sliderBase("vacc.oVS", label="Rate of vaccination (old)", max = 0.01, val = 0.001),
+                                    sliderBase("death.hoVS", label="Rate of death in hospital (old)"))
                              )),
                 
                   
@@ -156,4 +155,3 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
 # to implement
 # tabsets(with their own models and parameters)
 # fancy(-er) display(plot up, params down)
-

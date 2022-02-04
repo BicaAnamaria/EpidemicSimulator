@@ -133,7 +133,7 @@ initSIR_Hosp_Com = function(opt, end.time, p.old = 0.2, flt="Old", add = FALSE, 
   
   ### Plot
   lbl = c("Total", "Young", "Old", "Infected: Young (in community)", "Infected: Old (in community)",
-          "Recovered", "Hosp (cumulative)", "Hosp", "Hosp: Young", "Hosp: Old",
+          "Recovered", "Hosp (cumulative)", "Hosp: All", "Hosp: Young", "Hosp: Old",
           "Death: Community", "Death: Hospital");
   leg.off=c(-0.1, 0.3);
   
@@ -326,24 +326,25 @@ sirVaccStrat <- function(time, state, parameters) {
     
     dVy = min(Sy, vacc.y); # den provin din state
     dVo = min(So, vacc.o);
-    dSy = -infect * Sy * Io - infect * Sy * Hy - dVy;
-    dSo = -infect * So * Iy - infect * So * Ho - dV0;
-    dIy = infect * Sy * (Iy + Io + Hy) - (death.y + hosp.y + recov.y) * Iy;
-    dIo = infect * So * (Iy + Io + Ho) - (death.o + hosp.o + recov.o) * Io;
+    dSy = -infect * Sy * ( Iy + Io + Hy + Ho) - dVy;
+    dSo = -infect * So * ( Iy + Io + Hy + Ho) - dVo;
+    dIy = infect * Sy * (Iy + Io + Hy + Ho) - (death.y + hosp.y + recov.y) * Iy;
+    dIo = infect * So * (Iy + Io + Hy + Ho) - (death.o + hosp.o + recov.o) * Io;
     dHy = hosp.y * Iy - recov.y * Hy - death.hosp.y * Hy;
     dHo = hosp.o * Io - recov.o * Ho - death.hosp.o * Ho;
     dDy = death.hosp.y * Hy + death.y * Iy;
     dDo = death.hosp.o * Ho + death.o * Io;
-    dR = recov * Iy + recov * Io + recov.y * Hy + recov.o * Ho;
+    dR = recov.y * Iy + recov.o * Io + recov.y * Hy + recov.o * Ho;
     dHcum = hosp.y * Iy + hosp.o * Io;
+    dT = dSy + dSo;
     
-    return(c(dT, dSy, dSo, dIy, dIo, dHcum, dHy, dHo, dDy, dDo, dR, dVy, dVo))
+    return(list(c(dT, dSy, dSo, dIy, dIo, dHcum, dHy, dHo, dDy, dDo, dR, dVy, dVo)))
     
   }
   )}
 
 
-initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt = "All")
+initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2)
 {
   
   times = seq(0, end.time, by = 1)
@@ -354,7 +355,7 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt = "All")
                     death.y = list$death.y, 
                     death.o = list$death.old,
                     death.hosp.y = list$death.hosp.y,
-                    death.hosp.o = list$recov.hosp.o,
+                    death.hosp.o = list$death.hosp.o,
                     hosp.y   = list$hosp.y,
                     hosp.o = list$hosp.old,
                     vacc.y = list$vacc.y,     
@@ -370,9 +371,11 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt = "All")
   head(out, 10)
   lbl = c("Total", "Susceptible (young)", "Susceptible (old)", "Infected (young)", 
           "Infected (old)", "Hosp (cumulated)", "Hosp (young)", "Hosp (old)", 
-          "Death (young)", "Death (old)", "Recovered", "VaccinatedYoung", "VaccinatedOld");
+          "Death (young)", "Death (old)", "Recovered", "Vaccinated (young)", "Vaccinated (old)");
   leg.off=c(-0.1, 0.3);
   
   
+  
+  plot.sir(out, times, legend.lbl = lbl, leg.off=leg.off)
   
 }

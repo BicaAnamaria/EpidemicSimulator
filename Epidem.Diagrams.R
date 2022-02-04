@@ -158,7 +158,7 @@ diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
 }
 diagram3()
 
-diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FALSE,scaleX = 1/2, scaleY = 1/2) {
+diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
   
   if(save.png) {
     # run this to save as png;
@@ -379,7 +379,7 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
 ### Test
 diagram.H()
 
-diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/2, scaleY = 1/2){
+diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, scaleY = 1/3){
   
   if(save.png) {
     # run this to save as png;

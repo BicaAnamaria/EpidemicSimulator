@@ -110,7 +110,7 @@ server <- function(input, output){
   })
   
   
-  output$VaccStratifiedT = renderPlot({
+  output$VaccS = renderPlot({
     valTime = GetTime("VS", "timeVS");
     custom = list(
       infect = input$infectVS,
@@ -130,7 +130,7 @@ server <- function(input, output){
       )
     
     if(input$toggleVS == FALSE)
-      initSIR_VaccineStrat(custom, input$timeVS, flt = input$optTypeVS)
+      initSIR_VaccineStrat(custom, input$timeVS)
     else diagramVS(scaleX=0.9, scaleY=0.9)
     
     
