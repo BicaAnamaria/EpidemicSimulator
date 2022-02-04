@@ -97,7 +97,7 @@ server <- function(input, output){
                   recov.hosp = input$recov.hV,
                   death = input$deathV,
                   death.hosp = input$death.hV,
-                  hosp = input$hospV,
+                  hosp.y = input$hosp.yV,
                   hosp.vacc = input$hosp.vV,
                   vacc.old = input$vacc.oV,
                   vacc.young = input$vacc.yV,
@@ -122,10 +122,10 @@ server <- function(input, output){
       # hosp.vaccY = input$hosp.vaccYVS, nu e in model
       # hosp.vaccOld = input$hosp.vaccOldVS,
       vacc.old = input$vacc.oVS,
-      vacc.young = input$vacc.yVS,
+      vacc.y = input$vacc.yVS,
       death.y = input$death.yVS,
       death.old = input$death.oVS,
-      death.hosp.y = input$death.hyVS,
+      death.hosp.y = input$death.hyVS, # in ui death.hosp doar in slidere(UI)
       death.hosp.o = input$death.hoVS
       )
     

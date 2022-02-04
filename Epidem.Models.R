@@ -225,18 +225,18 @@ getDisplayTypesVacc = function(){
 sirVacc <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     # TODO: debug;
-    dVy = min(S, vacc);
+    dVy = min(S, vacc.y);
     dVo = min(O, vacc.o);
     dS = -infect * S * Iy - infect * S * Io - infect * S * H - dVy; # both I & H infect! S = young
     dO = -infect * O * Iy - infect * O * Io - infect * O * H - dVo;
     dT = (-infect * S * Iy - infect * S * Io - infect * S * H) + (-infect * O * Iy - infect * O * Io - infect * O * H) - dVy -dVo;
-    dIy = infect * S * (Iy + Io + H) - (death.y + hosp + recov) * Iy;
-    dIo = infect * O * (Iy + Io + H) - (death.o + hosp + recov) * Io;
+    dIy = infect * S * (Iy + Io + H) - (death.y + hosp.y + recov) * Iy;
+    dIo = infect * O * (Iy + Io + H) - (death.o + hosp.o + recov) * Io;
     #dI =  infect * S * I + infect * S * H + infect * O * I + infect * O * H - recov * I - death.y * I - hosp * I;
     dD =  death.h * H + death.y * Iy + death.o * Io;
-    dH =  hosp * Iy + hosp * Io - recov.h * H - death.h * H;
+    dH =  hosp.y * Iy + hosp.o * Io - recov.h * H - death.h * H;
     dR =  recov * Iy + recov * Io + recov.h * H;
-    dHcum = hosp * Iy + hosp * Io;
+    dHcum = hosp.y * Iy + hosp.o * Io;
     #return(list(c(dT, dS, dI, dR, dD, dH, dV, dRo, dHo, dDo)));
     return(list(c(dT, dS, dO, dIy, dIo, dHcum, dH, dD, dR, dVy, dVo)));
   })
@@ -258,33 +258,36 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
                     death.y = list1$recov * list1$death,
                     death.o = list1$recov * list1$death.old,
                     death.h = list1$death.hosp * list1$recov.hosp, #recov.h - nu il recunoaste #list1$recov.hosp * list1$death.hosp, 
-                    hosp = list1$hosp,             
-                    hosp.v = list1$hosp.vacc,           # recov.h = (1 - death.h.base) * recov.h 
-                    vacc = list1$vacc.young,     #list1$vacc.old,
+                    hosp.y = list1$hosp.y,             
+                    hosp.o = list1$hosp.vacc, # recov.h = (1 - death.h.base) * recov.h 
+                    # to do list1 hosp.vacc = hosp.o
+                    vacc.y = list1$vacc.young,     #list1$vacc.old,
                     vacc.o = list1$vacc.old     #list1$vacc.young,
   )
-  init = c(T = 1 - 1e-6, S = (1 - 1e-6) * (1 - p.old), O = (1 - 1e-6) * p.old, Iy = 1e-6, Io = 1e-6, Hcum = 0.0, H = 0.0, D = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
+  init = c(T = 1 - 1e-6, S = (1 - 1e-6) * (1 - p.old), O = (1 - 1e-6) * p.old, Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, 
+           Hcum = 0.0, H = 0.0, D = 0.0, R = 0.0, Vaccy =0.0, Vacco = 0.0)
   # de mutat o inainte de I
   
   ### Solve using ode
   out = solve.sir(sirVacc, init, parameters, times)
   head(out, 10)
-  lbl = c("Total", "Young", "Old", "Infected(Young)", "Infected(Old)", "Hosp (cumulative)", "Hosp", "Death", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
+  lbl = c("Total", "Young", "Old", "Infected (Young)", "Infected (Old)", "Hosp (cumulative)", "Hosp", 
+          "Death", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
   leg.off=c(-0.0, 0.3);
   
   
   type = match(flt, getDisplayTypesVacc());
   if(type > 1) {
-    out$DeathAll = out$O; #out$Dc + out$Dh;
+    # out$DeathAll = c(out$D[1], diff(out$D, lag = 1)); #out$Dc + out$Dh;
     hosp.rate.scale = 20;
     out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
-    lbl = c(lbl, "Death", paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
+    lbl = c(lbl, paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
     if(type == 2) {
       r = filter.out(out, c("T", "Io", "O", "Vo"), lbl);
     } else if(type == 3) {
       r = filter.out(out, c("T", "Iy", "Vy", "R"), lbl);
       # leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
-    } else r = filter.out(out, c("T"), lbl=lbl);
+    } # else r = filter.out(out, c("T"), lbl=lbl);
     
     
     out = r$out; lbl = r$lbl;
@@ -320,6 +323,20 @@ day_mort=function()
 sirVaccStrat <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
+    dVy = min(Sy, vacc.y); # den provin din state
+    dVo = min(So, vacc.o);
+    dSy = -infect * Sy * Io - infect * Sy * Hy - dVy;
+    dS0 = -infect * So * Iy - infect * So * Ho - dV0;
+    dIy = infect * Sy * (Iy + Io + Hy) - (death.y + hosp.y + recov.y) * Iy;
+    dIo = infect * So * (Iy + Io + Ho) - (death.o + hosp.o + recov.o) * Io;
+    dHy = hosp.y * Iy - recov.y * Hy - death.hosp.y * Hy;
+    dHo = hosp.o * Io - recov.o * Ho - death.hosp.o * Ho;
+    dDy = death.hosp.y * Hy + death.y * Iy;
+    dDo = death.hosp.o * Ho + death.o * Io;
+    dR = recov * Iy + recov * Io + recov.y * Hy + recov.o * Ho;
+    dHcum = hosp.y * Iy + hosp.o * Io;
+    
+    
     
   }
   )}
@@ -330,29 +347,28 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt = "All")
   
   times = seq(0, end.time, by = 1)
   
-  parameters = list(infect = list$infect, 
-                    recov = list$recov, 
-                    recov.h = (1 -list$death.hosp) * list$recov.hosp, 
+  parameters = list(infect = list$infect,
+                    recov.h = (1 - list$death.hosp.y - list$death.hosp.o) * list$recov.hosp, 
                     recov.y = list$recov.y,
-                    recov.old = list$recov.old,
-                    death.y = list$recov * list$death, 
-                    death.h = list$death.hosp * list$recov.hosp, 
-                    hosp = list$hosp,
-                    hosp.y = list$hosp.y,
-                    hosp.old = list$hosp.old,
-                    hosp.vaccY = list$hosp.vaccY,
-                    hosp.vaccOld = list$hosp.vaccOld,     
+                    recov.o = list$recov.old,
+                    death.y = list$death.y, 
+                    death.o = list$death.old,
+                    death.hosp.y = list$death.hosp.y,
+                    death.hosp.o = list$recov.hosp * list$death.oldhosp,
+                    hosp.y   = list$hosp.y,
+                    hosp.o = list$hosp.old,
                     vacc.y = list$vacc.young,     
-                    vacc.old = list$vacc.old,    
-                    death.o = list$recov * list$death.old,
-                    death.oh = list$recov.hosp * list$death.oldhosp)
-  init = c(T = 1 - 1e-6, S = (1 - 1e-6) * (1 - p.old), I = 1e-6,  O = (1 - 1e-6) * p.old, Hcum = 0.0, H = 0.0, Dy = 0.0, Do = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
+                    vacc.o = list$vacc.old)
+  
+  init = c(T = 1, Sy = 1e-6 * (1 - p.old), So = (1 - 1e-6) * p.old, O = (1 - 1e-6) * p.old, 
+  Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, Hcum = 0.0, Hy = 0.0, Ho = 0.0, Dy = 0.0, 
+  Do = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
   
   
   ### Solve using ode
   out = solve.sir(sirVaccStrat, init, parameters, times)
   head(out, 10)
-  lbl = c("Total", "Young", "Infected", "Recovered", "Death", "Hosp", "Old", "OldDeath", "VaccinatedYoung", "VaccinatedOld");
+  #lbl = c("Total", "Young", "Infected", "Recovered", "Death", "Hosp", "Old", "OldDeath", "VaccinatedYoung", "VaccinatedOld");
   leg.off=c(-0.1, 0.3);
   
   
