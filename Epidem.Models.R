@@ -125,7 +125,7 @@ initSIR_Hosp_Com = function(opt, end.time, p.old = 0.2, flt="Old", add = FALSE, 
   I0 = 1E-6;
   init = c(T = 1 - I0, S = (1 - I0) * (1 - p.old), O = (1 - I0) * p.old,
            I = I0, IOld = 0.0, R = 0.0,
-           Hcum = 0.0, H = 0.0, Hy = 0.0, Ho = 0.0, Dc = 0.0, Dh = 0.0);
+           Hcum = 0.0, H = 0.0, Hy = 0.0, Ho = 0.0, Dc = 0.0, Dh = 0.0); # init = state
   
   ### Solve using ode
   out = solve.sir(sirHosp, init, parameters, times)
@@ -144,7 +144,8 @@ initSIR_Hosp_Com = function(opt, end.time, p.old = 0.2, flt="Old", add = FALSE, 
   if(type > 1) {
     out$DeathAll = out$Dc + out$Dh;
     hosp.rate.scale = 20;
-    out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
+    out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * hosp.rate.scale; # folosim asta pt grafic modificare rata spitaqlizare
+    # exportare out$HospRate, fisier simulare
     lbl = c(lbl, "Death", paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
     if(type == 2) {
       r = filter.out(out, c("T", "Hy", "Ho", "Dc", "Dh"), lbl);

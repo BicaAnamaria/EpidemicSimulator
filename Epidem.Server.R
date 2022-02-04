@@ -126,7 +126,7 @@ server <- function(input, output){
       death.y = input$death.yVS,
       death.old = input$death.oVS,
       death.hosp.y = input$death.hyVS, # in ui death.hosp doar in slidere(UI)
-      death.hosp.o = input$death.hoVS
+      death.hosp.o = input$death.hoVS # la ahitectura -> server/ui; model -> ec dif(tot ce e cu d)/ init
       )
     
     if(input$toggleVS == FALSE)
