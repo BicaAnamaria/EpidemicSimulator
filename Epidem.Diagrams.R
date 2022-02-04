@@ -158,7 +158,7 @@ diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
 }
 diagram3()
 
-diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
+diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FALSE,scaleX = 1/1.95, scaleY = 1/1.95) {
   
   if(save.png) {
     # run this to save as png;
@@ -205,11 +205,11 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   
   # Vy
   coord[1,1] = 0.5 - 0.8 * scaleX
-  coord[1,2] = 0.5 + 0.4 * scaleY
+  coord[1,2] = 0.5 + 0.5 * scaleY
   
   # Sy
   coord[2,1] = 0.5 - 0.55 * scaleX
-  coord[2,2] = 0.5 + 0.2 * scaleY
+  coord[2,2] = 0.5 + 0.3 * scaleY
   
   # H[Y]
   coord[3,1] = 0.5 + 0.4 * scaleX
@@ -221,11 +221,11 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   
   # I[Y]
   coord[5,1] = 0.5 - 0.1 * scaleX
-  coord[5,2] = 0.5 + 0.1 * scaleY
+  coord[5,2] = 0.5 + 0.2 * scaleY
   
   # I[O]
   coord[6,1] = 0.5 - 0.2 * scaleX
-  coord[6,2] = 0.5 - 0.2 * scaleY
+  coord[6,2] = 0.5 - 0.3 * scaleY
   
   # D[Y]
   coord[7,1] = 0.5 + 0.75 * scaleX
@@ -248,18 +248,18 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   coord[11,2] = 0.5 - 0.4 * scaleY
   
   # plotting the diagram
-  plotmat(A = m, pos = coord, name = name, lwd = 2,
+  plotmat(A = m, pos = coord, name = name, lwd = 2.5,
           arr.width = 0.5, curve = 0,
-          box.size = 0.05, box.col = color, arr.type = "simple", 
+          box.size = 0.07, box.col = color, arr.type = "simple", 
           arr.pos = 0.67, main = "SIR + Vaccination Stratified model")
   
   # the curved arrows (coordinates hard coded)
   # from H[Y] -> I[Y]
-  curvedarrow(from = c(0.5 + 0.4 * scaleX, 0.5 + 0.35 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.15 * scaleY), lcol = "red",
+  curvedarrow(from = c(0.5 + 0.4 * scaleX, 0.5 + 0.35 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.25 * scaleY), lcol = "red",
               curve =0.5, arr.pos = 0.9)
   
   # from I[Y] -> S[Y]
-  curvedarrow(from = c(0.5 - 0.1 * scaleX, 0.5 + 0.05 * scaleY), to = c(0.5 - 0.55 * scaleX,  0.5 + 0.15 * scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 - 0.1 * scaleX, 0.5 + 0.05 * scaleY), to = c(0.5 - 0.35 * scaleX,  0.5 + 0.15 * scaleY), lcol = "orange",
               curve =-0.4, arr.pos = 0.95)
   
   # from H[O] to I[O]
@@ -267,7 +267,7 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
               curve = 0.25, arr.pos = 0.9)
   
   # from I[O] to S[O]
-  curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 - 0.25 * scaleY), to = c(0.5 - 0.55 * scaleX, 0.5 - 0.25 * scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 - 0.4 * scaleY), to = c(0.5 - 0.35 * scaleX, 0.5 - 0.3 * scaleY), lcol = "orange",
               curve = -0.5, arr.pos = 0.9)     
   
 }
@@ -277,7 +277,7 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
   
   if(save.png) {
     # run this to save as png;
-    png(file = file, width = 11.7, height = 8.3, units = "in", res = 100)
+    png(file = file, width = 15.7, height = 10.3, units = "in", res = 100)
   } else {
     #dev.new(width = 11.7, height = 8.3)
   }

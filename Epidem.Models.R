@@ -361,7 +361,7 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2)
                     vacc.y = list$vacc.y,     
                     vacc.o = list$vacc.old)
   
-  init = c(T = 1, Sy = 1e-6 * (1 - p.old), So = (1 - 1e-6) * p.old,
+  init = c(T = 1, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old,
   Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, Hcum = 0.0, Hy = 0.0, 
   Ho = 0.0, Dy = 0.0, Do = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
   
