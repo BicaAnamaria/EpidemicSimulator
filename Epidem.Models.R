@@ -378,9 +378,9 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2)
   ### Solve using ode
   out = solve.sir(sirVaccStrat, init, parameters, times)
   head(out, 10)
-  lbl = c("Total", "Susceptible (young)", "Susceptible (old)", "Infected (young)", 
-          "Infected (old)", "Hosp (cumulated)", "Hosp (young)", "Hosp (old)", 
-          "Death (young)", "Death (old)", "Recovered", "Vaccinated (young)", "Vaccinated (old)");
+  lbl = c("Total", "Susceptible (Young)", "Susceptible (Old)", "Infected (Young)", 
+          "Infected (Old)", "Hosp (cumulated)", "Hosp (Young)", "Hosp (Old)", 
+          "Death (Young)", "Death (Old)", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
   leg.off=c(-0.1, 0.3);
   
   
