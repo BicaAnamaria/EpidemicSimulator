@@ -173,11 +173,11 @@ diagram3()
 ####Schema VaccStrat######
 ##########################
 
-diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FALSE,scaleX = 1/2, scaleY = 1/2) {
+diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
   
   if(save.png) {
     # run this to save as png;
-    png(file = file, width = 15.7, height = 8.3, units="in", res = 100)
+    png(file = file, width = 11.7, height = 8.3, units="in", res = 100)
   } else {
     #dev.new(width = 11.7, height = 8.3)
   }
@@ -266,7 +266,7 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.5, curve = 0,
           box.size = 0.017, box.col = color, arr.type = "simple", 
-          arr.pos = 0.67, main = "SIR + Vaccination Stratified model")
+          arr.pos = 0.57, main = "SIR + Vaccination Stratified model")
   
   # the curved arrows (coordinates hard coded)
   # from H[Y] -> I[Y]
