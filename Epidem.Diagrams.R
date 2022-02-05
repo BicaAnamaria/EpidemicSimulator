@@ -17,6 +17,10 @@
 
 library(diagram)
 
+##################
+###Schema SIR#####
+##################
+
 diagram1  = function(file = "BasicSIR.png", save.png = FALSE) {
   
   if(save.png) {
@@ -53,6 +57,12 @@ diagram1  = function(file = "BasicSIR.png", save.png = FALSE) {
 }
 
 diagram1() 
+
+
+#############################
+####Schema Vaccination#######
+#############################
+
 
 diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1/2, scaleY = 1/2) {
   
@@ -158,11 +168,16 @@ diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
 }
 diagram3()
 
-diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FALSE,scaleX = 1/1.95, scaleY = 1/1.95) {
+
+##########################
+####Schema VaccStrat######
+##########################
+
+diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FALSE,scaleX = 1/2, scaleY = 1/2) {
   
   if(save.png) {
     # run this to save as png;
-    png(file = file, width = 11.7, height = 8.3, units="in", res = 100)
+    png(file = file, width = 15.7, height = 8.3, units="in", res = 100)
   } else {
     #dev.new(width = 11.7, height = 8.3)
   }
@@ -176,7 +191,7 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   name <- c(expression(V[Y]), #1
             expression(S[Y]), #2
             expression(H[Y]), #3
-            expression(H(O)), #4
+            expression(H[O]), #4
             expression(I[Y]), #5
             expression(I[O]), #6
             expression(D[Y]), #7
@@ -248,9 +263,9 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   coord[11,2] = 0.5 - 0.4 * scaleY
   
   # plotting the diagram
-  plotmat(A = m, pos = coord, name = name, lwd = 2.5,
+  plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.5, curve = 0,
-          box.size = 0.07, box.col = color, arr.type = "simple", 
+          box.size = 0.017, box.col = color, arr.type = "simple", 
           arr.pos = 0.67, main = "SIR + Vaccination Stratified model")
   
   # the curved arrows (coordinates hard coded)
@@ -273,11 +288,16 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
 }
 diagramVS()
 
+
+################################
+####Schema Hospitalisation######
+################################
+
 diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
   
   if(save.png) {
     # run this to save as png;
-    png(file = file, width = 15.7, height = 10.3, units = "in", res = 100)
+    png(file = file, width = 11.7, height = 8.3, units = "in", res = 100)
   } else {
     #dev.new(width = 11.7, height = 8.3)
   }
@@ -378,6 +398,13 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
 
 ### Test
 diagram.H()
+
+
+
+###########################
+####Diagram 2 Viruses######
+###########################
+
 
 diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, scaleY = 1/3){
   

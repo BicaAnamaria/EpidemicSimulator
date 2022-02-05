@@ -16,6 +16,7 @@
 library(ggplot2)
 library(deSolve)
 
+delay.v = 30;
 
 #####################
 #####################
@@ -324,8 +325,14 @@ day_mort=function()
 sirVaccStrat <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
-    dVy = min(Sy, vacc.y); # den provin din state
-    dVo = min(So, vacc.o);
+    if(time < delay.v){
+      dVy = 0;
+    } else  dVy = min(Sy, vacc.y); # den provin din state
+    
+    if(time < delay.v){
+      dVo = 0;
+    } else  dVo = min(So, vacc.o);
+    
     dSy = -infect * Sy * ( Iy + Io + Hy + Ho) - dVy;
     dSo = -infect * So * ( Iy + Io + Hy + Ho) - dVo;
     dIy = infect * Sy * (Iy + Io + Hy + Ho) - (death.y + hosp.y + recov.y) * Iy;
@@ -350,12 +357,14 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2)
   times = seq(0, end.time, by = 1)
   
   parameters = list(infect = list$infect,
+                    recov.h.y = list$recov.h * (1 - list$death.hosp.y),
+                    recov.h.o = list$recov.h * (1 - list$death.hosp.o),
                     recov.y = list$recov.y,
                     recov.o = list$recov.old,
                     death.y = list$death.y, 
                     death.o = list$death.old,
-                    death.hosp.y = list$death.hosp.y,
-                    death.hosp.o = list$death.hosp.o,
+                    death.hosp.y = list$recov.h * list$death.hosp.y,
+                    death.hosp.o = list$recov.h * list$death.hosp.o,
                     hosp.y   = list$hosp.y,
                     hosp.o = list$hosp.old,
                     vacc.y = list$vacc.y,     

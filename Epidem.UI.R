@@ -117,7 +117,8 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              column(4, sliderTime("timeVS"),
                                     sliderBase("infectVS", label="Rate of infection", 0.25),
                                     sliderBase("recov.yVS", label="Rate of recovery (young)"),
-                                    sliderBase("recov.hospVS", label="Rate of death in hospitals")),
+                                    sliderBase("recov.hVS", label="Rate of recovery in hospitals")),
+                                   # sliderBase("recov.hosp.yVS", label="Rate of recovery in hospitals (young)")),
                              column(3,
                                     sliderBase("hosp.yVS", label="Rate of hospitalization (young)"),
                                     sliderBase("hosp.oldVS", label="Rate of hospitalisation (old)"),
@@ -126,11 +127,12 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     sliderBase("death.yVS", label="Rate of death (young)"),
                                     sliderBase("death.oVS", label="Rate of death (old)"),
                                     sliderBase("death.hyVS", label="Rate of death in hospital (young)")
+                                    #sliderBase("recov.hosp.oVS", label="Rate of recovery in hospitals (old)")
                                     ),
                              
                              column(3,
-                                    sliderBase("vacc.yVS", label="Rate of vaccination (young)", max = 0.01, val = 0.001),
-                                    sliderBase("vacc.oVS", label="Rate of vaccination (old)", max = 0.01, val = 0.001),
+                                    sliderBase("vacc.yVS", label="Rate of vaccination (young)", max = 0.01, val = 0.001,  step = 2E-4),
+                                    sliderBase("vacc.oVS", label="Rate of vaccination (old)", max = 0.01, val = 0.001, step = 2E-4),
                                     sliderBase("death.hoVS", label="Rate of death in hospital (old)"))
                              )),
                 
