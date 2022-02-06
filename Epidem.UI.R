@@ -31,6 +31,7 @@
 opt = list(hosp.young = 0.01, hosp.old = 0.1, death.young = 0.001, death.old = 0.05);
 
 
+
 ### Helper Functions
 sliderTime = function(id, label = "Number of days", val = 200, max = 720, step = 1) {
   sliderInput(inputId = id, label = label,
@@ -39,6 +40,12 @@ sliderTime = function(id, label = "Number of days", val = 200, max = 720, step =
 sliderBase = function(id, label, val = 0.05, min = 0, max = 0.8, step = 0.001) {
   sliderInput(inputId = id, label=label,
               value = val, min = min, max = max, step = step)
+}
+
+vaccine.rate.scale = 100;
+sliderVaccine = function(id, label, val = 0.001, min = 0, max = 0.01, step = 0.0002, scale=vaccine.rate.scale) {
+  sliderInput(inputId = id, label=label,
+              value = val * scale, min = min * scale, max = max * scale, step = step * scale);
 }
 
 
@@ -57,16 +64,19 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            
                            fluidRow(
                              column(4, sliderTime("timeH"),
-                                    sliderBase("recovH", label="Rate of recovery"),
-                                    sliderBase("recov.hH", label="Rate of recovery (Hosp)")),
+                                    sliderBase("infectH", label="Infection rate", 0.25),
+                                    sliderBase("recovH", label="Recovery rate"),
+                                    ),
                              column(4,
-                                    sliderBase("infectH", label="Rate of infection", 0.25),
-                                    sliderBase("death.oldH", label="Rate of death (Old)", opt$death.old),
-                                    sliderBase("deathH", label="Rate of death (Young)", opt$death.young)),
+                                    sliderBase("recov.hH", label="Recovery rate (Hosp)"),
+                                    sliderBase("deathH", label="Death rate (Young)", opt$death.young),
+                                    sliderBase("death.oldH", label="Death rate (Old)", opt$death.old)
+                                   ),
                              column(4,
-                                    sliderBase("hosp.vH", label="Rate of hospitalisation (Old)", opt$hosp.old),
-                                    sliderBase("hospH", label="Rate of hospitalisation (Young)", opt$hosp.young),
-                                    sliderBase("death.hH", label="Rate of death (Hosp)"))
+                                    sliderBase("death.hH", label="Death rate (Hosp)"),
+                                    sliderBase("hospH", label="Hospitalization rate (Young)", opt$hosp.young),
+                                    sliderBase("hosp.vH", label="Hospitalization rate (Old)", opt$hosp.old)
+                                    )
                            )),
                   
                   tabPanel("Basic SIR model",
@@ -77,8 +87,8 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            
                            fluidRow(
                              column(4, sliderTime("timeB")),
-                             column(4, sliderBase("infectB", label="Rate of infection", 0.25)),
-                             column(4, sliderBase("recovB", label="Rate of recovery"))
+                             column(4, sliderBase("infectB", label="Infection rate", 0.25)),
+                             column(4, sliderBase("recovB", label="Recovery rate"))
                            )),
                   
                   tabPanel("Vaccination SIR model",
@@ -91,21 +101,21 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            
                            fluidRow(
                              column(3, sliderTime("timeV"),
-                                    sliderBase("recovV", label="Rate of recovery"),
-                                    sliderBase("infectV", label="Rate of infection", 0.25)
+                                    sliderBase("infectV", label="Infection rate", 0.25),
+                                    sliderBase("recovV", label="Recovery rate")
                                     ),
                              column(3,
-                                    sliderBase("deathV", label="Rate of death (Young)"),
-                                    sliderBase("death.oV", label="Rate of death (Old)"),
-                                    sliderBase("death.hV", label="Rate of death (Hosp)")),
+                                    sliderBase("recov.hV", label="Recovery rate (Hosp)"),
+                                    sliderBase("hosp.yV", label="Hospitalization rate (Young)"),
+                                    sliderBase("hosp.vV", label="Hospitalization rate (Old)")
+                             ),
                              column(3,
-                                    sliderBase("hosp.yV", label="Rate of hospitalisation (Young)"),
-                                    sliderBase("hosp.vV", label="Rate of hospitalisation (Old)"),
-                                    sliderBase("recov.hV", label="Rate of recovery (Hosp)")
-                                    ),
-                             column(2,
-                                    sliderBase("vacc.oV", label="Rate of vaccination (Young) ", max = 0.01, val = 0.001),
-                                    sliderBase("vacc.yV", label="Rate of vaccination (Old) ", max = 0.01, val = 0.001))
+                                    sliderBase("deathV", label="Death rate (Young)"),
+                                    sliderBase("death.oV", label="Death rate (Old)"),
+                                    sliderBase("death.hV", label="Death rate (Hosp)")),
+                             column(3,
+                                    sliderVaccine("vacc.yV", label="Vaccination rate (Young%) "),
+                                    sliderVaccine("vacc.oV", label="Vaccination rate (Old%) "))
                            ))),
                   
                   tabPanel("Vaccination Stratified Model",
@@ -116,28 +126,28 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                               hr(),
                            
                            fluidRow(
-                             column(4, sliderTime("timeVS"),
-                                    sliderBase("infectVS", label="Rate of infection", 0.25),
-                                    sliderBase("hosp.yVS", label="Rate of hospitalization (Young)"),
-                                    sliderBase("hosp.oldVS", label="Rate of hospitalisation (Old)")
+                             column(3, sliderTime("timeVS"),
+                                    sliderBase("infectVS", label="Infection rate", 0.25),
+                                    sliderBase("hosp.yVS", label="Hospitalization rate (Young)"),
+                                    sliderBase("hosp.oldVS", label="Hospitalization rate (Old)")
                                     ),
                                    # sliderBase("recov.hosp.yVS", label="Rate of recovery in hospitals (young)")),
                              column(3,
-                                    sliderBase("recov.yVS", label="Rate of recovery (Young)"),
-                                    sliderBase("recov.oldVS", label="Rate of recovery (Old)"),
-                                    sliderBase("recov.hVS", label="Rate of recovery (Hosp)")
+                                    sliderBase("recov.yVS", label="Recovery rate (Young)"),
+                                    sliderBase("recov.oldVS", label="Recovery rate (Old)"),
+                                    sliderBase("recov.hVS", label="Recovery rate (Hosp)")
                                     ),
                              column(3,
-                                    sliderBase("death.yVS", label="Rate of death (Young)"),
-                                    sliderBase("death.oVS", label="Rate of death (Old)"),
-                                    sliderBase("death.hyVS", label="Rate of death in hospital (Young)")
+                                    sliderBase("death.yVS", label="Death rate (Young)"),
+                                    sliderBase("death.oVS", label="Death rate (Old)"),
+                                    sliderBase("death.hyVS", label="Death rate in hospital (Young)")
                                     #sliderBase("recov.hosp.oVS", label="Rate of recovery in hospitals (old)")
                                     ),
                              
                              column(3,
-                                    sliderBase("death.hoVS", label="Rate of death in hospital (Old)"),
-                                    sliderBase("vacc.yVS", label="Rate of vaccination (Young)", max = 0.01, val = 0.001,  step = 2E-4),
-                                    sliderBase("vacc.oVS", label="Rate of vaccination (Old)", max = 0.01, val = 0.001, step = 2E-4)
+                                    sliderBase("death.hoVS", label="Death rate in hospital (Old)"),
+                                    sliderVaccine("vacc.yVS", label="Vaccination rate (Young%)" ), #, max = 0.01, val = 0.001,  step = 2E-4),
+                                    sliderVaccine("vacc.oVS", label="Vaccination rate (Old%)") #, max = 0.01, val = 0.001,  step = 2E-4)
                                     )
                              ))),
                 

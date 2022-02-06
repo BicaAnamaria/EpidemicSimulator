@@ -99,8 +99,8 @@ server <- function(input, output){
                   death.hosp = input$death.hV,
                   hosp.y = input$hosp.yV,
                   hosp.vacc = input$hosp.vV,
-                  vacc.old = input$vacc.oV,
-                  vacc.young = input$vacc.yV,
+                  vacc.young = input$vacc.yV / vaccine.rate.scale,
+                  vacc.old = input$vacc.oV / vaccine.rate.scale,
                   death.old = input$death.oV,
                   death.oldhosp = input$death.ohV)
     if(input$toggleC == FALSE)
@@ -123,8 +123,8 @@ server <- function(input, output){
       hosp.old = input$hosp.oldVS,
       # hosp.vaccY = input$hosp.vaccYVS, nu e in model
       # hosp.vaccOld = input$hosp.vaccOldVS,
-      vacc.old = input$vacc.oVS,
-      vacc.y = input$vacc.yVS,
+      vacc.old = input$vacc.oVS / vaccine.rate.scale,
+      vacc.y = input$vacc.yVS / vaccine.rate.scale,
       death.y = input$death.yVS,
       death.old = input$death.oVS,
       death.hosp.y = input$death.hyVS, # in ui death.hosp doar in slidere(UI)

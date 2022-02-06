@@ -42,6 +42,6 @@ source("Epidem.UI.R")
 # cod server
 source("Epidem.Server.R")
 
-
+#vwr = dialogViewer('Epidemic models', width = 1600, height = 1300)
+#runGadget(shinyApp(ui=ui, server=server), viewer = vwr)
 shinyApp(ui=ui, server=server)
-

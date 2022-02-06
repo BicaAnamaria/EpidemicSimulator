@@ -79,7 +79,7 @@ initSIR_Basic = function(list, end.time){
   parameters = c(infect = list[1], recov = list[2])
   print(parameters)
   
-  init = c(S = 1-1e-6, I = 1e-6, R = 0.0)  ### Solve using ode
+  init = c(S = 1 - 1e-6, I = 1e-6, R = 0.0)  ### Solve using ode
   ### Solve using ode
   out = solve.sir(basic_sir, init, parameters, times)
   head(out, 10)
@@ -221,7 +221,7 @@ Sensitivity_Hosp_Com = function(param, opt, end.time, p.old = 0.2, flt = "Old") 
 #   model with old age group;
 
 getDisplayTypesVacc = function(){
-  c("All", "Young", "Old")
+  c("All", "Young", "Old", "Totals")
 }
 
 sirVacc <- function(time, state, parameters) {
@@ -281,15 +281,22 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
   type = match(flt, getDisplayTypesVacc());
   if(type > 1) {
     # out$DeathAll = c(out$D[1], diff(out$D, lag = 1)); #out$Dc + out$Dh;
-    hosp.rate.scale = 20;
-    out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
-    lbl = c(lbl, paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
-    if(type == 2) {
-      r = filter.out(out, c("T", "Io", "O", "Vo"), lbl);
+    # hosp.rate.scale = 20;
+    # out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
+    # lbl = c(lbl, paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
+    if(type == 1) {
+    r = filter.out(out, c("T", "Hcum"), lbl); }
+    else if(type == 2) {
+      r = filter.out(out, c("T", "Hcum", "Io", "O", "Vacco"), lbl);
+      leg.off[2] = max(1 - p.old, out$Iy, out$R) - 0.7;
     } else if(type == 3) {
-      r = filter.out(out, c("T", "Iy", "Vy", "R"), lbl);
+      r = filter.out(out, c("T", "Hcum", "S", "Vaccy", "R"), lbl);
+      leg.off[2] = max(p.old, out$Iy) - 0.7;
       # leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } # else r = filter.out(out, c("T"), lbl=lbl);
+    else if(type == 4){
+      r = filter.out(out, c("Vacco", "Vaccy", "D"), lbl);
+    }
     
     
     out = r$out; lbl = r$lbl;
