@@ -280,10 +280,10 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
   
   type = match(flt, getDisplayTypesVacc());
   if(type > 1) {
-    # out$DeathAll = c(out$D[1], diff(out$D, lag = 1)); #out$Dc + out$Dh;
-    # hosp.rate.scale = 20;
-    # out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
-    # lbl = c(lbl, paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
+     out$DeathAll = c(out$D[1], diff(out$D, lag = 1)); #out$Dc + out$Dh;
+     hosp.rate.scale = 20;
+     out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
+     lbl = c(lbl, paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
     if(type == 1) {
     r = filter.out(out, c("T", "Hcum"), lbl); }
     else if(type == 2) {

@@ -133,7 +133,7 @@ server <- function(input, output){
     
     if(input$toggleVS == FALSE)
       initSIR_VaccineStrat(custom, input$timeVS)
-    else diagramVS(scaleX=0.9, scaleY=0.9)
+    else diagramVS(scaleX=0.4, scaleY=0.4)
     
     
   })
