@@ -295,6 +295,8 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
       # leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } # else r = filter.out(out, c("T"), lbl=lbl);
     else if(type == 4){
+      out$T = out$S + out$O;
+      out$I = out$Iy + out$Io;
       r = filter.out(out, c("Vacco", "Vaccy", "D"), lbl);
     }
     
