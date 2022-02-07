@@ -97,7 +97,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                            checkboxInput("toggleC","Toggle between plot and diagram")),
                                     column(4, selectInput("optTypeV", "Display", getDisplayTypesVacc(), selected="Old")),
                                     plotOutput("Vacc"),
-                                    hr(), 
+                                    hr() ), 
                            
                            fluidRow(
                              column(3, sliderTime("timeV"),
@@ -117,14 +117,14 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     sliderVaccine("vacc.oV", label="Vaccination rate (Old%) "),
                                     sliderVaccine("vacc.yV", label="Vaccination rate (Young%) ")
                           )
-                           ))),
+                           )),
                   
                   tabPanel("Vaccination Stratified Model",
                            fluidRow(
                               textOutput("txtVaccStratified"),
                               checkboxInput("toggleVS","Toggle between plot and diagram"),
                               plotOutput("VaccS"),
-                              hr() ,
+                              hr() ),
                            
                            fluidRow(
                              column(3, sliderTime("timeVS"),
@@ -150,7 +150,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     sliderVaccine("vacc.oVS", label="Vaccination rate (Old%)"), #, max = 0.01, val = 0.001,  step = 2E-4)
                                     sliderVaccine("vacc.yVS", label="Vaccination rate (Young%)" ) #, max = 0.01, val = 0.001,  step = 2E-4),
                                      )
-                             ))),
+                             )),
                 
                   
                   
