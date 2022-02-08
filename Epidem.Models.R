@@ -331,6 +331,10 @@ day_mort=function()
 ### Vaccination Stratified ###
 ###############################
 
+getDisplayTypesVaccStrat = function(){
+  c("All", "Young", "Old", "Totals")
+}
+
 sirVaccStrat <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
@@ -360,7 +364,7 @@ sirVaccStrat <- function(time, state, parameters) {
   )}
 
 
-initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2)
+initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt = "Old")
 {
   
   times = seq(0, end.time, by = 1)
@@ -393,7 +397,24 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2)
   leg.off=c(-0.1, 0.3);
   
   
+  type = match(flt, getDisplayTypesVaccStrat());
+  if(type > 1) {
+  
+   if(type == 2) {
+      r = filter.out(out, c("T", "Ho", "Io", "So", "Vo", "Do"), lbl);
+    } else if(type == 3) {
+      r = filter.out(out, c("T", "Hy", "Sy", "Vy", "R", "Dy"), lbl);
+    } 
+    else if(type == 4){
+      r = filter.out(out, c("Vo", "Vy", "Dy"), lbl);
+    }
+    
+    out = r$out; lbl = r$lbl;
+    
+  
+  }
+  
   
   plot.sir(out, times, legend.lbl = lbl, leg.off=leg.off)
-  
 }
+
