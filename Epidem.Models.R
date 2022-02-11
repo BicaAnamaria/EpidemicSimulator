@@ -227,20 +227,28 @@ getDisplayTypesVacc = function(){
 sirVacc <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     # TODO: debug;
-    dVy = min(S, vacc.y);
-    dVo = min(O, vacc.o);
-    dS = -infect * S * Iy - infect * S * Io - infect * S * H - dVy; # both I & H infect! S = young
-    dO = -infect * O * Iy - infect * O * Io - infect * O * H - dVo;
-    dT = (-infect * S * Iy - infect * S * Io - infect * S * H) + (-infect * O * Iy - infect * O * Io - infect * O * H) - dVy -dVo;
-    dIy = infect * S * (Iy + Io + H) - (death.y + hosp.y + recov) * Iy;
-    dIo = infect * O * (Iy + Io + H) - (death.o + hosp.o + recov) * Io;
+    
+    if(time < delay.v){
+      dVy = 0; 
+      dVo = 0;
+    } 
+    else 
+      {
+      dVy = min(Sy, vacc.y);
+      dVo = min(So, vacc.o);
+      }
+    dSy = -infect * Sy * Iy - infect * Sy * Io - infect * Sy * H - dVy; # both I & H infect! S = young
+    dSo = -infect * So * Iy - infect * So * Io - infect * So * H - dVo;
+    dT = (-infect * Sy * Iy - infect * Sy * Io - infect * Sy * H) + (-infect * So * Iy - infect * So * Io - infect * So * H) - dVy -dVo;
+    dIy = infect * Sy * (Iy + Io + H) - (death.y + hosp.y + recov) * Iy;
+    dIo = infect * So * (Iy + Io + H) - (death.o + hosp.o + recov) * Io;
     #dI =  infect * S * I + infect * S * H + infect * O * I + infect * O * H - recov * I - death.y * I - hosp * I;
     dD =  death.h * H + death.y * Iy + death.o * Io;
     dH =  hosp.y * Iy + hosp.o * Io - recov.h * H - death.h * H;
     dR =  recov * Iy + recov * Io + recov.h * H;
     dHcum = hosp.y * Iy + hosp.o * Io;
     #return(list(c(dT, dS, dI, dR, dD, dH, dV, dRo, dHo, dDo)));
-    return(list(c(dT, dS, dO, dIy, dIo, dHcum, dH, dD, dR, dVy, dVo)));
+    return(list(c(dT, dSy, dSo, dIy, dIo, dHcum, dH, dD, dR, dVy, dVo)));
   })
 }
 
@@ -249,7 +257,7 @@ sirVacc <- function(time, state, parameters) {
 # death rate;
 # hospitalization
 # vaccination rate
-initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
+initSIR_Vaccine = function(list1, end.time, p.old = 0.2)
 {
   
   times = seq(0, end.time, by = 1)
@@ -266,7 +274,7 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
                     vacc.y = list1$vacc.young,     #list1$vacc.old,
                     vacc.o = list1$vacc.old     #list1$vacc.young,
   )
-  init = c(T = 1 - 1e-6, S = (1 - 1e-6) * (1 - p.old), O = (1 - 1e-6) * p.old, Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, 
+  init = c(T = 1 - 1e-6, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old, Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, 
            Hcum = 0.0, H = 0.0, D = 0.0, R = 0.0, Vaccy =0.0, Vacco = 0.0)
   # de mutat o inainte de I
   
@@ -278,16 +286,29 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
   leg.off=c(-0.0, 0.3);
   
   
+  
+  ### Plot
+  plot.sir(out, times, legend.lbl =  lbl, leg.off=leg.off)
+  
+  
+}
+
+initSIR_VaccineImg = function(out, flt = "Old", p.old = 0.2){
+  
+  lbl = c("Total", "Young", "Old", "Infected (Young)", "Infected (Old)", "Hosp (cumulative)", "Hosp", 
+          "Death", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
+  leg.off=c(-0.0, 0.3);
+  
   type = match(flt, getDisplayTypesVacc());
   if(type > 1) {
-     out$DeathAll = c(out$D[1], diff(out$D, lag = 1)); #out$Dc + out$Dh;
-     hosp.rate.scale = 20;
-     out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
-     lbl = c(lbl, paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
+    out$DeathAll = c(out$D[1], diff(out$D, lag = 1)); #out$Dc + out$Dh;
+    hosp.rate.scale = 20;
+    out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
+    lbl = c(lbl, paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
     if(type == 1) {
-    r = filter.out(out, c("T", "Hcum"), lbl); }
+      r = filter.out(out, c("T", "Hcum"), lbl); }
     else if(type == 2) {
-      r = filter.out(out, c("T", "Hcum", "Io", "O", "Vacco"), lbl);
+      r = filter.out(out, c("T", "Hcum", "Io", "So", "Vacco"), lbl);
       leg.off[2] = max(1 - p.old, out$Iy, out$R) - 0.7;
     } else if(type == 3) {
       r = filter.out(out, c("T", "Hcum", "S", "Vaccy", "R"), lbl);
@@ -295,7 +316,7 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
       # leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } # else r = filter.out(out, c("T"), lbl=lbl);
     else if(type == 4){
-      out$T = out$S + out$O;
+      out$T = out$Sy + out$So;
       out$I = out$Iy + out$Io;
       r = filter.out(out, c("Vacco", "Vaccy", "D"), lbl);
     }
@@ -305,8 +326,7 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2,  flt = "Old")
     
   }
   
-  ### Plot
-  plot.sir(out, times, legend.lbl =  lbl, leg.off=leg.off)
+  
   
   
 }
@@ -404,9 +424,10 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt = "Old")
       r = filter.out(out, c("T", "Ho", "Io", "So", "Vo", "Do"), lbl);
     } else if(type == 3) {
       r = filter.out(out, c("T", "Hy", "Sy", "Vy", "R", "Dy"), lbl);
+      leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.7;
     } 
     else if(type == 4){
-      r = filter.out(out, c("Vo", "Vy", "Dy"), lbl);
+      r = filter.out(out, c("Vo", "Vy", "Dy", "Do", "Ho", "Hy"), lbl);
     }
     
     out = r$out; lbl = r$lbl;

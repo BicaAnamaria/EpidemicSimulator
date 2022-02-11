@@ -103,8 +103,10 @@ server <- function(input, output){
                   vacc.old = input$vacc.oV / vaccine.rate.scale,
                   death.old = input$death.oV,
                   death.oldhosp = input$death.ohV)
-    if(input$toggleC == FALSE)
-      initSIR_Vaccine(custom, input$timeV, flt = input$optTypeV)
+    if(input$toggleC == FALSE){
+      out = initSIR_Vaccine(custom, input$timeV)# , flt = input$optTypeV)
+    initSIR_VaccineImg(out, flt = input$optTypeV)
+    }
     else
       diagram3(scaleX=0.9, scaleY=0.9)
   })
@@ -132,7 +134,7 @@ server <- function(input, output){
       )
     
     if(input$toggleVS == FALSE)
-      initSIR_VaccineStrat(custom, input$timeVS, flt = input$optTypeVS)
+      initSIR_VaccineStrat(custom, input$timeVS, flt = input$optTypeVS )
     else diagramVS(scaleX=0.4, scaleY=0.4)
     
     

@@ -97,7 +97,8 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                            checkboxInput("toggleC","Toggle between plot and diagram")),
                                     column(4, selectInput("optTypeV", "Display", getDisplayTypesVacc(), selected="Old")),
                                     plotOutput("Vacc"),
-                                    hr() ), 
+                                    #hr() 
+                                    ), 
                            
                            fluidRow(
                              column(3, sliderTime("timeV"),
@@ -125,7 +126,8 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     checkboxInput("toggleVS","Toggle between plot and diagram")),
                               column(4, selectInput("optTypeVS", "Display", getDisplayTypesVaccStrat(), selected="Old")),
                               plotOutput("VaccS"),
-                              hr() ),
+                              # hr() 
+                              ),
                            
                            fluidRow(
                              column(3, sliderTime("timeVS"),
