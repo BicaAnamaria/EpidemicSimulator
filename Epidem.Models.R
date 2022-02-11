@@ -186,7 +186,7 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
     } else r = filter.out(out, c("Hy", "Ho"), lbl=lbl);
     out = r$out; lbl = r$lbl;
   }
-  plot.sir(out, legend.lbl = lbl, leg.off = leg.off, add = add, plot.legend = plot.legend, ...);
+  plot.sir(out, legend.lbl = lbl, leg.off = leg.off, add = add, plot.legend = plot.legend, title = "SIR Hospitalisation Model", ...);
 }
 
 sirHosp <- function(time, state, parameters) {
@@ -433,6 +433,6 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old") {
     
     out = r$out; lbl = r$lbl;
   }
-  plot.sir(out, legend.lbl = lbl, leg.off=leg.off)
+  plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Startified Model")
 }
 
