@@ -17,6 +17,7 @@ library(ggplot2)
 library(deSolve)
 
 delay.v = 30;
+opt.p.old = 0.2;
 
 #####################
 #####################
@@ -30,7 +31,7 @@ solve.sir = function(sir.f, init, parameters, times) {
   ## change to data frame
   out = as.data.frame(out)
   ## Delete time variable
-  out$time <- NULL
+  # out$time <- NULL
   return(out)
 }
 
@@ -42,15 +43,22 @@ legend.xyf = function(times, x=c(0,0)) {
   c(max(times)*2/3, 0.7) + x;
 }
 
-plot.sir = function(y, times, legend.lbl = basic.lbl, legend.xy, leg.off = c(0,0),
-                    ylab = "Susceptible and Recovered", lty = 1, lwd = 2, col = 2:10,
+plot.sir = function(y, times = NULL, legend.lbl = basic.lbl, legend.xy, leg.off = c(0,0),
+                    ylab = "Susceptible and Recovered", title = "SIR Model",
+                    lty = 1, lwd = 2, col = 2:10,
                     add = FALSE, plot.legend=TRUE, ...) {
+  if(is.null(times)) {
+    times = y$time;
+    if(is.null(times)) stop("The times argument is missing!");
+  }
+  y$time = NULL;
+  
   if(missing(legend.xy)) legend.xy = legend.xyf(times, leg.off)
   if(add) {
     matplot(x = times, y = y, type = "l", lwd = lwd, lty = lty, bty = "l", col = col, add=TRUE);
   } else {
     matplot(x = times, y = y, type = "l",
-            xlab = "Time", ylab = ylab, main = "SIR Model",
+            xlab = "Time", ylab = ylab, main = title,
             lwd = lwd, lty = lty, bty = "l", col = col, ...)
   }
   
@@ -59,6 +67,18 @@ plot.sir = function(y, times, legend.lbl = basic.lbl, legend.xy, leg.off = c(0,0
     legend(legend.xy[1], legend.xy[2], legend.lbl,
            pch = 1, col = col, bty = "n")
   }
+}
+
+filter.out = function(x, flt, lbl) {
+  id = match(flt, names(x)); # cautare nume filtrare => doc flt = excluded 
+  id = id[ ! is.na(id)];
+  if(length(id) > 0) {
+    x = x[, - id];
+    idTime = match("time", names(x)); # verifica daca in x e o col time
+    if(! is.na(idTime)) id = id - 1; # correct for x$time
+    lbl = lbl[-id];
+  }
+  return(list(out = x, lbl = lbl));
 }
 
 #####################
@@ -85,7 +105,7 @@ initSIR_Basic = function(list, end.time){
   head(out, 10)
   
   ### Plot
-  plot.sir(out, times, legend.lbl = c("Susceptible", "Infected", "Recovered"), leg.off=c(-0.1, 0.3))
+  plot.sir(out, legend.lbl = c("Susceptible", "Infected", "Recovered"), leg.off=c(-0.1, 0.3))
 }
 
 
@@ -111,7 +131,7 @@ getSensitivity = function() {
 getDisplayTypes = function() {
   c("All", "Compact", "Young", "Old");
 }
-initSIR_Hosp_Com = function(opt, end.time, p.old = 0.2, flt="Old", add = FALSE, plot.legend = TRUE, ...) {
+initSIR_Hosp_Com = function(opt, end.time, p.old = opt.p.old) {
   times = seq(0, end.time, by = 1) # flt = filter
   # - S = susceptible young people;
   # - O = susceptible old people;
@@ -130,8 +150,11 @@ initSIR_Hosp_Com = function(opt, end.time, p.old = 0.2, flt="Old", add = FALSE, 
   
   ### Solve using ode
   out = solve.sir(sirHosp, init, parameters, times)
-  # head(out, 10)
   
+  return(out);
+}
+plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.legend = TRUE, ...)
+{ 
   ### Plot
   lbl = c("Total", "Young", "Old", "Infected: Young (in community)", "Infected: Old (in community)",
           "Recovered", "Hosp (cumulative)", "Hosp: All", "Hosp: Young", "Hosp: Old",
@@ -158,17 +181,9 @@ initSIR_Hosp_Com = function(opt, end.time, p.old = 0.2, flt="Old", add = FALSE, 
     } else r = filter.out(out, c("Hy", "Ho"), lbl=lbl);
     out = r$out; lbl = r$lbl;
   }
-  plot.sir(out, times, legend.lbl = lbl, leg.off = leg.off, add = add, plot.legend = plot.legend, ...);
+  plot.sir(out, legend.lbl = lbl, leg.off = leg.off, add = add, plot.legend = plot.legend, ...);
 }
-filter.out = function(x, flt, lbl) {
-  id = match(flt, names(x));
-  id = id[ ! is.na(id)];
-  if(length(id) > 0) {
-    x = x[, - id];
-    lbl = lbl[-id];
-  }
-  return(list(out = x, lbl = lbl));
-}
+
 sirHosp <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     IYng = I;
@@ -257,7 +272,7 @@ sirVacc <- function(time, state, parameters) {
 # death rate;
 # hospitalization
 # vaccination rate
-initSIR_Vaccine = function(list1, end.time, p.old = 0.2)
+initSIR_Vaccine = function(list1, end.time, p.old = opt.p.old)
 {
   
   times = seq(0, end.time, by = 1)
@@ -280,20 +295,11 @@ initSIR_Vaccine = function(list1, end.time, p.old = 0.2)
   
   ### Solve using ode
   out = solve.sir(sirVacc, init, parameters, times)
-  head(out, 10)
-  lbl = c("Total", "Young", "Old", "Infected (Young)", "Infected (Old)", "Hosp (cumulative)", "Hosp", 
-          "Death", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
-  leg.off=c(-0.0, 0.3);
-  
-  
-  
-  ### Plot
-  plot.sir(out, times, legend.lbl =  lbl, leg.off=leg.off)
-  
-  
+  return(out);
 }
+  
 
-initSIR_VaccineImg = function(out, flt = "Old", p.old = 0.2){
+plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old) {
   
   lbl = c("Total", "Young", "Old", "Infected (Young)", "Infected (Old)", "Hosp (cumulative)", "Hosp", 
           "Death", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
@@ -311,7 +317,7 @@ initSIR_VaccineImg = function(out, flt = "Old", p.old = 0.2){
       r = filter.out(out, c("T", "Hcum", "Io", "So", "Vacco"), lbl);
       leg.off[2] = max(1 - p.old, out$Iy, out$R) - 0.7;
     } else if(type == 3) {
-      r = filter.out(out, c("T", "Hcum", "S", "Vaccy", "R"), lbl);
+      r = filter.out(out, c("T", "Hcum", "Sy", "Vaccy", "R"), lbl);
       leg.off[2] = max(p.old, out$Iy) - 0.7;
       # leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } # else r = filter.out(out, c("T"), lbl=lbl);
@@ -321,14 +327,9 @@ initSIR_VaccineImg = function(out, flt = "Old", p.old = 0.2){
       r = filter.out(out, c("Vacco", "Vaccy", "D"), lbl);
     }
     
-    
     out = r$out; lbl = r$lbl;
-    
   }
-  
-  
-  
-  
+  plot.sir(out, legend.lbl =  lbl, leg.off=leg.off, title = "SIR Vaccination Model")
 }
 
 
@@ -384,7 +385,7 @@ sirVaccStrat <- function(time, state, parameters) {
   )}
 
 
-initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt = "Old")
+initSIR_VaccineStrat = function(list ,end.time, p.old = opt.p.old)
 {
   
   times = seq(0, end.time, by = 1)
@@ -410,6 +411,9 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt = "Old")
   
   ### Solve using ode
   out = solve.sir(sirVaccStrat, init, parameters, times)
+  return(out);
+}
+plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old") {
   head(out, 10)
   lbl = c("Total", "Susceptible (Young)", "Susceptible (Old)", "Infected (Young)", 
           "Infected (Old)", "Hosp (cumulated)", "Hosp (Young)", "Hosp (Old)", 
@@ -436,6 +440,6 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = 0.2,  flt = "Old")
   }
   
   
-  plot.sir(out, times, legend.lbl = lbl, leg.off=leg.off)
+  plot.sir(out, legend.lbl = lbl, leg.off=leg.off)
 }
 

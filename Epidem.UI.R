@@ -60,7 +60,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              column(4, selectInput("optSensitivity", "Sensitivity Analysis", getSensitivity(), selected="SIR"))
                            ),
                            plotOutput("Hosp"),
-                           hr(),
+                           # hr(),
                            
                            fluidRow(
                              column(4, sliderTime("timeH"),
@@ -95,10 +95,10 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            fluidRow("Vaccination SIR model",
                                     column(4, textOutput("txtVacc"),
                                            checkboxInput("toggleC","Toggle between plot and diagram")),
-                                    column(4, selectInput("optTypeV", "Display", getDisplayTypesVacc(), selected="Old")),
-                                    plotOutput("Vacc"),
+                                    column(4, selectInput("optTypeV", "Display", getDisplayTypesVacc(), selected="Old")) ),
+                                  plotOutput("Vacc"),
                                     #hr() 
-                                    ), 
+                                     
                            
                            fluidRow(
                              column(3, sliderTime("timeV"),
@@ -124,10 +124,10 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            fluidRow(
                               column(4, textOutput("txtVaccStratified"),
                                     checkboxInput("toggleVS","Toggle between plot and diagram")),
-                              column(4, selectInput("optTypeVS", "Display", getDisplayTypesVaccStrat(), selected="Old")),
-                              plotOutput("VaccS"),
+                              column(4, selectInput("optTypeVS", "Display", getDisplayTypesVaccStrat(), selected="Old")) ),
+                            plotOutput("VaccS"),
                               # hr() 
-                              ),
+                              
                            
                            fluidRow(
                              column(3, sliderTime("timeVS"),
