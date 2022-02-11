@@ -40,6 +40,7 @@ server <- function(input, output){
   # active Tab
   values$Active = "H";
   values$out = NULL;
+  values$outData = NULL;
   
   # synchronise times across pages
   GetTime = function(type, idInput) {
@@ -137,6 +138,17 @@ server <- function(input, output){
     
     
   })
+  
+  ### Save Data
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste("Results", ".csv", sep = "");
+    },
+    content = function(file) {
+      # TODO: check first if NULL;
+      write.csv(values$outData, file, row.names = FALSE)
+    }
+  )
   
   ### 2 Viruses
   output$Virus=renderPlot({

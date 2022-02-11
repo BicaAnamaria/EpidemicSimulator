@@ -164,6 +164,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                 
                   
                   
+                  
                   tabPanel("Two Viruses",
                            textOutput("VirusT"),
                            plotOutput("Virus"),
@@ -175,6 +176,10 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                                 value=1, min=1, max=720, step=1,
                                                 animate = animationOptions(interval = 250, loop = FALSE))           
                              ))
+                ),
+                
+                tabPanel("Download",
+                         downloadButton("downloadData", "Download")
                 )
 ))
 
