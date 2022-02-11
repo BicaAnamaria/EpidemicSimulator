@@ -1,8 +1,15 @@
 ######################
 ###
-### Epidemic Simulator
+### Epidemic Simulator - Bachelor Thesis
+### Student: Anamaria Bica
+### West University, Timisoara
+### Year 3, Faculty of Computer Science
 ###
-### part of:
+### Coordinator: Daniela Zaharie
+### Supervisor: Leonard Mada
+### Syonic SRL
+
+### based on:
 ### Team Project 2021
 ### Students:
 ###   Dora Calea, Ioana Obreja,
@@ -12,11 +19,11 @@
 ### Supervisor: Leonard Mada
 ### Syonic SRL
 
-### incarcare librarii
+### load libarys
 library(ggplot2)
 library(deSolve)
 
-delay.v = 30;
+opt.delay.vacc = 60;
 opt.p.old = 0.2;
 
 #####################
@@ -30,8 +37,6 @@ solve.sir = function(sir.f, init, parameters, times) {
   out = ode(y = init, times = times, func = sir.f, parms = parameters)
   ## change to data frame
   out = as.data.frame(out)
-  ## Delete time variable
-  # out$time <- NULL
   return(out)
 }
 
@@ -70,11 +75,11 @@ plot.sir = function(y, times = NULL, legend.lbl = basic.lbl, legend.xy, leg.off 
 }
 
 filter.out = function(x, flt, lbl) {
-  id = match(flt, names(x)); # cautare nume filtrare => doc flt = excluded 
+  id = match(flt, names(x)); # look for filter name, witch are excluded from the legend 
   id = id[ ! is.na(id)];
   if(length(id) > 0) {
     x = x[, - id];
-    idTime = match("time", names(x)); # verifica daca in x e o col time
+    idTime = match("time", names(x)); # verify if x is in the time parameters
     if(! is.na(idTime)) id = id - 1; # correct for x$time
     lbl = lbl[-id];
   }
@@ -168,8 +173,8 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
   if(type > 1) {
     out$DeathAll = out$Dc + out$Dh;
     hosp.rate.scale = 20;
-    out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * hosp.rate.scale; # folosim asta pt grafic modificare rata spitaqlizare
-    # exportare out$HospRate, fisier simulare
+    out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * hosp.rate.scale; # modify hospitalisation rate 
+
     lbl = c(lbl, "Death", paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
     if(type == 2) {
       r = filter.out(out, c("T", "Hy", "Ho", "Dc", "Dh"), lbl);
@@ -241,9 +246,8 @@ getDisplayTypesVacc = function(){
 
 sirVacc <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
-    # TODO: debug;
-    
-    if(time < delay.v){
+   
+    if(time < opt.delay.vacc){
       dVy = 0; 
       dVo = 0;
     } 
@@ -267,31 +271,25 @@ sirVacc <- function(time, state, parameters) {
   })
 }
 
-# probability of infection;
-# recovery rate;
-# death rate;
-# hospitalization
-# vaccination rate
+
 initSIR_Vaccine = function(list1, end.time, p.old = opt.p.old)
 {
   
   times = seq(0, end.time, by = 1)
   # (!) S represents the nr of susceptible young people
-  parameters = list(infect = list1$infect, #list1$param
-                    recov = list1$recov, # => 2 categorii death.h
-                    recov.h = (1 -list1$death.hosp) * list1$recov.hosp, #list1$recov.hosp,
+  parameters = list(infect = list1$infect, 
+                    recov = list1$recov, 
+                    recov.h = (1 -list1$death.hosp) * list1$recov.hosp, 
                     death.y = list1$recov * list1$death,
                     death.o = list1$recov * list1$death.old,
-                    death.h = list1$death.hosp * list1$recov.hosp, #recov.h - nu il recunoaste #list1$recov.hosp * list1$death.hosp, 
+                    death.h = list1$death.hosp * list1$recov.hosp,
                     hosp.y = list1$hosp.y,             
-                    hosp.o = list1$hosp.vacc, # recov.h = (1 - death.h.base) * recov.h 
-                    # to do list1 hosp.vacc = hosp.o
-                    vacc.y = list1$vacc.young,     #list1$vacc.old,
-                    vacc.o = list1$vacc.old     #list1$vacc.young,
+                    hosp.o = list1$hosp.vacc, 
+                    vacc.y = list1$vacc.young,     
+                    vacc.o = list1$vacc.old     
   )
   init = c(T = 1 - 1e-6, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old, Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, 
            Hcum = 0.0, H = 0.0, D = 0.0, R = 0.0, Vaccy =0.0, Vacco = 0.0)
-  # de mutat o inainte de I
   
   ### Solve using ode
   out = solve.sir(sirVacc, init, parameters, times)
@@ -307,7 +305,7 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old) {
   
   type = match(flt, getDisplayTypesVacc());
   if(type > 1) {
-    out$DeathAll = c(out$D[1], diff(out$D, lag = 1)); #out$Dc + out$Dh;
+    out$DeathAll = c(out$D[1], diff(out$D, lag = 1)); 
     hosp.rate.scale = 20;
     out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
     lbl = c(lbl, paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
@@ -319,8 +317,7 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old) {
     } else if(type == 3) {
       r = filter.out(out, c("T", "Hcum", "Sy", "Vaccy", "R"), lbl);
       leg.off[2] = max(p.old, out$Iy) - 0.7;
-      # leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
-    } # else r = filter.out(out, c("T"), lbl=lbl);
+    } 
     else if(type == 4){
       out$T = out$Sy + out$So;
       out$I = out$Iy + out$Io;
@@ -359,11 +356,11 @@ getDisplayTypesVaccStrat = function(){
 sirVaccStrat <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
-    if(time < delay.v){
+    if(time < opt.delay.vacc){
       dVy = 0;
-    } else  dVy = min(Sy, vacc.y); # den provin din state
+    } else  dVy = min(Sy, vacc.y); # variable origin: state
     
-    if(time < delay.v){
+    if(time < opt.delay.vacc){
       dVo = 0;
     } else  dVo = min(So, vacc.o);
     
@@ -435,11 +432,7 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old") {
     }
     
     out = r$out; lbl = r$lbl;
-    
-  
   }
-  
-  
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off)
 }
 

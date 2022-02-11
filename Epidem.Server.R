@@ -1,8 +1,15 @@
 ######################
 ###
-### Epidemic Simulator
+### Epidemic Simulator - Bachelor Thesis
+### Student: Anamaria Bica
+### West University, Timisoara
+### Year 3, Faculty of Computer Science
 ###
-### part of:
+### Coordinator: Daniela Zaharie
+### Supervisor: Leonard Mada
+### Syonic SRL
+
+### based of:
 ### Team Project 2021
 ### Students:
 ###   Dora Calea, Ioana Obreja,
@@ -70,7 +77,7 @@ server <- function(input, output){
     # Page:
     if(input$toggleH == FALSE) {
       if(input$optSensitivity == "SIR") {
-        out = initSIR_Hosp_Com(custom, valTime);#, flt=input$optType);
+        out = initSIR_Hosp_Com(custom, valTime);
         values$out = out;
         plotSIR_Hosp(out, flt=input$optType)
       } else {
@@ -81,19 +88,7 @@ server <- function(input, output){
   })
   
   ### Vaccination
-  # TODO
   output$Vacc = renderPlot({
-    ##custom = c(input$infectV,
-    #input$recovV,
-    #input$recov.hV,
-    #input$deathV,
-    #input$death.hV,
-    #input$hospV,
-    #input$hosp.vV,
-    #input$vacc.oV,
-    #input$vacc.yV,
-    #input$death.oV,
-    #input$death.ohV)
     valTime = GetTime("V", "timeV");
     custom = list(infect = input$infectV,
                   recov = input$recovV,
@@ -107,7 +102,7 @@ server <- function(input, output){
                   death.old = input$death.oV,
                   death.oldhosp = input$death.ohV)
     if(input$toggleC == FALSE){
-      out = initSIR_Vaccine(custom, valTime)# , flt = input$optTypeV)
+      out = initSIR_Vaccine(custom, valTime)
       values$out = out;
       plotSIR_Vaccine(out, flt = input$optTypeV)
     }
@@ -123,22 +118,18 @@ server <- function(input, output){
       recov.h = input$recov.hVS,
       recov.y = input$recov.yVS,
       recov.old = input$recov.oldVS, # aprox 0.14
-      # recov.hosp.y = input$recov.hosp.yVS, # aprox 0.07
-      # recov.hosp.o = input$recov.hosp.oVS,
       hosp.y = input$hosp.yVS,
       hosp.old = input$hosp.oldVS,
-      # hosp.vaccY = input$hosp.vaccYVS, nu e in model
-      # hosp.vaccOld = input$hosp.vaccOldVS,
       vacc.old = input$vacc.oVS / vaccine.rate.scale,
       vacc.y = input$vacc.yVS / vaccine.rate.scale,
       death.y = input$death.yVS,
       death.old = input$death.oVS,
-      death.hosp.y = input$death.hyVS, # in ui death.hosp doar in slidere(UI)
-      death.hosp.o = input$death.hoVS # la ahitectura -> server/ui; model -> ec dif(tot ce e cu d)/ init
+      death.hosp.y = input$death.hyVS, 
+      death.hosp.o = input$death.hoVS 
       )
     
     if(input$toggleVS == FALSE) {
-      out = initSIR_VaccineStrat(custom, valTime) #, flt = input$optTypeVS )
+      out = initSIR_VaccineStrat(custom, valTime) 
       values$out = out;
       plotSIR_VaccineStrat(out, flt = input$optTypeVS)
     }

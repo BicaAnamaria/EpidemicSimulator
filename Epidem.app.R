@@ -1,16 +1,20 @@
 ######################
 ###
-### Epidemic Simulator
+### Epidemic Simulator - Bachelor Thesis
+### Student: Anamaria Bica
+### West University, Timisoara
+### Year 3, Faculty of Computer Science
 ###
-### part of:
+### Coordinator: Daniela Zaharie
+### Supervisor: Leonard Mada
+### Syonic SRL
+
+### based on:
 ### Team Project 2021
 ### Students:
 ###   Dora Calea, Ioana Obreja,
 ###   Liviu Sopon and Dragos Ursan
 ###   West University, Timisoara
-###
-### Supervisor: Leonard Mada
-### Syonic SRL
 
 
 library(shiny)
@@ -18,15 +22,14 @@ library(shinyjs)
 
 # library(rsconnect)
 
-# setam calea proiectului
-
+# setting project path
 setwd("C:\\Users\\anama\\OneDrive - e-uvt.ro\\Documents\\ANUL III\\Semestrul 1\\Licenta\\Simulator")
 
-# se incarca 4 fisiere externe cu comanda source
+# load 4 external files with source command
 
-# contine ecuatii diferentiale si modele SIR
+# SIR models, differential equations
 source("Epidem.Models.R");
-# cod pt generare diagrame in R
+# plot
 source("Epidem.Diagrams.R")
 # TODO: cleanup / better version
 # source("TwoViruses3D(with seed).R")
@@ -38,9 +41,9 @@ opt.sensitivity.lty = 4;
 opt.p.old = 0.2;
 
 ### App
-# interfacta utilizator
+# user interface
 source("Epidem.UI.R")
-# cod server
+# server
 source("Epidem.Server.R")
 
 #vwr = dialogViewer('Epidemic models', width = 1600, height = 1300)
