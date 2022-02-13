@@ -25,6 +25,8 @@ library(deSolve)
 
 opt.delay.vacc = 60;
 opt.p.old = 0.2;
+opt.death.rate.scale = 24;
+opt.hosp.rate.scale = 12;
 
 #####################
 #####################
@@ -196,10 +198,9 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
   # filter results
   if(type > 1) {
     out$DeathAll = out$Dc + out$Dh;
-    hosp.rate.scale = 20;
-    out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * hosp.rate.scale; # modify hospitalisation rate 
+    out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; # modify hospitalisation rate 
 
-    lbl = c(lbl, "Death", paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
+    lbl = c(lbl, "Death", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
     if(type == 2) {
       r = filter.out(out, c("T", "Hy", "Ho", "Dc", "Dh"), lbl);
     } else if(type == 3) {
@@ -310,10 +311,10 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old) {
   
   type = match(flt, getDisplayTypesVacc());
   if(type > 1) {
-    out$DeathAll = c(out$D[1], diff(out$D, lag = 1)); 
-    hosp.rate.scale = 20;
-    out$HospRate = c(0, diff(out$Hcum)) * hosp.rate.scale;
-    lbl = c(lbl, paste0("Hosp (rate)[scale = x", hosp.rate.scale, "]"));
+    out$DeathAll = c(out$D[1], diff(out$D, lag = 1)) * opt.death.rate.scale; 
+    out$HospRate = c(0, diff(out$Hcum)) * opt.hosp.rate.scale;
+    lbl = c(lbl, paste0("Death Rate [scale = x", opt.death.rate.scale, "]"),
+                 paste0("Hosp Rate  [scale = x", opt.hosp.rate.scale, "]") );
     if(type == 1) {
       r = filter.out(out, c("T", "Hcum"), lbl); }
     else if(type == 2) {
@@ -326,7 +327,9 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old) {
     else if(type == 4){
       out$T = out$Sy + out$So;
       out$I = out$Iy + out$Io;
-      r = filter.out(out, c("Vacco", "Vaccy", "D"), lbl);
+      out$V = out$Vaccy + out$Vacco;
+      lbl = c(lbl, "Infected (Total)", "Vaccinated (Total)")
+      r = filter.out(out, c("Iy", "Io", "Vacco", "Vaccy"), lbl);
     }
     
     out = r$out; lbl = r$lbl;
@@ -425,15 +428,23 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old") {
   
   type = match(flt, getDisplayTypesVaccStrat());
   if(type > 1) {
-  
-   if(type == 2) {
+    out$HospRate = c(0, diff(out$Hcum)) * opt.hosp.rate.scale;
+    
+    lbl = c(lbl, paste0("Hosp Rate  [scale = x", opt.hosp.rate.scale, "]") );
+   
+    if(type == 2) {
       r = filter.out(out, c("T", "Ho", "Io", "So", "Vo", "Do"), lbl);
     } else if(type == 3) {
       r = filter.out(out, c("T", "Hy", "Sy", "Vy", "R", "Dy"), lbl);
       leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.7;
     } 
     else if(type == 4){
-      r = filter.out(out, c("Vo", "Vy", "Dy", "Do", "Ho", "Hy"), lbl);
+      out$I = out$Iy + out$Io;
+      out$V = out$Vy + out$Vo;
+      out$H = out$Hy + out$Ho;
+      lbl = c(lbl, "Infected (Total)", "Hospitalised (Total)", "Vaccinated (Total)")
+      r = filter.out(out, c("Iy", "Io", "Vy", "Vo", "Hy", "Ho"), lbl);
+      # r = filter.out(out, c("Vo", "Vy", "Dy", "Do", "Ho", "Hy"), lbl);
     }
     
     out = r$out; lbl = r$lbl;
