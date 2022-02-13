@@ -440,8 +440,8 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old") {
     } 
     else if(type == 4){
       out$I = out$Iy + out$Io;
-      out$V = out$Vy + out$Vo;
       out$H = out$Hy + out$Ho;
+      out$V = out$Vy + out$Vo;
       lbl = c(lbl, "Infected (Total)", "Hospitalised (Total)", "Vaccinated (Total)")
       r = filter.out(out, c("Iy", "Io", "Vy", "Vo", "Hy", "Ho"), lbl);
       # r = filter.out(out, c("Vo", "Vy", "Dy", "Do", "Ho", "Hy"), lbl);
