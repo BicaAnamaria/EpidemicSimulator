@@ -39,7 +39,6 @@ server <- function(input, output){
   values = reactiveValues();
   # active Tab
   values$Active = "H";
-  values$out = NULL;
   values$outData = NULL;
   
   # synchronise times across pages
@@ -78,9 +77,9 @@ server <- function(input, output){
     # Page:
     if(input$toggleH == FALSE) {
       if(input$optSensitivity == "SIR") {
-        out = initSIR_Hosp_Com(custom, valTime);
-        values$out = out;
-        plotSIR_Hosp(out, flt=input$optType)
+        outData = initSIR_Hosp_Com(custom, valTime);
+        values$outData = outData;
+        plotSIR_Hosp(outData, flt=input$optType)
       } else {
         Sensitivity_Hosp_Com(input$optSensitivity, custom, valTime, flt=input$optType);
       }
@@ -103,9 +102,9 @@ server <- function(input, output){
                   death.old = input$death.oV,
                   death.oldhosp = input$death.ohV)
     if(input$toggleC == FALSE){
-      out = initSIR_Vaccine(custom, valTime)
-      values$out = out;
-      plotSIR_Vaccine(out, flt = input$optTypeV)
+      outData = initSIR_Vaccine(custom, valTime)
+      values$outData = outData;
+      plotSIR_Vaccine(outData, flt = input$optTypeV)
     }
     else
       diagram3(scaleX=0.9, scaleY=0.9)
@@ -130,9 +129,9 @@ server <- function(input, output){
       )
     
     if(input$toggleVS == FALSE) {
-      out = initSIR_VaccineStrat(custom, valTime) 
-      values$out = out;
-      plotSIR_VaccineStrat(out, flt = input$optTypeVS)
+      outData = initSIR_VaccineStrat(custom, valTime) 
+      values$outData = outData;
+      plotSIR_VaccineStrat(outData, flt = input$optTypeVS)
     }
     else diagramVS(scaleX=0.4, scaleY=0.4)
     
