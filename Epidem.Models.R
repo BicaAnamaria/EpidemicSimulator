@@ -246,6 +246,16 @@ Sensitivity_Hosp_Com = function(param, opt, end.time, min=0, max=1, p.old = opt.
 # - preferential vaccination in older individuals:
 #   model with old age group;
 
+### Sensitivity Analysis
+getSensitivityVacc = function() {
+  c("Vaccination Model" = "Vacc", 
+    "Infection rate (Young)" = "infect.y", "Infection rate (Old)" = "infect.o",
+    "Hospitalization rate " = "hosp",
+    "Death rate" = "death",
+    "Vaccination rate (Young)" = "vacc.y", "Vaccination rate (Old)" = "vacc.o"
+  );
+}
+
 getDisplayTypesVacc = function(){
   c("All", "Young", "Old", "Totals")
 }
@@ -356,6 +366,15 @@ day_mort=function()
 ###############################
 ### Vaccination Stratified ###
 ###############################
+
+getSensitivityVaccStrat = function() {
+  c("Vaccination Startified Model" = "VaccStart", 
+    "Infection rate (Young)" = "infect.y", "Infection rate (Old)" = "infect.o",
+    "Hospitalization rate (Old)" = "hosp.o", "Hospitalization rate (Young)" = "hosp.y",
+    "Death rate (Young)" = "death.y", "Death rate (Old)" = "death.o", 
+    "Vaccination rate (Young)" = "vacc.y", "Vaccination rate (Old)" = "vacc.o"
+  );
+}
 
 getDisplayTypesVaccStrat = function(){
   c("All", "Young", "Old", "Totals")
