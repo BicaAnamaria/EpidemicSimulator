@@ -57,12 +57,13 @@ sliderVaccine = function(id, label, val = 0.001, min = 0, max = 0.01, step = 0.0
 
 
 ### UI
+### H = Hospital
 ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                 tabsetPanel(
                   tabPanel("Hospitalization SIR model",
                            fluidRow(
                              column(4, textOutput("txtHosp"),
-                                    checkboxInput("toggleH", "Toggle between plot and diagram")), # H = Hospitalisation
+                                    checkboxInput("toggleH", "Toggle between plot and diagram")), 
                              column(4, selectInput("optType", "Display", getDisplayTypes(), selected="Old")),
                              column(4, selectInput("optSensitivity", "Sensitivity Analysis", getSensitivity(), selected="SIR"))
                            ),
@@ -101,7 +102,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   tabPanel("Vaccination SIR model",
                            fluidRow(
                                     column(4, textOutput("txtVacc"),
-                                           checkboxInput("toggleV","Toggle between plot and diagram")), # V = Vaccination
+                                           checkboxInput("toggleV","Toggle between plot and diagram")), 
                                     column(4, selectInput("optTypeV", "Display", getDisplayTypesVacc(), selected="Old")),
                                     column(4, selectInput("optSensitivityVacc", "Sensitivity Analysis", getSensitivityVacc(), selected="Vacc"))),
                                   plotOutput("Vacc"),
@@ -132,7 +133,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            fluidRow(
                               column(3, textOutput("txtVaccStratified"),
                                     checkboxInput("toggleVS","Toggle between plot and diagram")),
-                              column(3, selectInput("optTypeVS", "Display", getDisplayTypesVaccStrat(), selected="Old")), # VS = Vaccination Startified
+                              column(3, selectInput("optTypeVS", "Display", getDisplayTypesVaccStrat(), selected="Old")), 
                               column(3, selectInput("optSensitivityVaccStrat", "Sensitivity Analysis", getSensitivityVaccStrat(), selected="VaccStrat")) ),
                             plotOutput("VaccS"),
                               # hr() 
