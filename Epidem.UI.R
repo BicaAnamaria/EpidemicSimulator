@@ -62,7 +62,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   tabPanel("Hospitalization SIR model",
                            fluidRow(
                              column(4, textOutput("txtHosp"),
-                                    checkboxInput("toggleH", "Toggle between plot and diagram")),
+                                    checkboxInput("toggleH", "Toggle between plot and diagram")), # H = Hospitalisation
                              column(4, selectInput("optType", "Display", getDisplayTypes(), selected="Old")),
                              column(4, selectInput("optSensitivity", "Sensitivity Analysis", getSensitivity(), selected="SIR"))
                            ),
@@ -88,7 +88,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   
                   tabPanel("Basic SIR model",
                            textOutput("BasicT"),
-                           checkboxInput("toggle", "Toggle between diagram and plot", value=FALSE),
+                           checkboxInput("toggleB", "Toggle between diagram and plot", value=FALSE), 
                            plotOutput("BasicPl"),
                            hr(),
                            
@@ -99,11 +99,11 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            )),
                   
                   tabPanel("Vaccination SIR model",
-                           fluidRow("Vaccination SIR model",
-                                    column(3, textOutput("txtVacc"),
-                                           checkboxInput("toggleC","Toggle between plot and diagram")),
-                                    column(3, selectInput("optTypeV", "Display", getDisplayTypesVacc(), selected="Old")),
-                                    column(3, selectInput("optSensitivityVacc", "Sensitivity Analysis", getSensitivityVacc(), selected="Vacc"))),
+                           fluidRow(
+                                    column(4, textOutput("txtVacc"),
+                                           checkboxInput("toggleV","Toggle between plot and diagram")), # V = Vaccination
+                                    column(4, selectInput("optTypeV", "Display", getDisplayTypesVacc(), selected="Old")),
+                                    column(4, selectInput("optSensitivityVacc", "Sensitivity Analysis", getSensitivityVacc(), selected="Vacc"))),
                                   plotOutput("Vacc"),
                                     #hr() 
                                      
@@ -132,7 +132,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            fluidRow(
                               column(3, textOutput("txtVaccStratified"),
                                     checkboxInput("toggleVS","Toggle between plot and diagram")),
-                              column(3, selectInput("optTypeVS", "Display", getDisplayTypesVaccStrat(), selected="Old")),
+                              column(3, selectInput("optTypeVS", "Display", getDisplayTypesVaccStrat(), selected="Old")), # VS = Vaccination Startified
                               column(3, selectInput("optSensitivityVaccStrat", "Sensitivity Analysis", getSensitivityVaccStrat(), selected="VaccStrat")) ),
                             plotOutput("VaccS"),
                               # hr() 

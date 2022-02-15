@@ -60,7 +60,7 @@ server <- function(input, output){
   output$BasicPl = renderPlot({
     valTime = GetTime("B", "timeB");
     custom = c(input$infectB, input$recovB)
-    if(input$toggle == FALSE)
+    if(input$toggleB == FALSE)
       initSIR_Basic(custom, valTime)
     else
       diagram1();
@@ -101,7 +101,7 @@ server <- function(input, output){
                   vacc.old = input$vacc.oV / vaccine.rate.scale,
                   death.old = input$death.oV,
                   death.oldhosp = input$death.ohV)
-    if(input$toggleC == FALSE){
+    if(input$toggleV == FALSE){
       outData = initSIR_Vaccine(custom, valTime)
       values$outData = outData;
       plotSIR_Vaccine(outData, flt = input$optTypeV)
