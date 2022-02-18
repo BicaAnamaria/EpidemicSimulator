@@ -122,23 +122,26 @@ server <- function(input, output){
       infect = input$infectVS,
       recov.h = input$recov.hVS,
       recov.y = input$recov.yVS,
-      recov.old = input$recov.oldVS, # aprox 0.14
+      recov.o = input$recov.oldVS, # aprox 0.14
       hosp.y = input$hosp.yVS,
-      hosp.old = input$hosp.oldVS,
-      vacc.old = input$vacc.oVS / vaccine.rate.scale,
+      hosp.o = input$hosp.oldVS,
+      vacc.o = input$vacc.oVS / vaccine.rate.scale,
       vacc.y = input$vacc.yVS / vaccine.rate.scale,
       death.y = input$death.yVS,
-      death.old = input$death.oVS,
-      death.hosp.y = input$death.hyVS, 
-      death.hosp.o = input$death.hoVS 
+      death.o = input$death.oVS,
+      death.hy = input$death.hyVS, 
+      death.ho = input$death.hoVS 
       )
     
     if(input$toggleVS == FALSE) {
-      outData = initSIR_VaccineStrat(custom, valTime) 
-      values$outData = outData;
-      plotSIR_VaccineStrat(outData, flt = input$optTypeVS)
-    }
-    else diagramVS(scaleX=0.4, scaleY=0.4)
+      if(input$optSensitivityVacc == "VaccStrat") {
+        outData = initSIR_VaccineStrat(custom, valTime) 
+        values$outData = outData;
+        plotSIR_VaccineStrat(outData, flt = input$optTypeVS)
+      } else {
+        Sensitivity_VaccineStrat(input$optSensitivityVaccStrat, custom, valTime, flt=input$optTypeVS);
+      }
+    } else diagramVS(scaleX=0.4, scaleY=0.4)
     
     
   })

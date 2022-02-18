@@ -396,9 +396,10 @@ day_mort=function()
 
 getSensitivityVaccStrat = function() {
   c("Vaccination Startified Model" = "VaccStart", 
-    "Infection rate (Young)" = "infect.y", "Infection rate (Old)" = "infect.o",
-    "Hospitalization rate (Old)" = "hosp.o", "Hospitalization rate (Young)" = "hosp.y",
+    "Infection rate (Young)" = "infect",
+    "Hospitalization rate (Young)" = "hosp.y", "Hospitalization rate (Old)" = "hosp.o", 
     "Death rate (Young)" = "death.y", "Death rate (Old)" = "death.o", 
+    "Recovery rate (Young)" = "recov.y", "Recovery rate (Old)" = "recov.o",
     "Vaccination rate (Young)" = "vacc.y", "Vaccination rate (Old)" = "vacc.o"
   );
 }
@@ -422,10 +423,10 @@ sirVaccStrat <- function(time, state, parameters) {
     dSo = -infect * So * ( Iy + Io + Hy + Ho) - dVo;
     dIy = infect * Sy * (Iy + Io + Hy + Ho) - (death.y + hosp.y + recov.y) * Iy;
     dIo = infect * So * (Iy + Io + Hy + Ho) - (death.o + hosp.o + recov.o) * Io;
-    dHy = hosp.y * Iy - recov.y * Hy - death.hosp.y * Hy;
-    dHo = hosp.o * Io - recov.o * Ho - death.hosp.o * Ho;
-    dDy = death.hosp.y * Hy + death.y * Iy;
-    dDo = death.hosp.o * Ho + death.o * Io;
+    dHy = hosp.y * Iy - recov.y * Hy - death.hy * Hy;
+    dHo = hosp.o * Io - recov.o * Ho - death.ho * Ho;
+    dDy = death.hy * Hy + death.y * Iy;
+    dDo = death.ho * Ho + death.o * Io;
     dR = recov.y * Iy + recov.o * Io + recov.y * Hy + recov.o * Ho;
     dHcum = hosp.y * Iy + hosp.o * Io;
     dT = dSy + dSo;
@@ -435,25 +436,26 @@ sirVaccStrat <- function(time, state, parameters) {
   }
   )}
 
+# separat models_hosp, models_vaccine -> 3 fisiere
 
-initSIR_VaccineStrat = function(list ,end.time, p.old = opt.p.old, add = FALSE, plot.legend = TRUE, ...)
+initSIR_VaccineStrat = function(list ,end.time, p.old = opt.p.old)
 {
   
   times = seq(0, end.time, by = 1)
   
   parameters = list(infect = list$infect,
-                    recov.h.y = list$recov.h * (1 - list$death.hosp.y),
-                    recov.h.o = list$recov.h * (1 - list$death.hosp.o),
+                    recov.hy = list$recov.h * (1 - list$death.hy),
+                    recov.ho = list$recov.h * (1 - list$death.ho),
                     recov.y = list$recov.y,
-                    recov.o = list$recov.old,
+                    recov.o = list$recov.o,
                     death.y = list$death.y, 
-                    death.o = list$death.old,
-                    death.hosp.y = list$recov.h * list$death.hosp.y,
-                    death.hosp.o = list$recov.h * list$death.hosp.o,
+                    death.o = list$death.o,
+                    death.hy = list$recov.h * list$death.hy,
+                    death.ho = list$recov.h * list$death.ho,
                     hosp.y   = list$hosp.y,
-                    hosp.o = list$hosp.old,
+                    hosp.o = list$hosp.o,
                     vacc.y = list$vacc.y,     
-                    vacc.o = list$vacc.old)
+                    vacc.o = list$vacc.o)
   
   init = c(T = 1, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old,
   Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, Hcum = 0.0, Hy = 0.0, 
@@ -461,10 +463,10 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = opt.p.old, add = FALSE, 
   
   
   ### Solve using ode
-  out = solve.sir(sirVaccStrat, init, parameters, times, add = add, plot.legend = plot.legend)
+  out = solve.sir(sirVaccStrat, init, parameters, times)
   return(out);
 }
-plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old") {
+plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALSE, plot.legend = TRUE, ...) {
   head(out, 10)
   lbl = c("Total", "Susceptible (Young)", "Susceptible (Old)", "Infected (Young)", 
           "Infected (Old)", "Hosp (cumulated)", "Hosp (Young)", "Hosp (Old)", 
@@ -495,6 +497,27 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old") {
     
     out = r$out; lbl = r$lbl;
   }
-  plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Startified Model")
+  plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Startified Model", 
+           add = add, plot.legend = plot.legend)
+}
+
+Sensitivity_VaccineStrat = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
+  by = (max - min)/20;
+  for(p in seq(min, max, by = by)) {
+    opt[[param]] = p;
+    
+    out = initSIR_VaccineStrat(opt, end.time);
+    
+    plotSIR_VaccineStrat(out, flt = flt, add = if(p == min) FALSE else TRUE,
+                    plot.legend = FALSE, lty = opt.sensitivity.lty);
+  }
+  
+  opt[[param]] = min;
+  
+  out = initSIR_VaccineStrat(opt, end.time);
+  
+  plotSIR_VaccineStrat(out, flt = flt,
+                  add = TRUE, plot.legend = TRUE,
+                  lty = 1);
 }
 
