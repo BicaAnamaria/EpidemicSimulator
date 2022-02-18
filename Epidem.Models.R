@@ -292,21 +292,21 @@ sirVacc <- function(time, state, parameters) {
 }
 
 
-initSIR_Vaccine = function(list1, end.time, p.old = opt.p.old) # list1 = param modificare
+initSIR_Vaccine = function(param, end.time, p.old = opt.p.old) # list1 = param modificare
 {
   
   times = seq(0, end.time, by = 1)
   # (!) S represents the nr of susceptible young people
-  parameters = list(infect = list1$infect, 
-                    recov = list1$recov.c, 
-                    recov.h = (1 -list1$death.h) * list1$recov.h, 
-                    death.y = list1$recov.c * list1$death.y,
-                    death.o = list1$recov.c * list1$death.o,
-                    death.h = list1$death.h * list1$recov.h, 
-                    hosp.y = list1$hosp.y,             
-                    hosp.o = list1$hosp.o, 
-                    vacc.y = list1$vacc.y,     
-                    vacc.o = list1$vacc.o     
+  parameters = list(infect = param$infect, 
+                    recov = param$recov.c, 
+                    recov.h = (1 -param$death.h) * param$recov.h, 
+                    death.y = param$recov.c * param$death.y,
+                    death.o = param$recov.c * param$death.o,
+                    death.h = param$death.h * param$recov.h, 
+                    hosp.y = param$hosp.y,             
+                    hosp.o = param$hosp.o, 
+                    vacc.y = param$vacc.y,     
+                    vacc.o = param$vacc.o     
   )
   
   init = c(T = 1 - 1e-6, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old, Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, 
@@ -438,24 +438,24 @@ sirVaccStrat <- function(time, state, parameters) {
 
 # separat models_hosp, models_vaccine -> 3 fisiere
 
-initSIR_VaccineStrat = function(list ,end.time, p.old = opt.p.old)
+initSIR_VaccineStrat = function(param, end.time, p.old = opt.p.old)
 {
   
   times = seq(0, end.time, by = 1)
   
-  parameters = list(infect = list$infect,
-                    recov.hy = list$recov.h * (1 - list$death.hy),
-                    recov.ho = list$recov.h * (1 - list$death.ho),
-                    recov.y = list$recov.y,
-                    recov.o = list$recov.o,
-                    death.y = list$death.y, 
-                    death.o = list$death.o,
-                    death.hy = list$recov.h * list$death.hy,
-                    death.ho = list$recov.h * list$death.ho,
-                    hosp.y   = list$hosp.y,
-                    hosp.o = list$hosp.o,
-                    vacc.y = list$vacc.y,     
-                    vacc.o = list$vacc.o)
+  parameters = list(infect = param$infect,
+                    recov.hy = param$recov.h * (1 - param$death.hy),
+                    recov.ho = param$recov.h * (1 - param$death.ho),
+                    recov.y = param$recov.y,
+                    recov.o = param$recov.o,
+                    death.y = param$death.y, 
+                    death.o = param$death.o,
+                    death.hy = param$recov.h * param$death.hy,
+                    death.ho = param$recov.h * param$death.ho,
+                    hosp.y   = param$hosp.y,
+                    hosp.o = param$hosp.o,
+                    vacc.y = param$vacc.y,     
+                    vacc.o = param$vacc.o)
   
   init = c(T = 1, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old,
   Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, Hcum = 0.0, Hy = 0.0, 
