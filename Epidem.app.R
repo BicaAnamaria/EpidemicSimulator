@@ -36,9 +36,7 @@ source("Epidem.Diagrams.R")
 
 
 ### Options:
-# lty = linetype 
-opt.sensitivity.lty = 4;
-opt.p.old = 0.2;
+# Global options are set in Epidem.Models.R
 
 ### App
 # user interface

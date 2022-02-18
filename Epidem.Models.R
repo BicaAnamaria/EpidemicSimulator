@@ -19,14 +19,16 @@
 ### Supervisor: Leonard Mada
 ### Syonic SRL
 
-### load libarys
+### Load Libraries
 library(ggplot2)
 library(deSolve)
 
+### Global Options
 opt.delay.vacc = 60;
 opt.p.old = 0.2;
 opt.death.rate.scale = 24;
 opt.hosp.rate.scale = 12;
+opt.sensitivity.lty = 4;
 
 #####################
 #####################
@@ -217,16 +219,17 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
 ### Sensitivity
 
 Sensitivity_Hosp_Com = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
-  for(p in seq(min, max, by=0.05)) {
+  by = (max - min)/20;
+  for(p in seq(min, max, by = by)) {
     opt[[param]] = p;
     
     out = initSIR_Hosp_Com(opt, end.time);
     
-    plotSIR_Hosp(out, flt = flt, add = if(p == 0) FALSE else TRUE,
+    plotSIR_Hosp(out, flt = flt, add = if(p == min) FALSE else TRUE,
                  plot.legend = FALSE, lty = opt.sensitivity.lty);
   }
   
-  opt[[param]] = 0;
+  opt[[param]] = min;
   
   out = initSIR_Hosp_Com(opt, end.time);
   
@@ -249,9 +252,10 @@ Sensitivity_Hosp_Com = function(param, opt, end.time, min=0, max=1, p.old = opt.
 ### Sensitivity Analysis
 getSensitivityVacc = function() {
   c("Vaccination Model" = "Vacc", 
-    "Infection rate (Young)" = "infect.y", "Infection rate (Old)" = "infect.o",
-    "Hospitalization rate " = "hosp",
-    "Death rate" = "death",
+    "Infection rate (Young)" = "infect",
+    "Hosp rate (Young)" = "hosp.y", "Hosp rate (Old)" = "hosp.o",
+    "Death rate (Young)" = "death.y", "Death rate (Old)" = "death.o",
+    "Death rate (Hosp)" = "death.h",
     "Vaccination rate (Young)" = "vacc.y", "Vaccination rate (Old)" = "vacc.o"
   );
 }
@@ -288,22 +292,23 @@ sirVacc <- function(time, state, parameters) {
 }
 
 
-initSIR_Vaccine = function(list1, end.time, p.old = opt.p.old)
+initSIR_Vaccine = function(list1, end.time, p.old = opt.p.old) # list1 = param modificare
 {
   
   times = seq(0, end.time, by = 1)
   # (!) S represents the nr of susceptible young people
   parameters = list(infect = list1$infect, 
-                    recov = list1$recov, 
-                    recov.h = (1 -list1$death.hosp) * list1$recov.hosp, 
-                    death.y = list1$recov * list1$death,
-                    death.o = list1$recov * list1$death.old,
-                    death.h = list1$death.hosp * list1$recov.hosp,
+                    recov = list1$recov.c, 
+                    recov.h = (1 -list1$death.h) * list1$recov.h, 
+                    death.y = list1$recov.c * list1$death.y,
+                    death.o = list1$recov.c * list1$death.o,
+                    death.h = list1$death.h * list1$recov.h, 
                     hosp.y = list1$hosp.y,             
-                    hosp.o = list1$hosp.vacc, 
-                    vacc.y = list1$vacc.young,     
-                    vacc.o = list1$vacc.old     
+                    hosp.o = list1$hosp.o, 
+                    vacc.y = list1$vacc.y,     
+                    vacc.o = list1$vacc.o     
   )
+  
   init = c(T = 1 - 1e-6, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old, Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, 
            Hcum = 0.0, H = 0.0, D = 0.0, R = 0.0, Vaccy =0.0, Vacco = 0.0)
   
@@ -313,7 +318,7 @@ initSIR_Vaccine = function(list1, end.time, p.old = opt.p.old)
 }
   
 
-plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old) {
+plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plot.legend = TRUE, ...) {
   
   lbl = c("Total", "Young", "Old", "Infected (Young)", "Infected (Old)", "Hosp (cumulative)", "Hosp", 
           "Death", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
@@ -344,7 +349,29 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old) {
     
     out = r$out; lbl = r$lbl;
   }
-  plot.sir(out, legend.lbl =  lbl, leg.off=leg.off, title = "SIR Vaccination Model")
+  plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Model", 
+           add = add, plot.legend = plot.legend)
+}
+# elimin com de la sensitivity hosp
+
+Sensitivity_Vaccine = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
+  by = (max - min)/20;
+  for(p in seq(min, max, by = by)) {
+    opt[[param]] = p;
+    
+    out = initSIR_Vaccine(opt, end.time);
+    
+    plotSIR_Vaccine(out, flt = flt, add = if(p == min) FALSE else TRUE,
+                 plot.legend = FALSE, lty = opt.sensitivity.lty);
+  }
+  
+  opt[[param]] = min;
+  
+  out = initSIR_Vaccine(opt, end.time);
+  
+  plotSIR_Vaccine(out, flt = flt,
+               add = TRUE, plot.legend = TRUE,
+               lty = 1);
 }
 
 
@@ -409,7 +436,7 @@ sirVaccStrat <- function(time, state, parameters) {
   )}
 
 
-initSIR_VaccineStrat = function(list ,end.time, p.old = opt.p.old)
+initSIR_VaccineStrat = function(list ,end.time, p.old = opt.p.old, add = FALSE, plot.legend = TRUE, ...)
 {
   
   times = seq(0, end.time, by = 1)
@@ -434,7 +461,7 @@ initSIR_VaccineStrat = function(list ,end.time, p.old = opt.p.old)
   
   
   ### Solve using ode
-  out = solve.sir(sirVaccStrat, init, parameters, times)
+  out = solve.sir(sirVaccStrat, init, parameters, times, add = add, plot.legend = plot.legend)
   return(out);
 }
 plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old") {

@@ -91,23 +91,28 @@ server <- function(input, output){
   output$Vacc = renderPlot({
     valTime = GetTime("V", "timeV");
     custom = list(infect = input$infectV,
-                  recov = input$recovV,
-                  recov.hosp = input$recov.hV,
-                  death = input$deathV,
-                  death.hosp = input$death.hV,
+                  recov.c = input$recovV, # c = community, h = hospital
+                  recov.h = input$recov.hV,
                   hosp.y = input$hosp.yV,
-                  hosp.vacc = input$hosp.vV,
-                  vacc.young = input$vacc.yV / vaccine.rate.scale,
-                  vacc.old = input$vacc.oV / vaccine.rate.scale,
-                  death.old = input$death.oV,
-                  death.oldhosp = input$death.ohV)
+                  hosp.o = input$hosp.vV,
+                  vacc.y = input$vacc.yV / vaccine.rate.scale,
+                  vacc.o = input$vacc.oV / vaccine.rate.scale,
+                  death.y = input$deathV,
+                  death.o = input$death.oV,
+                  death.h = input$death.hV
+                  )
     if(input$toggleV == FALSE){
-      outData = initSIR_Vaccine(custom, valTime)
-      values$outData = outData;
-      plotSIR_Vaccine(outData, flt = input$optTypeV)
+      if(input$optSensitivityVacc == "Vacc") {
+        outData = initSIR_Vaccine(custom, valTime)
+        values$outData = outData;
+        plotSIR_Vaccine(outData, flt = input$optTypeV)
+      } else {
+        Sensitivity_Vaccine(input$optSensitivityVacc, custom, valTime, flt=input$optTypeV);
+      }
     }
     else
       diagram3(scaleX=0.9, scaleY=0.9)
+    
   })
   
   
