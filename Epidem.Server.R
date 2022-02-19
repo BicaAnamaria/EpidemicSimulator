@@ -106,9 +106,11 @@ server <- function(input, output){
         outData = initSIR_Vaccine(custom, valTime)
         values$outData = outData;
         plotSIR_Vaccine(outData, flt = input$optTypeV)
-      } else {
-        Sensitivity_Vaccine(input$optSensitivityVacc, custom, valTime, flt=input$optTypeV);
-      }
+      }else {
+        idParam = match(input$optSensitivityVacc, c("vacc.y", "vacc.o"));
+        max   = if(is.na(idParam)) 1 else 0.005;
+        Sensitivity_Vaccine(input$optSensitivityVacc, custom, valTime, max=max, flt=input$optTypeV);
+      } 
     }
     else
       diagram3(scaleX=0.9, scaleY=0.9)
@@ -139,7 +141,9 @@ server <- function(input, output){
         values$outData = outData;
         plotSIR_VaccineStrat(outData, flt = input$optTypeVS)
       } else {
-        Sensitivity_VaccineStrat(input$optSensitivityVaccStrat, custom, valTime, flt=input$optTypeVS);
+        idParam = match(input$optSensitivityVaccStrat, c("vacc.y", "vacc.o"));
+        max   = if(is.na(idParam)) 1 else 0.005;
+        Sensitivity_VaccineStrat(input$optSensitivityVaccStrat, custom, valTime, max=max, flt=input$optTypeVS);
       }
     } else diagramVS(scaleX=0.4, scaleY=0.4)
     

@@ -350,7 +350,7 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
     out = r$out; lbl = r$lbl;
   }
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Model", 
-           add = add, plot.legend = plot.legend)
+           add = add, plot.legend = plot.legend, ...)
 }
 # elimin com de la sensitivity hosp
 
@@ -498,7 +498,7 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
     out = r$out; lbl = r$lbl;
   }
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Startified Model", 
-           add = add, plot.legend = plot.legend)
+           add = add, plot.legend = plot.legend, ...)
 }
 
 Sensitivity_VaccineStrat = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
