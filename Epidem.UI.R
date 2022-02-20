@@ -65,7 +65,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              column(4, textOutput("txtHosp"),
                                     checkboxInput("toggleH", "Toggle between plot and diagram")), 
                              column(4, selectInput("optType", "Display", getDisplayTypes(), selected="Old")),
-                             column(4, selectInput("optSensitivity", "Sensitivity Analysis", getSensitivity(), selected="SIR"))
+                             column(4, selectInput("optSensitivity", "Sensitivity Analysis", getSensitivity_Hosp(), selected="SIR"))
                            ),
                            plotOutput("Hosp"),
                            # hr(),

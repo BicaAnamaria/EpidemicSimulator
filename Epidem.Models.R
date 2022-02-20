@@ -129,7 +129,7 @@ initSIR_Basic = function(list, end.time){
 # - different mortalities for Hospital vs Community;
 
 ### Sensitivity Analysis
-getSensitivity = function() {
+getSensitivity_Hosp = function() {
   c("Basic Model" = "SIR", "Infection rate" = "infect",
     "Hospitalization rate (Old)" = "hosp.old", "Hospitalization rate (Young)" = "hosp",
     "Death rate (Hospital)" = "death.h", "Death rate (Community)" = "death"
@@ -163,7 +163,7 @@ sirHosp <- function(time, state, parameters) {
   })
 }
 
-initSIR_Hosp_Com = function(opt, end.time, p.old = opt.p.old) {
+initSIR_Hosp = function(opt, end.time, p.old = opt.p.old) {
   times = seq(0, end.time, by = 1) # flt = filter
   # - S = susceptible young people;
   # - O = susceptible old people;
@@ -218,7 +218,7 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
 
 ### Sensitivity
 
-Sensitivity_Hosp_Com = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
+Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
     opt[[param]] = p;

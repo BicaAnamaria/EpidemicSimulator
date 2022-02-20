@@ -77,11 +77,11 @@ server <- function(input, output){
     # Page:
     if(input$toggleH == FALSE) {
       if(input$optSensitivity == "SIR") {
-        outData = initSIR_Hosp_Com(custom, valTime);
+        outData = initSIR_Hosp(custom, valTime);
         values$outData = outData;
         plotSIR_Hosp(outData, flt=input$optType)
       } else {
-        Sensitivity_Hosp_Com(input$optSensitivity, custom, valTime, flt=input$optType);
+        Sensitivity_Hosp(input$optSensitivity, custom, valTime, flt=input$optType);
       }
     } else
       diagram.H();
