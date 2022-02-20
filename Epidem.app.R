@@ -30,9 +30,11 @@ setwd("C:\\Users\\anama\\OneDrive - e-uvt.ro\\Documents\\ANUL III\\Semestrul 1\\
 # SIR models, differential equations
 source("Epidem.Models.R");
 # plot
-source("Epidem.Diagrams.R")
+source("Epidem.Diagrams.R");
 # TODO: cleanup / better version
 # source("TwoViruses3D(with seed).R")
+# Analysis
+source("Epidem.Analysis.R");
 
 
 ### Options:
@@ -40,9 +42,9 @@ source("Epidem.Diagrams.R")
 
 ### App
 # user interface
-source("Epidem.UI.R")
+source("Epidem.UI.R");
 # server
-source("Epidem.Server.R")
+source("Epidem.Server.R");
 
 #vwr = dialogViewer('Epidemic models', width = 1600, height = 1300)
 #runGadget(shinyApp(ui=ui, server=server), viewer = vwr)
