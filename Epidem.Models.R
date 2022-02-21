@@ -170,11 +170,14 @@ initSIR_Hosp = function(opt, end.time, p.old = opt.p.old) {
   # - Hcum = cumulative hospitalization;
   # - Dc = Deceased (community); Dh = Deceased hospital;
   parameters = c(infect = opt$infect,
-                 recov = opt$recov, recov.h = opt$recov.h,
+                 recov = opt$recov, 
+                 recov.h = opt$recov.h,
                  # Death rate: scaled by opt$recov: remove scaling?
-                 death = opt$recov*opt$death, death.old = opt$recov*opt$death.old,
+                 death = opt$recov*opt$death, 
+                 death.old = opt$recov*opt$death.o,
                  death.h = opt$recov.h*opt$death.h,
-                 hosp = opt$hosp, hosp.old = opt$hosp.old)
+                 hosp = opt$hosp, 
+                 hosp.old = opt$hosp.o)
   I0 = 1E-6;
   init = c(T = 1 - I0, Sy = (1 - I0) * (1 - p.old), So = (1 - I0) * p.old,
            I = I0, IOld = 0.0, R = 0.0,

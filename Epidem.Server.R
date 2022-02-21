@@ -71,7 +71,7 @@ server <- function(input, output){
     valTime = GetTime("H", "timeH");
     custom = list(infect = input$infectH,
                   recov = input$recovH, recov.h = input$recov.hH,
-                  death = input$deathH, death.old = input$death.oldH,
+                  death = input$deathH, death.old = input$death.oH,
                   death.h = input$death.hH,
                   hosp = input$hospH, hosp.old = input$hosp.vH);
     # Page:

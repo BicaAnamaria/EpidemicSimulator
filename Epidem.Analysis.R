@@ -20,6 +20,11 @@ library(ggplot2)
 ### Global options
 opt.stat.max.cutoff = 0.8; # 80% 
 
+
+summarySIR = function(x){
+  
+}
+
 ##f1 = function(){
 #  IAll_cum = T[1] - T;
 #  Iy_cum = Sy[1] - Sy;

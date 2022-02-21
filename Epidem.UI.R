@@ -77,12 +77,12 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     ),
                              column(4,
                                     sliderBase("infectH", label="Infection rate", 0.25),
-                                    sliderBase("hosp.vH", label="Hospitalization rate (Old)", opt$hosp.old),
-                                    sliderBase("hospH", label="Hospitalization rate (Young)", opt$hosp.young)
+                                    sliderBase("hosp.vH", label="Hospitalization rate (Old)", opt$hosp.o),
+                                    sliderBase("hospH", label="Hospitalization rate (Young)", opt$hosp.y)
                                    ),
                              column(4,
-                                    sliderBase("death.oldH", label="Death rate (Old)", opt$death.old),
-                                    sliderBase("deathH", label="Death rate (Young)", opt$death.young),
+                                    sliderBase("death.oH", label="Death rate (Old)", opt$death.o),
+                                    sliderBase("deathH", label="Death rate (Young)", opt$death.y),
                                     sliderBase("death.hH", label="Death rate (Hosp)")
                                     )
                            )),
