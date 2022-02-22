@@ -22,22 +22,19 @@ opt.stat.max.cutoff = 0.8; # 80%
 
 
 summarySIR = function(x){
-  
+  #table(x$T);
+  IAll_cum = x$T[1] - x$T;
+  Iy_cum = x$Sy[1] - x$Sy;
+  Io_cum = x$So[1] - x$So;
+  dIT = diff(IAll_cum);
+  dIy = diff(Iy_cum);
+  dIo = diff(Io_cum);
+  maxCutoff = max(dIT) * opt.stat.max.cutoff;
+  isHigher = (dIT >= maxCutoff);
+  daysHigh = rle(isHigher);
+  daysHigh = daysHigh$lengths[daysHigh$values > 0];
+  print(daysHigh)
 }
 
-##f1 = function(){
-#  IAll_cum = T[1] - T;
-#  Iy_cum = Sy[1] - Sy;
-#  Io_cum = So[1] - So;
-#  dIT = diff(IAll_cum);
-#  dIy = diff(Iy_cum);
-#  dIo = diff(Io_cum);
-#  maxCutoff = max(dIT) * opt.stat.max.cutoff;
-#  isHigher = (dIT >= maxCutoff);
-#  daysHigh = rle(isHigher);
-#  daysHigh = daysHigh$lengths[daysHigh$values > 0];
-#  print(daysHigh)
-##}
-#f1()
 
 

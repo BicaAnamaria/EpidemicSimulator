@@ -35,6 +35,9 @@ server <- function(input, output){
   output$txtVacc  = renderText("Complex model: includes a vaccination compartment")
   output$txtVaccStratified = renderText("Complex model: inlude age-stratified vaccination model")
   output$txtTwoVirus = renderText("Complex model: includes two viruses")
+  output$doStatistics = renderText({
+    summarySIR(values$outData);
+  })
   
   values = reactiveValues();
   # active Tab

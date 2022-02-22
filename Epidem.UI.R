@@ -182,6 +182,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                 ),
                 
                 tabPanel("Download",
+                         textOutput("doStatistics"),
                          downloadButton("downloadData", "Download")
                 )
 ))
