@@ -57,8 +57,16 @@ summarySIR = function(x){
   daysHighY = rle(isHigherY);
   daysHighY = daysHighY$lengths[daysHighY$values > 0];
   
-  stat = paste(c("Total: ","Young: ", "Old:"), c(daysHigh, daysHighY))
-  # matrice ?, solutionare new line, de pus titlu Nr of days of ...
+  # maximum number of infected young persons/day
+  maxCutoffO = max(dIo) * opt.stat.max.cutoff;
+  # days with number of infections >= cutoff
+  isHigherO = (dIo >= maxCutoffO);
+  daysHighO = rle(isHigherO);
+  daysHighO = daysHighO$lengths[daysHighO$values > 0];
+  
+  stat = paste(c("Total: ","Young: ", "Old:"), 
+               c(daysHigh, daysHighY, daysHighO))
+
   
   return(stat)
 }
