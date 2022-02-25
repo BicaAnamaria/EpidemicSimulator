@@ -24,19 +24,19 @@ summarySIR = function(x){
   #table(x$T);
   # Daily vaccinated
   if(is.null(x$Vaccy)){
-    Vaccy = 0;
+    Vy = 0;
   } else {
-    Vaccy = x$Vaccy[1] - x$Vaccy;
+    Vy = x$Vy[1] - x$Vy;
   }
-  if(is.null(x$Vaccy)){
-    Vacco = 0;
+  if(is.null(x$Vy)){
+    Vo = 0;
   } else {
-    Vacco = x$Vacco[1] - x$Vacco;
+    Vo = x$Vo[1] - x$Vo;
   }
   # Infected cumulative
-  IAll_cum = x$T[1] - x$T - Vaccy - Vacco;
-  Iy_cum = x$Sy[1] - x$Sy - Vaccy;
-  Io_cum = x$So[1] - x$So - Vacco;
+  IAll_cum = x$T[1] - x$T - Vy - Vo;
+  Iy_cum = x$Sy[1] - x$Sy - Vy;
+  Io_cum = x$So[1] - x$So - Vo;
  
   # Daily infected
   dIT = diff(IAll_cum);

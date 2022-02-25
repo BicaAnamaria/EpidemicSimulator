@@ -315,7 +315,7 @@ initSIR_Vaccine = function(param, end.time, p.old = opt.p.old) # list1 = param m
   )
   
   init = c(T = 1 - 1e-6, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old, Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, 
-           Hcum = 0.0, H = 0.0, D = 0.0, R = 0.0, Vaccy =0.0, Vacco = 0.0)
+           Hcum = 0.0, H = 0.0, D = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
   
   ### Solve using ode
   out = solve.sir(sirVacc, init, parameters, times)
@@ -338,10 +338,10 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
     if(type == 1) {
       r = filter.out(out, c("T", "Hcum"), lbl); }
     else if(type == 2) {
-      r = filter.out(out, c("T", "Hcum", "Io", "So", "Vacco"), lbl);
+      r = filter.out(out, c("T", "Hcum", "Io", "So", "Vo"), lbl);
       leg.off[2] = max(1 - p.old, out$Iy, out$R) - 0.7;
     } else if(type == 3) {
-      r = filter.out(out, c("T", "Hcum", "Sy", "Vaccy", "R"), lbl);
+      r = filter.out(out, c("T", "Hcum", "Sy", "Vy", "R"), lbl);
       leg.off[2] = max(p.old, out$Iy) - 0.7;
     } 
     else if(type == 4){
@@ -349,7 +349,7 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
       out$I = out$Iy + out$Io;
       out$V = out$Vaccy + out$Vacco;
       lbl = c(lbl, "Infected (Total)", "Vaccinated (Total)")
-      r = filter.out(out, c("Iy", "Io", "Vacco", "Vaccy"), lbl);
+      r = filter.out(out, c("Iy", "Io", "Vo", "Vy"), lbl);
     }
     
     out = r$out; lbl = r$lbl;
