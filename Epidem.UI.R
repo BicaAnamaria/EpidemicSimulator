@@ -65,24 +65,24 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              column(4, textOutput("txtHosp"),
                                     checkboxInput("toggleH", "Toggle between plot and diagram")), 
                              column(4, selectInput("optType", "Display", getDisplayTypes(), selected="Old")),
-                             column(4, selectInput("optSensitivity", "Sensitivity Analysis", getSensitivity_Hosp(), selected="SIR"))
+                             column(4, selectInput("optSensitivityH", "Sensitivity Analysis", getSensitivity_Hosp(), selected="SIR"))
                            ),
                            plotOutput("Hosp"),
                            # hr(),
                            
                            fluidRow(
                              column(4, sliderTime("timeH"),
-                                    sliderBase("recovH", label="Recovery rate"),
+                                    sliderBase("recov.cH", label="Recovery rate"),
                                     sliderBase("recov.hH", label="Recovery rate (Hosp)")
                                     ),
                              column(4,
                                     sliderBase("infectH", label="Infection rate", 0.25),
-                                    sliderBase("hosp.vH", label="Hospitalization rate (Old)", opt$hosp.o),
-                                    sliderBase("hospH", label="Hospitalization rate (Young)", opt$hosp.y)
+                                    sliderBase("hosp.oH", label="Hospitalization rate (Old)", opt$hosp.old),
+                                    sliderBase("hosp.yH", label="Hospitalization rate (Young)", opt$hosp.young)
                                    ),
                              column(4,
-                                    sliderBase("death.oH", label="Death rate (Old)", opt$death.o),
-                                    sliderBase("deathH", label="Death rate (Young)", opt$death.y),
+                                    sliderBase("death.oH", label="Death rate (Old)", opt$death.old),
+                                    sliderBase("death.yH", label="Death rate (Young)", opt$death.young),
                                     sliderBase("death.hH", label="Death rate (Hosp)")
                                     )
                            )),

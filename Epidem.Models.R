@@ -131,8 +131,9 @@ initSIR_Basic = function(list, end.time){
 ### Sensitivity Analysis
 getSensitivity_Hosp = function() {
   c("Basic Model" = "SIR", "Infection rate" = "infect",
-    "Hospitalization rate (Old)" = "hosp.old", "Hospitalization rate (Young)" = "hosp",
-    "Death rate (Hospital)" = "death.h", "Death rate (Community)" = "death"
+    "Hospitalization rate (Old)" = "hosp.o", "Hospitalization rate (Young)" = "hosp.y",
+    "Death rate (Hospital)" = "death.h", 
+    "Death rate (Community Old)" = "death.o", "Death rate (Community Young)" = "death.y"
   );
 }
 
@@ -149,15 +150,15 @@ sirHosp <- function(time, state, parameters) {
     dSo = -infect * So * ITot - infect * So * H;
     dT  =  dSy + dSo; # not really needed;
     # Infected
-    dIy = -dSy - recov * IYng - death * IYng - hosp * IYng;
-    dIo = -dSo - recov * IOld - death.old * IOld - hosp.old * IOld;
+    dIy = -dSy - recov.c * IYng - death.y * IYng - hosp.y * IYng;
+    dIo = -dSo - recov.c * IOld - death.o * IOld - hosp.o * IOld;
     # Hospitalized
-    dHcum = hosp * IYng + hosp.old * IOld; # used to extract daily rates;
-    dHy =  hosp * IYng - recov.h * Hy - death.h * Hy;
-    dHo =  hosp.old * IOld - recov.h * Ho - death.h * Ho;
+    dHcum = hosp.y * IYng + hosp.o * IOld; # used to extract daily rates;
+    dHy =  hosp.y * IYng - recov.h * Hy - death.h * Hy;
+    dHo =  hosp.o * IOld - recov.h * Ho - death.h * Ho;
     dH  =  dHcum - recov.h * H - death.h * H;
-    dR  =  recov * IYng + recov * IOld + recov.h * H;
-    dDc =  death * IYng + death.old * IOld; # check if death.old useful?
+    dR  =  recov.c * IYng + recov.c * IOld + recov.h * H;
+    dDc =  death.y * IYng + death.o * IOld; # check if death.old useful?
     dDh =  death.h * H;
     return(list(c(dT, dSy, dSo, dIy, dIo, dR, dHcum, dH, dHy, dHo, dDc, dDh)));
   })
@@ -170,15 +171,15 @@ initSIR_Hosp = function(opt, end.time, p.old = opt.p.old) {
   # - Hcum = cumulative hospitalization;
   # - Dc = Deceased (community); Dh = Deceased hospital;
   parameters = c(infect = opt$infect,
-                 recov = opt$recov, 
+                 recov.c = opt$recov.c, 
                  recov.h = opt$recov.h,
                  # Death rate: scaled by opt$recov: remove scaling?
-                 death = opt$recov*opt$death, 
-                 death.old = opt$recov*opt$death.o,
-                 death.h = opt$recov.h*opt$death.h,
-                 hosp = opt$hosp, 
-                 hosp.old = opt$hosp.o)
-  I0 = 1E-6;
+                 death.y = opt$recov.c * opt$death.y, 
+                 death.o = opt$recov.c * opt$death.o,
+                 death.h = opt$recov.h * opt$death.h,
+                 hosp.y = opt$hosp.y, 
+                 hosp.o = opt$hosp.o)
+  I0 = 1E-6; 
   init = c(T = 1 - I0, Sy = (1 - I0) * (1 - p.old), So = (1 - I0) * p.old,
            I = I0, IOld = 0.0, R = 0.0,
            Hcum = 0.0, H = 0.0, Hy = 0.0, Ho = 0.0, Dc = 0.0, Dh = 0.0); # init = state
@@ -225,8 +226,9 @@ Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, p.old = opt.p.ol
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
     opt[[param]] = p;
+    print(opt)
     
-    out = initSIR_Hosp_Com(opt, end.time);
+    out = initSIR_Hosp(opt, end.time); 
     
     plotSIR_Hosp(out, flt = flt, add = if(p == min) FALSE else TRUE,
                  plot.legend = FALSE, lty = opt.sensitivity.lty);
@@ -234,7 +236,7 @@ Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, p.old = opt.p.ol
   
   opt[[param]] = min;
   
-  out = initSIR_Hosp_Com(opt, end.time);
+  out = initSIR_Hosp(opt, end.time);
   
   plotSIR_Hosp(out, flt = flt,
                    add = TRUE, plot.legend = TRUE,

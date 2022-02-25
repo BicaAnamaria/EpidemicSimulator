@@ -73,18 +73,19 @@ server <- function(input, output){
   output$Hosp <- renderPlot({
     valTime = GetTime("H", "timeH");
     custom = list(infect = input$infectH,
-                  recov = input$recovH, recov.h = input$recov.hH,
-                  death = input$deathH, death.old = input$death.oH,
+                  recov.c = input$recov.cH, recov.h = input$recov.hH,
+                  death.y = input$death.yH, death.o = input$death.oH,
                   death.h = input$death.hH,
-                  hosp = input$hospH, hosp.old = input$hosp.vH);
+                  hosp.y = input$hosp.yH, hosp.o = input$hosp.oH);
     # Page:
     if(input$toggleH == FALSE) {
-      if(input$optSensitivity == "SIR") {
+      if(input$optSensitivityH == "SIR") {
         outData = initSIR_Hosp(custom, valTime);
         values$outData = outData;
         plotSIR_Hosp(outData, flt=input$optType)
       } else {
-        Sensitivity_Hosp(input$optSensitivity, custom, valTime, flt=input$optType);
+        print(custom)
+        Sensitivity_Hosp(input$optSensitivityH, custom, valTime, flt=input$optType);
       }
     } else
       diagram.H();
