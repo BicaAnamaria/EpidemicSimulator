@@ -550,8 +550,8 @@ sir2Viruses <- function(time, state, parameters) {
     dHcum = hosp.v1 * IV1 + hosp.v2 * IV2;
     dDV1 = death.v1 * IV1 + death.hv1 * HV1;
     dDV2 = death.v2 * IV2 + death.hv2 * HV2;
-    dRV1 = recov.v1 * IV1 + recov.hv1 * IV1;
-    dRV2 = recov.v2 * IV2 + recov.hv2 * IV2;
+    dRV1 = recov.v1 * IV1 + recov.hv1 * HV1;
+    dRV2 = recov.v2 * IV2 + recov.hv2 * HV2;
     
     #dIV12 = 0;
     #dIV21 = 0;
