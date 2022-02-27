@@ -173,6 +173,9 @@ server <- function(input, output){
                   hospV2 = input$hospV2
                   
     )
+    if(input$toggle2V == FALSE) {
+      outData = initSIR_2Viruses(custom, valTime) 
+    }
    # TV3D(input$iters, 2)
   })
   

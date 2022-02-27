@@ -585,13 +585,23 @@ initSIR_2Viruses = function(param, end.time)
                     #infect.v1_v2 = param$infectV1V2,
                     #infect.v2_v1 = param$infectV2V1,
                     )
-  
-  init = c(S = (1 - 1e-6),
-           IV1 = 1e-6 , IV2 = 0 , Hcum = 0.0, HV1 = 0.0, 
-           HV2 = 0.0, DV1 = 0.0, DV2 = 0.0, RV1 = 0.0, RV2 = 0.0)
+  print(parameters)
+  init = c(S = (1 - 1e-6), IV1 = 1e-6 , IV2 = 0, 
+           Hcum = 0.0, HV1 = 0.0, HV2 = 0.0, 
+           DV1 = 0.0, DV2 = 0.0, RV1 = 0.0, RV2 = 0.0)
   
   
   ### Solve using ode
   out = solve.sir(sir2Viruses, init, parameters, times)
   return(out);
+}
+
+plotSIR_VaccineStrat = function(out, add = FALSE, plot.legend = TRUE, ...) {
+
+  lbl = c( "Susceptible", "Infected (Virus1)", "Infected (Virus2)", "Hosp (cumulative)", 
+           "Hosp (Virus1)", "Hosp (Virus2)", "Death (Virus1)", "Death (Virus2)",
+           "Recovered(Virus1)", "Recovered(Virus2)") ;
+  leg.off=c(-0.0, 0.3);
+  plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR 2 Virus Model", 
+           add = add, plot.legend = plot.legend, ...)
 }

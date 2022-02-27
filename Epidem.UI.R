@@ -170,7 +170,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   
                   tabPanel("Two Viruses",
                            textOutput("VirusT"),
-                            
+                           checkboxInput("toggle2V","Toggle between plot and diagram"),
                            plotOutput("Virus"),
                         
                            
