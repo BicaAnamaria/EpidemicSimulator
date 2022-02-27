@@ -165,8 +165,8 @@ server <- function(input, output){
                   recovV2.h = input$recovV2.h,
                   deathV1 = input$deathV1,
                   deathV2 = input$deathV2,
-                  #deathV1.h = input$deathV1,
-                  #deathV2.h = input$deathV2,
+                  deathV1.h = input$deathV1.h,
+                  #deathV2.h = input$deathV2.h,
                   hospV1 = input$hospV1,
                   hospV2 = input$hospV2
                   
