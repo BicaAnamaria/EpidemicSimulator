@@ -539,14 +539,17 @@ sir2Viruses <- function(time, state, parameters) {
     if(time == opt.delay.2V){
       dIV2 = 1E-3;
     } 
-    dS = -infect.v1 * S * IV1 - infect.v2 * S * IV2 - infect.v1 * S * HV1 + infect.v2 * S * HV2;
-    dIV1 = infect.v1 * S * HV1 - (death.v1 + hosp.v1 + recov.v1) * IV1;
-    dIV2 = infect.v2 * S * HV2 - (death.v2 + hosp.v2 + recov.v2) * IV2;
+    dI1 = S * infect.v1 * (IV1 + HV1);
+    dI2 = S * infect.v2 * (IV2 + HV2);
+    
+    dS = - dI1 - dI2;
+    dIV1 = dI1 - (death.v1 + hosp.v1 + recov.v1) * IV1;
+    dIV2 = dI2 - (death.v2 + hosp.v2 + recov.v2) * IV2;
     dHV1 = hosp.v1 * IV1 - recov.hv1 * HV1 - death.hv1 * HV1;
     dHV2 = hosp.v2 * IV2 - recov.hv2 * HV2 - death.hv2 * HV2;
     dHcum = hosp.v1 * IV1 + hosp.v2 * IV2;
-    dDV1 = death.v1 * HV1 + death.hv1 * HV1;
-    dDV2 = death.v2 * HV2 + death.hv2 * HV2;
+    dDV1 = death.v1 * IV1 + death.hv1 * HV1;
+    dDV2 = death.v2 * IV2 + death.hv2 * HV2;
     dRV1 = recov.v1 * IV1 + recov.hv1 * IV1;
     dRV2 = recov.v2 * IV2 + recov.hv2 * IV2;
     
