@@ -587,7 +587,7 @@ initSIR_2Viruses = function(param, end.time)
                     )
   
   init = c(S = (1 - 1e-6),
-           IV1 = 1e-6 , IV2 = 1e-6 , Hcum = 0.0, HV1 = 0.0, 
+           IV1 = 1e-6 , IV2 = 0 , Hcum = 0.0, HV1 = 0.0, 
            HV2 = 0.0, DV1 = 0.0, DV2 = 0.0, RV1 = 0.0, RV2 = 0.0)
   
   
