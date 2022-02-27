@@ -25,6 +25,7 @@ library(deSolve)
 
 ### Global Options
 opt.delay.vacc = 60;
+opt.delay.2V = 60;
 opt.p.old = 0.2;
 opt.death.rate.scale = 24;
 opt.hosp.rate.scale = 12;
@@ -297,7 +298,7 @@ sirVacc <- function(time, state, parameters) {
 }
 
 
-initSIR_Vaccine = function(param, end.time, p.old = opt.p.old) # list1 = param modificare
+initSIR_Vaccine = function(param, end.time, p.old = opt.p.old) 
 {
   
   times = seq(0, end.time, by = 1)
@@ -471,6 +472,7 @@ initSIR_VaccineStrat = function(param, end.time, p.old = opt.p.old)
   out = solve.sir(sirVaccStrat, init, parameters, times)
   return(out);
 }
+# Function for display options
 plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALSE, plot.legend = TRUE, ...) {
   head(out, 10)
   lbl = c("Total", "Susceptible (Young)", "Susceptible (Old)", "Infected (Young)", 
@@ -505,7 +507,7 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Startified Model", 
            add = add, plot.legend = plot.legend, ...)
 }
-
+# Sensitivity Analysis
 Sensitivity_VaccineStrat = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
@@ -526,3 +528,50 @@ Sensitivity_VaccineStrat = function(param, opt, end.time, min=0, max=1, p.old = 
                   lty = 1);
 }
 
+######################
+######2 Viruses#######
+######################
+IV2 = 0;
+
+sir2Viruses <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    
+    if(time == opt.delay.2V){
+      dIV2 = 1E-3;
+    } 
+    dS = 0;
+    dIV1 = 0;
+    dIV2 = 0;
+    dHV1 = 0;
+    dHV2 = 0;
+    dRV1 = 0;
+    dRV2 = 0;
+    dIV12 = 0;
+    dIV21 = 0;
+    dSV12 = 0;
+    dSV21 = 0;
+    dHV12 = 0;
+    dHV21 = 0;
+   
+    #return(list(c(dT, dS, dI, dR, dD, dH, dV, dRo, dHo, dDo)));
+    return(list(c()));
+  })
+}
+
+initSIR_2Viruses = function(param, end.time)
+{
+  
+  times = seq(0, end.time, by = 1)
+  
+  parameters = list(infect.v1 = param$infectV1,
+                    infect.v2 = param$infectV2,
+                    
+                    )
+  
+  init = c()
+  
+  
+  ### Solve using ode
+  out = solve.sir(sirVaccStrat, init, parameters, times)
+  return(out);
+}

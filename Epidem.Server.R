@@ -157,8 +157,10 @@ server <- function(input, output){
   ### 2 Viruses
   output$Virus=renderPlot({
     valTime = GetTime("2V", "time2V");
-    custom = list(infect.V1 = input$infectV1,
+    custom = list(infectV1 = input$infectV1,
                   infectV2 = input$infectV2,
+                  infectV1V2 = input$infectV1V2,
+                  infectV2V1 = input$infectV2V1,
                   recovV1 = input$recovV1,
                   recovV2 = input$recovV2,
                   recovV1.h = input$recovV1.h,
@@ -166,12 +168,12 @@ server <- function(input, output){
                   deathV1 = input$deathV1,
                   deathV2 = input$deathV2,
                   deathV1.h = input$deathV1.h,
-                  #deathV2.h = input$deathV2.h,
+                  deathV2.h = input$deathV2.h,
                   hospV1 = input$hospV1,
                   hospV2 = input$hospV2
                   
     )
-    TV3D(input$iters, 2)
+   # TV3D(input$iters, 2)
   })
   
   ### Save Data

@@ -190,13 +190,18 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                   sliderBase("recovV2", label="Recovery rate (Virus 2)"),
                                   sliderBase("deathV1", label="Death rate (Virus 1)"),
                                   sliderBase("deathV2", label="Death rate (Virus 2)"),
-                                  sliderBase("deathV1.h", label="Death rate (Hosp, Virus 2)"),
-                                  
+                                  sliderBase("deathV1.h", label="Death rate (Hosp, Virus 1)")),
+                           column(3,
+                                  sliderBase("infectV1V2", label="Infection rate V1V2"),
+                                  sliderBase("infectV2V1", label="Infection rate V1V2"),
+                                  sliderBase("deathV2.h", label="Death rate (Hosp, Virus 2)") 
+                                  )
+                                               
                                   
                            ),
-                ),
+               
                 
-                tabPanel("Download",
+                tabPanel("Analysis",
                          textOutput("doStatistics"),
                          downloadButton("downloadData", "Download")
                 )
