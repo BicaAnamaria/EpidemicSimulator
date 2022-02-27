@@ -170,15 +170,28 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   
                   tabPanel("Two Viruses",
                            textOutput("VirusT"),
+                            
                            plotOutput("Virus"),
-                           hr(),
+                        
                            
-                           fluidRow(
-                             column(12,
-                                    sliderInput(inputId = "iters", label="Number of iterations",
-                                                value=1, min=1, max=720, step=1,
-                                                animate = animationOptions(interval = 250, loop = FALSE))           
-                             ))
+                           column(3, sliderTime("time2V"),
+                                  sliderBase("infectV1", label="Infection rate (Virus 1)", 0.25),
+                                  sliderBase("hospV1", label="Hospitalization rate (Virus 1)"),
+                                  sliderBase("hospV2", label="Hospitalization rate (Virus 2)")
+                           ),
+                           
+                           column(3,
+                                  sliderBase("infectV2", label="Infection rate (Virus 2)", 0.25),
+                                  sliderBase("recovV1", label="Recovery rate (Virus 1)"),
+                                  sliderBase("recovV1.h", label="Recovery rate (Hosp, Virus 1)"),
+                                  sliderBase("recovV2.h", label="Recovery rate (Hosp, Virus 2)"),
+                           ),
+                           column(3,
+                                  sliderBase("recovV2", label="Recovery rate (Virus 2)"),
+                                  sliderBase("deathV1", label="Death rate (Virus 1)"),
+                                  sliderBase("deathV2", label="Death rate (Virus 2)"),
+                                  
+                           ),
                 ),
                 
                 tabPanel("Download",

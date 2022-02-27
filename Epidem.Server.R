@@ -154,6 +154,26 @@ server <- function(input, output){
     
   })
   
+  ### 2 Viruses
+  output$Virus=renderPlot({
+    valTime = GetTime("2V", "time2V");
+    custom = list(infect.V1 = input$infectV1,
+                  infectV2 = input$infectV2,
+                  recovV1 = input$recovV1,
+                  recovV2 = input$recovV2,
+                  recovV1.h = input$recovV1.h,
+                  recovV2.h = input$recovV2.h,
+                  deathV1 = input$deathV1,
+                  deathV2 = input$deathV2,
+                  #deathV1.h = input$deathV1,
+                  #deathV2.h = input$deathV2,
+                  hospV1 = input$hospV1,
+                  hospV2 = input$hospV2
+                  
+    )
+    TV3D(input$iters, 2)
+  })
+  
   ### Save Data
   output$downloadData <- downloadHandler(
     filename = function() {
@@ -164,18 +184,5 @@ server <- function(input, output){
       write.csv(values$outData, file, row.names = FALSE)
     }
   )
-  
-  ### 2 Viruses
-  output$Virus=renderPlot({
-    custom = list(infect = input$infect2V,
-                   recov = input$recov2V,
-                   death=input$death2V,
-                   death.hosp=input$death.h2V,
-                   hosp=input$hosp2V,
-                   death.old=input$death.o2V,
-                   death.oldhosp=input$death.oh2V
-    )
-    TV3D(input$iters, 2)
-  })
 }
 
