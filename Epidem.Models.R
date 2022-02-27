@@ -550,12 +550,12 @@ sir2Viruses <- function(time, state, parameters) {
     dRV1 = recov.v1 * IV1 + recov.hv1 * IV1;
     dRV2 = recov.v2 * IV2 + recov.hv2 * IV2;
     
-    dIV12 = 0;
-    dIV21 = 0;
-    dSV12 = 0;
-    dSV21 = 0;
-    dHV12 = 0;
-    dHV21 = 0;
+    #dIV12 = 0;
+    #dIV21 = 0;
+    #dSV12 = 0;
+    #dSV21 = 0;
+    #dHV12 = 0;
+    #dHV21 = 0;
     
     #return(list(c(dT, dS, dI, dR, dD, dH, dV, dRo, dHo, dDo)));
     return(list(c(dS, dIV1, dIV2, dHcum, dHV1, dHV2, dDV1, dDV2, dRV1, dRV2)));
@@ -579,8 +579,8 @@ initSIR_2Viruses = function(param, end.time)
                     death.v2 = param$deathV2,
                     death.hv1 = param$deathV1.h,
                     death.hv2 = param$deathV2.h,
-                    infect.v1_v2 = param$infectV1V2,
-                    infect.v2_v1 = param$infectV2V1,
+                    #infect.v1_v2 = param$infectV1V2,
+                    #infect.v2_v1 = param$infectV2V1,
                     )
   
   init = c(S = (1 - 1e-6),

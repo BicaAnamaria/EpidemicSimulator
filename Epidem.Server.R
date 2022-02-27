@@ -159,8 +159,8 @@ server <- function(input, output){
     valTime = GetTime("2V", "time2V");
     custom = list(infectV1 = input$infectV1,
                   infectV2 = input$infectV2,
-                  infectV1V2 = input$infectV1V2,
-                  infectV2V1 = input$infectV2V1,
+                  #infectV1V2 = input$infectV1V2,
+                  #infectV2V1 = input$infectV2V1,
                   recovV1 = input$recovV1,
                   recovV2 = input$recovV2,
                   recovV1.h = input$recovV1.h,
