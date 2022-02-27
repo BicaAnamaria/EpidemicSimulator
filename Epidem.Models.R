@@ -539,22 +539,26 @@ sir2Viruses <- function(time, state, parameters) {
     if(time == opt.delay.2V){
       dIV2 = 1E-3;
     } 
-    dS = 0;
-    dIV1 = 0;
-    dIV2 = 0;
-    dHV1 = 0;
-    dHV2 = 0;
-    dRV1 = 0;
-    dRV2 = 0;
+    dS = -infect.v1 * S * IV1 - infect.v2 * S * IV2 - infect.v1 * S * HV1 + infect.v2 * S * HV2;
+    dIV1 = infect.v1 * S * HV1 - (death.v1 + hosp.v1 + recov.v1) * IV1;
+    dIV2 = infect.v2 * S * HV2 - (death.v2 + hosp.v2 + recov.v2) * IV2;
+    dHV1 = hosp.v1 * IV1 - recov.hv1 * HV1 - death.hv1 * HV1;
+    dHV2 = hosp.v2 * IV2 - recov.hv2 * HV2 - death.hv2 * HV2;
+    dHcum = hosp.v1 * IV1 + hosp.v2 * IV2;
+    dDV1 = death.v1 * HV1 + death.hv1 * HV1;
+    dDV2 = death.v2 * HV2 + death.hv2 * HV2;
+    dRV1 = recov.v1 * IV1 + recov.hv1 * IV1;
+    dRV2 = recov.v2 * IV2 + recov.hv2 * IV2;
+    
     dIV12 = 0;
     dIV21 = 0;
     dSV12 = 0;
     dSV21 = 0;
     dHV12 = 0;
     dHV21 = 0;
-   
+    
     #return(list(c(dT, dS, dI, dR, dD, dH, dV, dRo, dHo, dDo)));
-    return(list(c()));
+    return(list(c(dS, dIV1, dIV2, dHcum, dHV1, dHV2, dDV1, dDV2, dRV1, dRV2)));
   })
 }
 
@@ -565,13 +569,26 @@ initSIR_2Viruses = function(param, end.time)
   
   parameters = list(infect.v1 = param$infectV1,
                     infect.v2 = param$infectV2,
-                    
+                    hosp.v1 = param$hospV1,
+                    hosp.v2 = param$hospV2,
+                    recov.v1 = param$recovV1,
+                    recov.v2 = param$recovV2,
+                    recov.hv1 = param$recovV1 * (1 - param$deathV1),
+                    recov.hv2 = param$recovV2* (1 - param$deathV2),
+                    death.v1 = param$deathV1,
+                    death.v2 = param$deathV2,
+                    death.hv1 = param$deathV1.h,
+                    death.hv2 = param$deathV2.h,
+                    infect.v1_v2 = param$infectV1V2,
+                    infect.v2_v1 = param$infectV2V1,
                     )
   
-  init = c()
+  init = c(S = (1 - 1e-6),
+           IV1 = 1e-6 , IV2 = 1e-6 , Hcum = 0.0, HV1 = 0.0, 
+           HV2 = 0.0, DV1 = 0.0, DV2 = 0.0, RV1 = 0.0, RV2 = 0.0)
   
   
   ### Solve using ode
-  out = solve.sir(sirVaccStrat, init, parameters, times)
+  out = solve.sir(sir2Viruses, init, parameters, times)
   return(out);
 }

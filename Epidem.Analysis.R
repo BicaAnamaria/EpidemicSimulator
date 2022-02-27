@@ -18,6 +18,7 @@
 
 ### Global options
 opt.stat.max.cutoff = 0.8; # 80% 
+opt.population.size = 1E+6;
 
 
 summarySIR = function(x){
@@ -42,6 +43,7 @@ summarySIR = function(x){
   dIT = diff(IAll_cum);
   dIy = diff(Iy_cum);
   dIo = diff(Io_cum);
+  
 
   # maximum number of infected persons/day
   maxCutoff = max(dIT) * opt.stat.max.cutoff;
@@ -64,11 +66,22 @@ summarySIR = function(x){
   daysHighO = rle(isHigherO);
   daysHighO = daysHighO$lengths[daysHighO$values > 0];
   
-  stat = paste(c("Total: ","Young: ", "Old:"), 
-               c(daysHigh, daysHighY, daysHighO))
+  #stat = paste(c("Total: ","Young: ", "Old:"), 
+   #            c(daysHigh, daysHighY, daysHighO))
 
+  dITMax = round(max(dIT) * opt.population.size);
+  dITCutoff = round(maxCutoff * opt.population.size);
   
-  return(stat)
+  results = data.frame(
+    Age = c("Total:", "Young:", "Old:"), 
+    "Duration (days)" = c(daysHigh, daysHighY, daysHighO),
+    "Max infections" = c(dITMax),
+    "Cutoff" = c(dITCutoff)
+  )
+  
+  
+  print(results)
+  return(table(results))
 }
 
 
