@@ -348,7 +348,7 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
     else if(type == 4){
       out$T = out$Sy + out$So;
       out$I = out$Iy + out$Io;
-      out$V = out$Vaccy + out$Vacco;
+      out$V = out$Vy + out$Vo;
       lbl = c(lbl, "Infected (Total)", "Vaccinated (Total)")
       r = filter.out(out, c("Iy", "Io", "Vo", "Vy"), lbl);
     }
@@ -569,7 +569,7 @@ initSIR_2Viruses = function(param, end.time)
 {
   
   times = seq(0, end.time, by = 1)
-  
+  print(param)
   parameters = list(infect.v1 = param$infectV1,
                     infect.v2 = param$infectV2,
                     hosp.v1 = param$hospV1,
@@ -581,7 +581,7 @@ initSIR_2Viruses = function(param, end.time)
                     death.v1 = param$deathV1,
                     death.v2 = param$deathV2,
                     death.hv1 = param$deathV1.h,
-                    death.hv2 = param$deathV2.h,
+                    death.hv2 = param$deathV2.h
                     #infect.v1_v2 = param$infectV1V2,
                     #infect.v2_v1 = param$infectV2V1,
                     )
@@ -596,7 +596,7 @@ initSIR_2Viruses = function(param, end.time)
   return(out);
 }
 
-plotSIR_VaccineStrat = function(out, add = FALSE, plot.legend = TRUE, ...) {
+plotSIR_2Viruses = function(out, add = FALSE, plot.legend = TRUE, ...) {
 
   lbl = c( "Susceptible", "Infected (Virus1)", "Infected (Virus2)", "Hosp (cumulative)", 
            "Hosp (Virus1)", "Hosp (Virus2)", "Death (Virus1)", "Death (Virus2)",
