@@ -187,7 +187,7 @@ initSIR_Hosp = function(opt, end.time, p.old = opt.p.old) {
   
   ### Solve using ode
   out = solve.sir(sirHosp, init, parameters, times)
-  
+  # attr(out, "Model Hospitalisation");
   return(out);
 }
 
@@ -320,6 +320,7 @@ initSIR_Vaccine = function(param, end.time, p.old = opt.p.old)
   
   ### Solve using ode
   out = solve.sir(sirVacc, init, parameters, times)
+  # attr(out, "Model Vaccination");
   return(out);
 }
   
@@ -470,6 +471,7 @@ initSIR_VaccineStrat = function(param, end.time, p.old = opt.p.old)
   
   ### Solve using ode
   out = solve.sir(sirVaccStrat, init, parameters, times)
+  # attr(out, "Model Age Stratified Vaccination");
   return(out);
 }
 # Function for display options
@@ -537,7 +539,7 @@ sir2Viruses <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
     if(time == opt.delay.2V){
-      dIV2 = 1E-3;
+      IV2 = 1E-3;
     } 
     dI1 = S * infect.v1 * (IV1 + HV1);
     dI2 = S * infect.v2 * (IV2 + HV2);
@@ -574,14 +576,14 @@ initSIR_2Viruses = function(param, end.time)
                     infect.v2 = param$infectV2,
                     hosp.v1 = param$hospV1,
                     hosp.v2 = param$hospV2,
-                    recov.v1 = param$recovV1,
-                    recov.v2 = param$recovV2,
-                    recov.hv1 = param$recovV1 * (1 - param$deathV1),
-                    recov.hv2 = param$recovV2* (1 - param$deathV2),
-                    death.v1 = param$deathV1,
-                    death.v2 = param$deathV2,
-                    death.hv1 = param$deathV1.h,
-                    death.hv2 = param$deathV2.h
+                    recov.v1 = param$recovV1 * (1 - param$deathV1),
+                    recov.v2 = param$recovV2 * (1 - param$deathV2),
+                    death.v1 = param$recovV1 * param$deathV1,
+                    death.v2 = param$recovV2 * param$deathV2,
+                    recov.hv1 = param$recovV1.h * (1 - param$deathV1.h),
+                    recov.hv2 = param$recovV2.h * (1 - param$deathV2.h),
+                    death.hv1 = param$recovV1.h * param$deathV1.h,
+                    death.hv2 = param$recovV2.h * param$deathV2.h
                     #infect.v1_v2 = param$infectV1V2,
                     #infect.v2_v1 = param$infectV2V1,
                     )
@@ -593,6 +595,7 @@ initSIR_2Viruses = function(param, end.time)
   
   ### Solve using ode
   out = solve.sir(sir2Viruses, init, parameters, times)
+  # attr(out, "Model 2 Viruses");
   return(out);
 }
 

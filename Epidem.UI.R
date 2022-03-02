@@ -174,14 +174,14 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            plotOutput("Virus"),
                         
                            
-                           column(3, sliderTime("time2V", label = "Time"),
-                                  sliderTime("delayV2", label = "Time delay"),
+                           column(3, sliderTime("time2V", label = "Time", 400),
+                                  sliderTime("delayV2", label = "Time delay", 60),
                                   sliderBase("recovV1", label="Recovery rate (Virus 1)"),
                                   sliderBase("recovV2", label="Recovery rate (Virus 2)")
                            ),
                            
                            column(3,
-                                  sliderBase("infectV1", label="Infection rate (Virus 1)", 0.25),
+                                  sliderBase("infectV1", label="Infection rate (Virus 1)", 0.15),
                                   sliderBase("infectV2", label="Infection rate (Virus 2)", 0.25),
                                   sliderBase("recovV1.h", label="Recovery rate (Hosp, Virus 1)"),
                                   sliderBase("recovV2.h", label="Recovery rate (Hosp, Virus 2)"),
