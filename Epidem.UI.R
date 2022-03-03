@@ -36,11 +36,11 @@
 
 ### Options
 opt = list(hosp.young = 0.01, hosp.old = 0.1, death.young = 0.001, death.old = 0.05);
-opt.max = 720
+opt.val = 200;
 
 
 ### Helper Functions
-sliderTime = function(id, label = "Number of days", val = 200, max = opt.max, step = 1) {
+sliderTime = function(id, label = "Number of days", val = opt.val, max = 720, step = 1) {
   sliderInput(inputId = id, label = label,
               value = val, min = 1, max = max, step = step)
 }
@@ -174,7 +174,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            plotOutput("Virus"),
                         
                            
-                           column(3, sliderTime("time2V", label = "Time", max = 400),
+                           column(3, sliderTime("time2V", label = "Time", val = 300, max = 400),
                                   sliderTime("delayV2", label = "Time delay", val = 30, max = 60),
                                   sliderBase("recovV1", label="Recovery rate (Virus 1)"),
                                   sliderBase("recovV2", label="Recovery rate (Virus 2)")
