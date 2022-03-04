@@ -24,6 +24,9 @@ opt.population.size = 1E+6;
 summarySIR = function(x){
   #table(x$T);
   # Daily vaccinated
+  type = attr(x, "Model");
+  # if (type == "Hospitalization") -> ceva
+  print(type)
   if(is.null(x$Vaccy)){
     Vy = 0;
   } else {
@@ -81,7 +84,7 @@ summarySIR = function(x){
   
   
   print(results)
-  return(table(results))
+  return(results)
 }
 
 

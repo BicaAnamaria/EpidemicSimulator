@@ -35,9 +35,7 @@ server <- function(input, output){
   output$txtVacc  = renderText("Complex model: includes a vaccination compartment")
   output$txtVaccStratified = renderText("Complex model: inlude age-stratified vaccination model")
   output$txtTwoVirus = renderText("Complex model: includes two viruses")
-  output$doStatistics = renderText({
-    summarySIR(values$outData);
-  })
+  
   
   values = reactiveValues();
   # active Tab
@@ -179,6 +177,10 @@ server <- function(input, output){
       plotSIR_2Viruses(outData)
     }
    # TV3D(input$iters, 2)
+  })
+  
+  output$doStatistics = renderTable({
+    summarySIR(values$outData);
   })
   
   ### Save Data

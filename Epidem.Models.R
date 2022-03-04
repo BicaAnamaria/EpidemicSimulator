@@ -116,6 +116,7 @@ initSIR_Basic = function(list, end.time){
   
   ### Plot
   plot.sir(out, legend.lbl = c("Susceptible", "Infected", "Recovered"), leg.off=c(-0.1, 0.3))
+
 }
 
 
@@ -187,7 +188,7 @@ initSIR_Hosp = function(opt, end.time, p.old = opt.p.old) {
   
   ### Solve using ode
   out = solve.sir(sirHosp, init, parameters, times)
-  # attr(out, "Model Hospitalisation");
+  attr(out, "Model") = "Hospitalization";
   return(out);
 }
 
@@ -320,7 +321,7 @@ initSIR_Vaccine = function(param, end.time, p.old = opt.p.old)
   
   ### Solve using ode
   out = solve.sir(sirVacc, init, parameters, times)
-  # attr(out, "Model Vaccination");
+  attr(out, "Model") = "Model Vaccination";
   return(out);
 }
   
@@ -471,7 +472,7 @@ initSIR_VaccineStrat = function(param, end.time, p.old = opt.p.old)
   
   ### Solve using ode
   out = solve.sir(sirVaccStrat, init, parameters, times)
-  # attr(out, "Model Age Stratified Vaccination");
+  attr(out, "Model") = "Model Age Stratified Vaccination";
   return(out);
 }
 # Function for display options
@@ -538,8 +539,9 @@ IV2 = 0;
 sir2Viruses <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
-    if(time == opt.delay.2V){
-      IV2 = 1E-3;
+    if(time < opt.delay.2V){
+      #IV2 = 0;
+      infect.v2 = 0;
     } 
     dI1 = S * infect.v1 * (IV1 + HV1);
     dI2 = S * infect.v2 * (IV2 + HV2);
@@ -588,7 +590,7 @@ initSIR_2Viruses = function(param, end.time)
                     #infect.v2_v1 = param$infectV2V1,
                     )
   print(parameters)
-  init = c(S = (1 - 1e-6), IV1 = 1e-6 , IV2 = 0, 
+  init = c(S = (1 - 1e-6), IV1 = 1e-6 , IV2 = 1e-3, 
            Hcum = 0.0, HV1 = 0.0, HV2 = 0.0, 
            DV1 = 0.0, DV2 = 0.0, RV1 = 0.0, RV2 = 0.0)
   
