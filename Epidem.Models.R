@@ -112,6 +112,7 @@ initSIR_Basic = function(list, end.time){
   init = c(S = 1 - 1e-6, I = 1e-6, R = 0.0)  ### Solve using ode
   ### Solve using ode
   out = solve.sir(basic_sir, init, parameters, times)
+  attr(out, "Model") = "Basic";
   head(out, 10)
   
   ### Plot
@@ -321,7 +322,7 @@ initSIR_Vaccine = function(param, end.time, p.old = opt.p.old)
   
   ### Solve using ode
   out = solve.sir(sirVacc, init, parameters, times)
-  attr(out, "Model") = "Model Vaccination";
+  attr(out, "Model") = "Vaccination";
   return(out);
 }
   
@@ -472,7 +473,7 @@ initSIR_VaccineStrat = function(param, end.time, p.old = opt.p.old)
   
   ### Solve using ode
   out = solve.sir(sirVaccStrat, init, parameters, times)
-  attr(out, "Model") = "Model Age Stratified Vaccination";
+  attr(out, "Model") = "Vaccination Stratified";
   return(out);
 }
 # Function for display options
@@ -507,7 +508,7 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
     
     out = r$out; lbl = r$lbl;
   }
-  plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Startified Model", 
+  plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Stratified Model", 
            add = add, plot.legend = plot.legend, ...)
 }
 # Sensitivity Analysis
@@ -597,7 +598,7 @@ initSIR_2Viruses = function(param, end.time)
   
   ### Solve using ode
   out = solve.sir(sir2Viruses, init, parameters, times)
-  # attr(out, "Model 2 Viruses");
+  attr(out, "Model") = "2 Viruses";
   return(out);
 }
 
