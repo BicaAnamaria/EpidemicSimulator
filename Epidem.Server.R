@@ -181,7 +181,7 @@ server <- function(input, output){
   
   output$doStatistics = renderTable({
     summarySIR(values$outData);
-  })
+  }, align = c('c'))
   
   ### Save Data
   output$downloadData <- downloadHandler(

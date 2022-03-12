@@ -20,6 +20,19 @@
 opt.stat.max.cutoff = 0.8; # 80% 
 opt.population.size = 1E+6;
 
+calculate_parameters <- function(dX){
+  # maximum number of infected persons/day
+  maxCutoff = max(dX) * opt.stat.max.cutoff;
+  # days with number of infections >= cutoff
+  isHigher = (dX >= maxCutoff);
+  daysHigh = rle(isHigher);
+  daysHigh = daysHigh$lengths[daysHigh$values > 0];
+  dXMax = round(max(dX) * opt.population.size);
+  dXCutoff = round(maxCutoff * opt.population.size);
+  
+  
+  return(c(daysHigh, dXMax, dXCutoff));
+}
 
 summarySIR = function(x){
   #table(x$T);
@@ -47,41 +60,23 @@ summarySIR = function(x){
   dIy = diff(Iy_cum);
   dIo = diff(Io_cum);
   
-
-  # maximum number of infected persons/day
-  maxCutoff = max(dIT) * opt.stat.max.cutoff;
-  # days with number of infections >= cutoff
-  isHigher = (dIT >= maxCutoff);
-  daysHigh = rle(isHigher);
-  daysHigh = daysHigh$lengths[daysHigh$values > 0];
-  
-  # maximum number of infected young persons/day
-  maxCutoffY = max(dIy) * opt.stat.max.cutoff;
-  # days with number of infections >= cutoff
-  isHigherY = (dIy >= maxCutoffY);
-  daysHighY = rle(isHigherY);
-  daysHighY = daysHighY$lengths[daysHighY$values > 0];
-  
-  # maximum number of infected young persons/day
-  maxCutoffO = max(dIo) * opt.stat.max.cutoff;
-  # days with number of infections >= cutoff
-  isHigherO = (dIo >= maxCutoffO);
-  daysHighO = rle(isHigherO);
-  daysHighO = daysHighO$lengths[daysHighO$values > 0];
-  
-  #stat = paste(c("Total: ","Young: ", "Old:"), 
-   #            c(daysHigh, daysHighY, daysHighO))
-
-  dITMax = round(max(dIT) * opt.population.size);
-  dITCutoff = round(maxCutoff * opt.population.size);
+  param_T = calculate_parameters(dIT);
+  param_Iy = calculate_parameters(dIy);
+  param_Io = calculate_parameters(dIo);
   
   results = data.frame(
     Age = c("Total:", "Young:", "Old:"), 
-    "Duration (days)" = c(daysHigh, daysHighY, daysHighO),
-    "Max infections" = c(dITMax),
-    "Cutoff" = c(dITCutoff)
+    "Duration (days)" = c(param_T[1], param_Iy[1], param_Io[1]),
+    "Max infections" = c(param_T[2], param_Iy[2], param_Io[2]),
+    "Cutoff" = c(param_T[3], param_Iy[3], param_Io[3]),
+    "Unit" = "Persons/million",
+    check.names = FALSE
   )
   
+  # repetate statistici pt mortalitate si spitalizari
+  # fct cu parametri 
+  # R bind => rbind(df1, df2, df3)
+  # fct pt old/y/t 
   
   print(results)
   return(results)
