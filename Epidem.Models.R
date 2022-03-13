@@ -147,21 +147,20 @@ getDisplayTypes = function() {
 
 sirHosp <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
-    IYng = I;
-    ITot = IYng + IOld; # all infected (young & old) can infect!
+    ITot = Iy + Io; # all infected (young & old) can infect!
     dSy = -infect * Sy * ITot - infect * Sy * H; # both I & H infect!
     dSo = -infect * So * ITot - infect * So * H;
     dT  =  dSy + dSo; # not really needed;
     # Infected
-    dIy = -dSy - recov.c * IYng - death.y * IYng - hosp.y * IYng;
-    dIo = -dSo - recov.c * IOld - death.o * IOld - hosp.o * IOld;
+    dIy = -dSy - recov.c * Iy - death.y * Iy - hosp.y * Iy;
+    dIo = -dSo - recov.c * Io - death.o * Io - hosp.o * Io;
     # Hospitalized
-    dHcum = hosp.y * IYng + hosp.o * IOld; # used to extract daily rates;
-    dHy =  hosp.y * IYng - recov.h * Hy - death.h * Hy;
-    dHo =  hosp.o * IOld - recov.h * Ho - death.h * Ho;
+    dHcum = hosp.y * Iy + hosp.o * Io; # used to extract daily rates;
+    dHy =  hosp.y * Iy - recov.h * Hy - death.h * Hy;
+    dHo =  hosp.o * Io - recov.h * Ho - death.h * Ho;
     dH  =  dHcum - recov.h * H - death.h * H;
-    dR  =  recov.c * IYng + recov.c * IOld + recov.h * H;
-    dDc =  death.y * IYng + death.o * IOld; # check if death.old useful?
+    dR  =  recov.c * Iy + recov.c * Io + recov.h * H;
+    dDc =  death.y * Iy + death.o * Io; # check if death.old useful?
     dDh =  death.h * H;
     return(list(c(dT, dSy, dSo, dIy, dIo, dR, dHcum, dH, dHy, dHo, dDc, dDh)));
   })
@@ -184,7 +183,7 @@ initSIR_Hosp = function(opt, end.time, p.old = opt.p.old) {
                  hosp.o = opt$hosp.o)
   I0 = 1E-6; 
   init = c(T = 1 - I0, Sy = (1 - I0) * (1 - p.old), So = (1 - I0) * p.old,
-           I = I0, IOld = 0.0, R = 0.0,
+           Iy = I0, Io = 0.0, R = 0.0,
            Hcum = 0.0, H = 0.0, Hy = 0.0, Ho = 0.0, Dc = 0.0, Dh = 0.0); # init = state
   
   ### Solve using ode
