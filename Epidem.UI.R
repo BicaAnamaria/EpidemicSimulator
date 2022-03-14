@@ -143,12 +143,12 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            fluidRow(
                              column(3, sliderTime("timeVS"),
                                     sliderBase("infectVS", label="Infection rate", 0.25),
-                                    sliderBase("hosp.oldVS", label="Hospitalization rate (Old)"),
+                                    sliderBase("hosp.oVS", label="Hospitalization rate (Old)"),
                                     sliderBase("hosp.yVS", label="Hospitalization rate (Young)")
                              ),
                              # sliderBase("recov.hosp.yVS", label="Rate of recovery in hospitals (young)")),
                              column(3,
-                                    sliderBase("recov.oldVS", label="Recovery rate (Old)"),
+                                    sliderBase("recov.oVS", label="Recovery rate (Old)"),
                                     sliderBase("recov.yVS", label="Recovery rate (Young)"),
                                     sliderBase("recov.hVS", label="Recovery rate (Hosp)")
                              ),
@@ -175,7 +175,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            plotOutput("Virus"),
                            
                            
-                           column(3, sliderTime("time2V", label = "Time",  max = 400),
+                           column(3, sliderTime("time2V", label = "Time"),
                                   sliderTime("delayV2", label = "Time delay", max = 60),
                                   sliderBase("recovV1", label="Recovery rate (Virus 1)"),
                                   sliderBase("recovV2", label="Recovery rate (Virus 2)")
@@ -202,6 +202,40 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            
                            
                   ),
+                  
+                  tabPanel("Age Groups Stratified Model",
+                           
+                           textOutput("AgeGroupsT"),
+                           checkboxInput("toggle2V","Toggle between plot and diagram"),
+                           plotOutput("AgeGroupsModel"),
+                           
+                           fluidRow(
+                             column(3, 
+                                    sliderTime("timeAG"),
+                                    sliderBase("infect.c", label="Infection rate children", 0.25),
+                                    sliderBase("infect.a", label="Infection rate adults", 0.15),
+                             ),
+                             column(3,
+                                    sliderBase("recov.c", label="Recovery rate children"),
+                                    sliderBase("recov.a", label="Recovery rate adults"),
+                                    sliderBase("recov.hc", label="Recovery rate children (Hosp)"),
+                                    sliderBase("recov.ha", label="Recovery rate adults (Hosp)")
+                             ),
+                             column(3,
+                                    sliderBase("death.c", label="Death rate children"),
+                                    sliderBase("death.a", label="Death rate adults"),
+                                    sliderBase("death.hc", label="Death rate children(Hosp)"),
+                                    sliderBase("death.ha", label="Death rate adults(Hosp)") 
+                             ),
+                             
+                             column(3,
+                                    sliderBase("hosp.c", label="Hospitalization rate children"),
+                                    sliderBase("hosp.a", label="Hospitalization rate adults")
+                                    
+                             )
+                             
+                           )
+                  ), 
                   
                   
                   tabPanel("Analysis",

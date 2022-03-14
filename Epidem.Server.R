@@ -126,9 +126,9 @@ server <- function(input, output){
       infect = input$infectVS,
       recov.h = input$recov.hVS,
       recov.y = input$recov.yVS,
-      recov.o = input$recov.oldVS, # aprox 0.14
+      recov.o = input$recov.oVS, # aprox 0.14
       hosp.y = input$hosp.yVS,
-      hosp.o = input$hosp.oldVS,
+      hosp.o = input$hosp.oVS,
       vacc.o = input$vacc.oVS / vaccine.rate.scale,
       vacc.y = input$vacc.yVS / vaccine.rate.scale,
       death.y = input$death.yVS,
