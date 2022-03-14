@@ -316,7 +316,8 @@ initSIR_Vaccine = function(param, end.time, p.old = opt.p.old)
                     vacc.o = param$vacc.o     
   )
   
-  init = c(T = 1 - 1e-6, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old, Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, 
+  init = c(T = 1 - 1e-6, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old, 
+           Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, 
            Hcum = 0.0, H = 0.0, D = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
   
   ### Solve using ode
