@@ -35,7 +35,7 @@ server <- function(input, output){
   output$txtVacc  = renderText("Complex model: includes a vaccination compartment")
   output$txtVaccStratified = renderText("Complex model: inlude age-stratified vaccination model")
   output$txtTwoVirus = renderText("Complex model: includes two viruses")
-  
+  output$txtAgeGroups3 = renderText("Complex model: includes age groups stratified model")
   
   values = reactiveValues();
   # active Tab
@@ -177,6 +177,38 @@ server <- function(input, output){
       plotSIR_2Viruses(outData)
     }
    # TV3D(input$iters, 2)
+  })
+  
+  ### Age Groups
+  output$AG3=renderPlot({
+    valTime = GetTime("AG3", "timeAG3");
+    custom = list(infectAG3.c = input$infectAG3.c,
+                  infectAG3.a = input$infectAG3.a,
+                  infectAG3.o = input$infectAG3.o,
+                  recovAG3.c = input$recovAG3.c,
+                  recovAG3.a = input$recovAG3.a,
+                  recovAG3.o = input$recovAG3.o,
+                  recovAG3.hc = input$recovAG3.hc,
+                  recovAG3.ha = input$recovV2.ha,
+                  recovAG3.ho = input$recovV2.ho,
+                  deathAG3.c = input$deathAG3.c,
+                  deathAG3.a = input$deathAG3.a,
+                  deathAG3.o = input$deathAG3.o,
+                  deathAG3.hc = input$deathAG3.hc,
+                  deathAG3.ha = input$deathAG3.ha,
+                  deathAG3.ho = input$deathAG3.ho,
+                  hospAG3.c = input$hospAG3.c,
+                  hospAG3.a = input$hospAG3.a,
+                  hospAG3.o = input$hospAG3.o
+                  
+    )
+    if(input$toggleAG3 == FALSE) {
+      outData = initSIR_AG3(custom, valTime) 
+      values$outData = outData;
+      print(outData)
+      plotSIR_AG3(outData)
+    }
+    # TV3D(input$iters, 2)
   })
   
   output$doStatistics = renderTable({

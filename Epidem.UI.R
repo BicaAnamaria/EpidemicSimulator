@@ -205,32 +205,39 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   
                   tabPanel("Age Groups Stratified Model",
                            
-                           textOutput("AgeGroupsT"),
-                           checkboxInput("toggle2V","Toggle between plot and diagram"),
+                           textOutput("txtAgeGroups3"),
+                           checkboxInput("toggleAG3","Toggle between plot and diagram"),
                            plotOutput("AgeGroupsModel"),
                            
                            fluidRow(
                              column(3, 
-                                    sliderTime("timeAG"),
-                                    sliderBase("infect.c", label="Infection rate children", 0.25),
-                                    sliderBase("infect.a", label="Infection rate adults", 0.15),
+                                    sliderTime("timeAG3"),
+                                    sliderBase("infectAG3.c", label="Infection rate children", 0.25),
+                                    sliderBase("infectAG3.a", label="Infection rate adults", 0.15),
+                                    sliderBase("infectAG3.o", label="Infection rate elders", 0.15),
+                                    sliderBase("deathAG3.hc", label="Death rate children(Hosp)"),
                              ),
                              column(3,
-                                    sliderBase("recov.c", label="Recovery rate children"),
-                                    sliderBase("recov.a", label="Recovery rate adults"),
-                                    sliderBase("recov.hc", label="Recovery rate children (Hosp)"),
-                                    sliderBase("recov.ha", label="Recovery rate adults (Hosp)")
+                                    sliderBase("recovAG3.c", label="Recovery rate children"),
+                                    sliderBase("recovAG3.a", label="Recovery rate adults"),
+                                    sliderBase("recovAG3.o", label="Recovery rate elders"),
+                                    sliderBase("recovAG3.hc", label="Recovery rate children (Hosp)"),
+                                    sliderBase("deathAG3.ha", label="Death rate adults(Hosp)")
                              ),
                              column(3,
-                                    sliderBase("death.c", label="Death rate children"),
-                                    sliderBase("death.a", label="Death rate adults"),
-                                    sliderBase("death.hc", label="Death rate children(Hosp)"),
-                                    sliderBase("death.ha", label="Death rate adults(Hosp)") 
+                                    sliderBase("deathAG3.c", label="Death rate children"),
+                                    sliderBase("deathAG3.a", label="Death rate adults"),
+                                    sliderBase("deathAG3.o", label="Death rate elders"),
+                                    sliderBase("recovAG3.ha", label="Recovery rate adults (Hosp)"),
+                                    sliderBase("deathAG3.ho", label="Death rate elders(Hosp)")
                              ),
                              
                              column(3,
-                                    sliderBase("hosp.c", label="Hospitalization rate children"),
-                                    sliderBase("hosp.a", label="Hospitalization rate adults")
+                                    sliderBase("hospAG3.c", label="Hospitalization rate children"),
+                                    sliderBase("hospAG3.a", label="Hospitalization rate adults"),
+                                    sliderBase("hospAG3.o", label="Hospitalization rate elders"),
+                                    sliderBase("recovAG3.ho", label="Recovery rate elders (Hosp)"),
+                                    
                                     
                              )
                              
