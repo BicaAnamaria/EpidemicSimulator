@@ -33,7 +33,15 @@ calculate_parameters <- function(dX, category = NULL){
   }
 }
 
+# generic function
 summarySIR = function(x){
+  results = rbind(summarySIR_Infected(x), summarySIR_Death(x));
+  print(results)
+  return(results)
+}
+
+summarySIR_Infected = function(x)
+{
   #table(x$T);
   # Daily vaccinated
   type = attr(x, "Model");
@@ -65,20 +73,22 @@ summarySIR = function(x){
   param_Io = calculate_parameters(dIo, ctgs[3]);
   
   results = rbind(param_IT, param_Iy, param_Io);
-  names(results) = c("Age", "Duration (days)", "Max infections", "Cutoff");
+  # names(results) = c("Age", "Duration (days)", "Max infections", "Cutoff");
+  # TODO: Very ugly hack
+  names(results) = c("Age", "Duration (days)", "Max", "Cutoff");
   results$Unit = "Persons/million";
   
+  # TODO: coloana in fata cu ce inseamna + statistical hosp
  
   
   # repetate statistici pt mortalitate si spitalizari
   # fct cu parametri 
   # R bind => rbind(df1, df2, df3)
   # fct pt old/y/t 
-  print(results)
   return(results)
 }
 
-summarySIRDeath = function(x){
+summarySIR_Death = function(x){
   type = attr(x, "Model");
   # if (type == "Hospitalization") -> ceva
   print(type)
@@ -92,20 +102,26 @@ summarySIRDeath = function(x){
   } else {
     Vo = x$Vo[1] - x$Vo;
   }
-  # Infected cumulative
-  Dc_cum = x$Dc[1] - x$Dc - Vy;
-  Dh_cum = x$Dh[1] - x$Dh - Vo;
+  # Death cumulative
+  Dc_cum = x$Dc - x$Dc[1];
+  Dh_cum = x$Dh - x$Dh[1];
+  DT_cum = Dc_cum + Dh_cum;
   
-  # Daily infected
+  # Daily death
+  dDT = diff(DT_cum);
   dDc = diff(Dc_cum);
   dDh = diff(Dh_cum);
   
-  ctgs = c("Young:", "Old:");
+  ctgs = c("Total:", "Community:", "Hospital:");
+  param_DT = calculate_parameters(dDT, ctgs[1]);
   param_Dc = calculate_parameters(dDc, ctgs[2]);
   param_Dh = calculate_parameters(dDh, ctgs[3]);
   
-  results = rbind( param_Dc, param_Dh);
-  names(results) = c("Age", "Duration (days)", "Max deaths", "Cutoff");
+  results = rbind(param_DT, param_Dc, param_Dh);
+  
+  #names(results) = c("Age", "Duration (days)", "Max deaths", "Cutoff");
+  # TODO: Very ugly hack
+  names(results) = c("Age", "Duration (days)", "Max", "Cutoff");
   results$Unit = "Persons/million";
   
   return(results)

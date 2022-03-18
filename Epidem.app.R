@@ -26,6 +26,8 @@ library(shinyjs)
 setwd("C:\\Users\\anama\\OneDrive - e-uvt.ro\\Documents\\ANUL III\\Semestrul 1\\Licenta\\Simulator")
 
 # load 4 external files with source command
+### Options:
+source("Epidem.Options.R")
 
 # SIR models, differential equations
 source("Epidem.Models.R");
@@ -36,9 +38,6 @@ source("Epidem.Diagrams.R");
 # Analysis
 source("Epidem.Analysis.R");
 
-
-### Options:
-source("Epidem.Options.R")
 
 ### App
 # user interface

@@ -1,0 +1,79 @@
+######################
+######2 Viruses#######
+######################
+IV2 = 0;
+
+sir2Viruses <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    
+    if(time < opt.delay.2V){
+      #IV2 = 0;
+      infect.v2 = 0;
+    } 
+    dI1 = S * infect.v1 * (IV1 + HV1);
+    dI2 = S * infect.v2 * (IV2 + HV2);
+    
+    dS = - dI1 - dI2;
+    dIV1 = dI1 - (death.v1 + hosp.v1 + recov.v1) * IV1;
+    dIV2 = dI2 - (death.v2 + hosp.v2 + recov.v2) * IV2;
+    dHV1 = hosp.v1 * IV1 - recov.hv1 * HV1 - death.hv1 * HV1;
+    dHV2 = hosp.v2 * IV2 - recov.hv2 * HV2 - death.hv2 * HV2;
+    dHcum = hosp.v1 * IV1 + hosp.v2 * IV2;
+    dDV1 = death.v1 * IV1 + death.hv1 * HV1;
+    dDV2 = death.v2 * IV2 + death.hv2 * HV2;
+    dRV1 = recov.v1 * IV1 + recov.hv1 * HV1;
+    dRV2 = recov.v2 * IV2 + recov.hv2 * HV2;
+    
+    #dIV12 = 0;
+    #dIV21 = 0;
+    #dSV12 = 0;
+    #dSV21 = 0;
+    #dHV12 = 0;
+    #dHV21 = 0;
+    
+    #return(list(c(dT, dS, dI, dR, dD, dH, dV, dRo, dHo, dDo)));
+    return(list(c(dS, dIV1, dIV2, dHcum, dHV1, dHV2, dDV1, dDV2, dRV1, dRV2)));
+  })
+}
+
+initSIR_2Viruses = function(param, end.time)
+{
+  
+  times = seq(0, end.time, by = 1)
+  print(param)
+  parameters = list(infect.v1 = param$infectV1,
+                    infect.v2 = param$infectV2,
+                    hosp.v1 = param$hospV1,
+                    hosp.v2 = param$hospV2,
+                    recov.v1 = param$recovV1 * (1 - param$deathV1),
+                    recov.v2 = param$recovV2 * (1 - param$deathV2),
+                    death.v1 = param$recovV1 * param$deathV1,
+                    death.v2 = param$recovV2 * param$deathV2,
+                    recov.hv1 = param$recovV1.h * (1 - param$deathV1.h),
+                    recov.hv2 = param$recovV2.h * (1 - param$deathV2.h),
+                    death.hv1 = param$recovV1.h * param$deathV1.h,
+                    death.hv2 = param$recovV2.h * param$deathV2.h
+                    #infect.v1_v2 = param$infectV1V2,
+                    #infect.v2_v1 = param$infectV2V1,
+  )
+  print(parameters)
+  init = c(S = (1 - 1e-6), IV1 = 1e-6 , IV2 = 1e-3, 
+           Hcum = 0.0, HV1 = 0.0, HV2 = 0.0, 
+           DV1 = 0.0, DV2 = 0.0, RV1 = 0.0, RV2 = 0.0)
+  
+  
+  ### Solve using ode
+  out = solve.sir(sir2Viruses, init, parameters, times)
+  attr(out, "Model") = "2 Viruses";
+  return(out);
+}
+
+plotSIR_2Viruses = function(out, add = FALSE, plot.legend = TRUE, ...) {
+  
+  lbl = c( "Susceptible", "Infected (Virus1)", "Infected (Virus2)", "Hosp (cumulative)", 
+           "Hosp (Virus1)", "Hosp (Virus2)", "Death (Virus1)", "Death (Virus2)",
+           "Recovered (Virus1)", "Recovered (Virus2)") ;
+  leg.off=c(-0.0, 0.3);
+  plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR 2 Virus Model", 
+           add = add, plot.legend = plot.legend, ...)
+}

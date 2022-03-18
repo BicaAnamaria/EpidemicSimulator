@@ -180,17 +180,18 @@ server <- function(input, output){
   })
   
   ### Age Groups
-  output$AG3=renderPlot({
+  output$AgeGroupsModel = renderPlot({
     valTime = GetTime("AG3", "timeAG3");
-    custom = list(infectAG3.c = input$infectAG3.c,
-                  infectAG3.a = input$infectAG3.a,
-                  infectAG3.o = input$infectAG3.o,
+    custom = list(infectAG3.cc = input$infectAG3.cc,
+                  infectAG3.cn = input$infectAG3.cn,
+                  infectAG3.nn = input$infectAG3.nn,
+                  infectAG3.nc = input$infectAG3.nc,
                   recovAG3.c = input$recovAG3.c,
                   recovAG3.a = input$recovAG3.a,
                   recovAG3.o = input$recovAG3.o,
                   recovAG3.hc = input$recovAG3.hc,
-                  recovAG3.ha = input$recovV2.ha,
-                  recovAG3.ho = input$recovV2.ho,
+                  recovAG3.ha = input$recovAG3.ha,
+                  recovAG3.ho = input$recovAG3.ho,
                   deathAG3.c = input$deathAG3.c,
                   deathAG3.a = input$deathAG3.a,
                   deathAG3.o = input$deathAG3.o,

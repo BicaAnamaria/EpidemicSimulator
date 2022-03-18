@@ -24,9 +24,9 @@ library(ggplot2)
 library(deSolve)
 
 # load models
-source("Epidem.Vaccine.R");
-source("Epidem.Viruses.R");
-source("Epidem.AgeGroups.R");
+source("Epidem.Model.Vaccine.R");
+source("Epidem.Model.Viruses.R");
+source("Epidem.Model.AgeGroups.R");
 
 #####################
 #####################
@@ -205,7 +205,7 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
     out$DeathAll = out$Dc + out$Dh;
     out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; # modify hospitalisation rate 
 
-    lbl = c(lbl, "Death", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
+    lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
     if(type == 2) {
       r = filter.out(out, c("T", "Hy", "Ho", "Dc", "Dh"), lbl);
     } else if(type == 3) {
@@ -242,14 +242,3 @@ Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, p.old = opt.p.ol
                    lty = 1);
 }
 
-
-### Daily Mortality
-#lines(c(0, times), (c(out$D, 0) - c(0, out$D)) * 30, col="red")
-day_mort=function()
-{
-  dD = diff(out$D, lag=1)
-  dD = c(0, dD)
-  lines(times, dD * 30, col="red") # * 30 = uses a different scaling!
-  max(dD*100)
-  plot(cut(dD*100, breaks = 100))
-}

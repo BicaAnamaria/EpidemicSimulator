@@ -212,24 +212,27 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            fluidRow(
                              column(3, 
                                     sliderTime("timeAG3"),
-                                    sliderBase("infectAG3.c", label="Infection rate children", 0.25),
-                                    sliderBase("infectAG3.a", label="Infection rate adults", 0.15),
-                                    sliderBase("infectAG3.o", label="Infection rate elders", 0.15),
-                                    sliderBase("deathAG3.hc", label="Death rate children(Hosp)"),
+                                    sliderBase("infectAG3.cc", label="Infection rate btw children", 0.35),
+                                    sliderBase("infectAG3.cn", label="Infection rate btw children and others", 0.15),
+                                    sliderBase("infectAG3.nn", label="Infection rate btw others and others", 0.15),
+                                    sliderBase("infectAG3.nc", label="Infection rate btw others and children", 0.15),
+                                    
                              ),
                              column(3,
                                     sliderBase("recovAG3.c", label="Recovery rate children"),
                                     sliderBase("recovAG3.a", label="Recovery rate adults"),
                                     sliderBase("recovAG3.o", label="Recovery rate elders"),
                                     sliderBase("recovAG3.hc", label="Recovery rate children (Hosp)"),
-                                    sliderBase("deathAG3.ha", label="Death rate adults(Hosp)")
+                                    sliderBase("deathAG3.hc", label="Death rate children(Hosp)")
+                                    
                              ),
                              column(3,
                                     sliderBase("deathAG3.c", label="Death rate children"),
                                     sliderBase("deathAG3.a", label="Death rate adults"),
                                     sliderBase("deathAG3.o", label="Death rate elders"),
                                     sliderBase("recovAG3.ha", label="Recovery rate adults (Hosp)"),
-                                    sliderBase("deathAG3.ho", label="Death rate elders(Hosp)")
+                                    sliderBase("deathAG3.ha", label="Death rate adults(Hosp)")
+                                    
                              ),
                              
                              column(3,
@@ -237,6 +240,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     sliderBase("hospAG3.a", label="Hospitalization rate adults"),
                                     sliderBase("hospAG3.o", label="Hospitalization rate elders"),
                                     sliderBase("recovAG3.ho", label="Recovery rate elders (Hosp)"),
+                                    sliderBase("deathAG3.ho", label="Death rate elders(Hosp)")
                                     
                                     
                              )
