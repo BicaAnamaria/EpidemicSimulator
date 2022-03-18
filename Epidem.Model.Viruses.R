@@ -6,10 +6,10 @@ IV2 = 0;
 sir2Viruses <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
-    if(time < opt.delay.2V){
-      #IV2 = 0;
-      infect.v2 = 0;
-    } 
+   # if(time < opt.delay.2V){
+   #   #IV2 = 0;
+   #   infect.v2 = 0;
+  #  } 
     dI1 = S * infect.v1 * (IV1 + HV1);
     dI2 = S * infect.v2 * (IV2 + HV2);
     
@@ -57,13 +57,28 @@ initSIR_2Viruses = function(param, end.time)
                     #infect.v2_v1 = param$infectV2V1,
   )
   print(parameters)
-  init = c(S = (1 - 1e-6), IV1 = 1e-6 , IV2 = 1e-3, 
+  init = c(S = (1 - 1e-6), IV1 = 1e-6 , IV2 = 0.0, 
            Hcum = 0.0, HV1 = 0.0, HV2 = 0.0, 
            DV1 = 0.0, DV2 = 0.0, RV1 = 0.0, RV2 = 0.0)
   
-  
-  ### Solve using ode
-  out = solve.sir(sir2Viruses, init, parameters, times)
+  # Period 1:
+  # set also: initi$IV2 = 0;
+  times1 = seq(0, opt.delay.2V);
+  out1 = solve.sir(sir2Viruses, init, parameters, times1);
+  # Period 2:
+  times2 = seq(opt.delay.2V, end.time);
+  idIV1 = which(names(init) == 'IV1')
+  idIV2 = which(names(init) == 'IV2')
+  len = nrow(out1);
+  init = unlist(out1[len, -1]);
+  init[idIV2] = init[idIV1] * opt.2V.pmutation;
+  init[idIV1] = init[idIV1] - init[idIV2];
+  print(str(init))
+  out2 = solve.sir(sir2Viruses, init, parameters, times2);
+  # Merge results
+  out1 = out1[ - len, ];
+  out = rbind(out1, out2);
+  # out = solve.sir(sir2Viruses, init, parameters, times)
   attr(out, "Model") = "2 Viruses";
   return(out);
 }
