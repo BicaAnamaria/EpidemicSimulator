@@ -38,7 +38,7 @@ source("Epidem.Analysis.R");
 
 
 ### Options:
-# Global options are set in Epidem.Models.R
+source("Epidem.Options.R")
 
 ### App
 # user interface

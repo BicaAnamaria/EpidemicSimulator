@@ -16,9 +16,6 @@
 ###   Liviu Sopon and Dragos Ursan
 ###   West University, Timisoara
 
-### Global options
-opt.stat.max.cutoff = 0.8; # 80% 
-opt.population.size = 1E+6;
 
 calculate_parameters <- function(dX, category = NULL){
   # maximum number of infected persons/day
