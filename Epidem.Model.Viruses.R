@@ -43,7 +43,7 @@ initSIR_2Viruses = function(param, end.time)
 {
   
   times = seq(0, end.time, by = 1)
-  parameters = list(delay.2V = param$delayV2,
+  parameters = list(opt.delay.2V = param$delayV2,
                     infect.v1 = param$infectV1,
                     infect.v2 = param$infectV2,
                     hosp.v1 = param$hospV1,
