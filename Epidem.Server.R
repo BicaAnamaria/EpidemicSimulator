@@ -155,7 +155,8 @@ server <- function(input, output){
   ### 2 Viruses
   output$Virus=renderPlot({
     valTime = GetTime("2V", "time2V");
-    custom = list(infectV1 = input$infectV1,
+    custom = list(delayV2 = input$opt.delay.2V,
+                  infectV1 = input$infectV1,
                   infectV2 = input$infectV2,
                   #infectV1V2 = input$infectV1V2,
                   #infectV2V1 = input$infectV2V1,
