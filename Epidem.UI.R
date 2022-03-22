@@ -180,7 +180,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            
                            
                            column(3, sliderTime("time2V", label = "Time"),
-                                  sliderTime("delayV2", label = "Time delay", opt.delay.2V, max = 60),
+                                  sliderTime("delayV2", label = "Time delay", opt.delay.2V, max = 200),
                                   sliderBase("recovV1", label="Recovery rate (Virus 1)"),
                                   sliderBase("recovV2", label="Recovery rate (Virus 2)")
                            ),
