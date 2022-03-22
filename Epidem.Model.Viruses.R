@@ -3,6 +3,10 @@
 ######################
 IV2 = 0;
 
+getDisplayTypes2V = function(){
+  c("All", "Compact", "V1", "V2")
+}
+
 sir2Viruses <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
@@ -40,7 +44,6 @@ initSIR_2Viruses = function(param, end.time)
 {
   
   times = seq(0, end.time, by = 1)
-  print(param)
   parameters = list(infect.v1 = param$infectV1,
                     infect.v2 = param$infectV2,
                     hosp.v1 = param$hospV1,
@@ -56,7 +59,6 @@ initSIR_2Viruses = function(param, end.time)
                     #infect.v1_v2 = param$infectV1V2,
                     #infect.v2_v1 = param$infectV2V1,
   )
-  print(parameters)
   init = c(S = (1 - 1e-6), IV1 = 1e-6 , IV2 = 0.0, 
            Hcum = 0.0, HV1 = 0.0, HV2 = 0.0, 
            DV1 = 0.0, DV2 = 0.0, RV1 = 0.0, RV2 = 0.0)
@@ -83,12 +85,30 @@ initSIR_2Viruses = function(param, end.time)
   return(out);
 }
 
-plotSIR_2Viruses = function(out, add = FALSE, plot.legend = TRUE, ...) {
+plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...) {
   
   lbl = c( "Susceptible", "Infected (Virus1)", "Infected (Virus2)", "Hosp (cumulative)", 
            "Hosp (Virus1)", "Hosp (Virus2)", "Death (Virus1)", "Death (Virus2)",
            "Recovered (Virus1)", "Recovered (Virus2)") ;
   leg.off=c(-0.0, 0.3);
+  
+  type = match(flt, getDisplayTypes2V());
+  if(type > 1) {
+    
+    if(type == 2) {
+      r = filter.out(out, c("S"), lbl);
+    } else if(type == 3) {
+      r = filter.out(out, c("S", "HV2", "DV2", "RV2"), lbl);
+      leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.7;
+    } 
+    else if(type == 4){
+      r = filter.out(out, c("S", "HV1", "DV1", "RV1"), lbl);
+      # r = filter.out(out, c("Vo", "Vy", "Dy", "Do", "Ho", "Hy"), lbl);
+    }
+    
+    out = r$out; lbl = r$lbl;
+  }
+  
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR 2 Virus Model", 
            add = add, plot.legend = plot.legend, ...)
 }

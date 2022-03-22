@@ -174,7 +174,7 @@ server <- function(input, output){
     if(input$toggle2V == FALSE) {
       outData = initSIR_2Viruses(custom, valTime) 
       values$outData = outData;
-      plotSIR_2Viruses(outData)
+      plotSIR_2Viruses(outData, flt = input$optType2V)
     }
    # TV3D(input$iters, 2)
   })

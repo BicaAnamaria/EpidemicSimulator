@@ -36,14 +36,14 @@ calculate_parameters <- function(dX, category = NULL, type = "Infected"){
 
 # generic function
 summarySIR = function(x){
-  results = rbind( summarySIR_Death(x), summarySIR_Hosp(x));
+  results = rbind(summarySIR_Infected(x), summarySIR_Death(x), summarySIR_Hosp(x));
   print(results)
   return(results)
 }
 
 computeSummary = function(x, y, ctgs) {
   
-  Dx_cum = x - x[1] - y;
+  Dx_cum = - x + x[1] - y;
   dDx = diff(Dx_cum);
   param_Dx = calculate_parameters(dDx, ctgs, "Infected");
   

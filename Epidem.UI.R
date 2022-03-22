@@ -170,8 +170,12 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   
                   
                   tabPanel("Two Viruses",
-                           textOutput("VirusT"),
-                           checkboxInput("toggle2V","Toggle between plot and diagram"),
+                           fluidRow(
+                             column(4, textOutput("VirusT"),
+                                    checkboxInput("toggle2V","Toggle between plot and diagram")),
+                             column(4, selectInput("optType2V", "Display", getDisplayTypes2V(), selected="V1")),
+                             #column(4, selectInput("optSensitivityH", "Sensitivity Analysis", getSensitivity_Hosp(), selected="SIR"))
+                           ),
                            plotOutput("Virus"),
                            
                            
