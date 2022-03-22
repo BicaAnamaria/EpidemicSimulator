@@ -207,7 +207,7 @@ server <- function(input, output){
       outData = initSIR_AG3(custom, valTime) 
       values$outData = outData;
       print(outData)
-      plotSIR_AG3(outData)
+      plotSIR_AG3(outData, flt = input$optTypeAG3)
     }
     # TV3D(input$iters, 2)
   })

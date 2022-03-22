@@ -1,6 +1,11 @@
 ########################
 ####Age Groups Model####
 ########################
+
+getDisplayTypesAG3 = function(){
+  c("All", "Compact", "Children", "Adults", "Old")
+}
+
 sirAG3 <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
@@ -68,7 +73,7 @@ initSIR_AG3 = function(param, end.time)
   attr(out, "Model") = "AG3";
   return(out);
 }
-plotSIR_AG3 = function(out, add = FALSE, plot.legend = TRUE, ...) {
+plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...) {
   
   lbl = c( "Total", "Susceptible (Children)", "Susceptible (Adults)", "Susceptible (Elders)",
            "Infected (Children)", "Infected (Adults)", "Infected (Elders)", 
@@ -76,6 +81,25 @@ plotSIR_AG3 = function(out, add = FALSE, plot.legend = TRUE, ...) {
            "Death (Children)", "Death (Adults)", "Death (Elders)",
            "Recovered (Children)", "Recovered (Adults)", "Recovered (Elders)") ;
   leg.off=c(-0.0, 0.3);
+  type = match(flt, getDisplayTypesAG3());
+  if(type > 1) {
+    
+    if(type == 2) {
+      r = filter.out(out, c("T"), lbl);
+    } else if(type == 3) {
+      r = filter.out(out, c("T", "Sa", "So","Ia", "Io", "Ha", "Ho", "Da", "Do"), lbl);
+    } 
+    else if(type == 4){
+      r = filter.out(out, c("T", "Ic", "Io", "Hc", "Ho", "Dc", "Do"), lbl);
+      # r = filter.out(out, c("Vo", "Vy", "Dy", "Do", "Ho", "Hy"), lbl);
+    }
+    else if(type == 5){
+      r = filter.out(out, c("T", "Ic", "Ia", "Hc", "Ha", "Dc", "Da"), lbl);
+    }
+    
+    out = r$out; lbl = r$lbl;
+  }
+  
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Age Groups Model", 
            add = add, plot.legend = plot.legend, ...)
 }

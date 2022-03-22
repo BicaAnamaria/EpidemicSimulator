@@ -208,9 +208,9 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   ),
                   
                   tabPanel("Age Groups Stratified Model",
-                           
-                           textOutput("txtAgeGroups3"),
-                           checkboxInput("toggleAG3","Toggle between plot and diagram"),
+                           column(4, textOutput("txtAgeGroups3"),
+                                  checkboxInput("toggleAG3","Toggle between plot and diagram"),),
+                           column(4, selectInput("optTypeAG3", "Display", getDisplayTypesAG3(), selected="Adults")),
                            plotOutput("AgeGroupsModel"),
                            
                            fluidRow(
