@@ -6,6 +6,16 @@ getDisplayTypes2V = function(){
   c("All", "Compact", "V1", "V2")
 }
 
+getSensitivity2V = function() {
+  c("2 Viruses Model" = "2V", 
+    "Infection rate (V1)" = "infect.v1",
+    "Infection rate (V2)" = "infect.v2",
+    "Hosp rate (V1)" = "hosp.v1", "Hosp rate (V2)" = "hosp.v2",
+    "Death rate (V1)" = "death.v1", "Death rate (V2)" = "death.v2",
+    "Death rate hosp(V1)" = "death.hv1", "Death rate hosp(V2)" = "death.hv2"
+  );
+}
+
 sir2Viruses <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
@@ -75,7 +85,6 @@ initSIR_2Viruses = function(param, end.time)
   init = unlist(out1[len, -1]);
   init[idIV2] = init[idIV1] * opt.2V.pmutation;
   init[idIV1] = init[idIV1] - init[idIV2];
-  print(str(init))
   out2 = solve.sir(sir2Viruses, init, parameters, times2);
   # Merge results
   out1 = out1[ - len, ];
@@ -104,7 +113,6 @@ plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...)
     } 
     else if(type == 4){
       r = filter.out(out, c("S", "IV1", "HV1", "DV1", "RV1"), lbl);
-      # r = filter.out(out, c("Vo", "Vy", "Dy", "Do", "Ho", "Hy"), lbl);
     }
     
     out = r$out; lbl = r$lbl;
@@ -112,4 +120,24 @@ plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...)
   
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR 2 Virus Model", 
            add = add, plot.legend = plot.legend, ...)
+}
+# Sensivity Analysis
+Sensitivity_2Viruses = function(param, opt, end.time, min=0, max=1, flt = "V1") {
+  by = (max - min)/20;
+  for(p in seq(min, max, by = by)) {
+    opt[[param]] = p;
+    
+    out = initSIR_2Viruses(opt, end.time);
+    
+    plotSIR_2Viruses(out, flt = flt, add = if(p == min) FALSE else TRUE,
+                    plot.legend = FALSE, lty = opt.sensitivity.lty);
+  }
+  
+  opt[[param]] = min;
+  
+  out = initSIR_2Viruses(opt, end.time);
+  
+  plotSIR_2Viruses(out, flt = flt,
+                  add = TRUE, plot.legend = TRUE,
+                  lty = 1);
 }

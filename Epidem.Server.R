@@ -82,7 +82,6 @@ server <- function(input, output){
         values$outData = outData;
         plotSIR_Hosp(outData, flt=input$optType)
       } else {
-        print(custom)
         Sensitivity_Hosp(input$optSensitivityH, custom, valTime, flt=input$optType);
       }
     } else
@@ -173,11 +172,15 @@ server <- function(input, output){
                   
     )
     if(input$toggle2V == FALSE) {
-      outData = initSIR_2Viruses(custom, valTime) 
-      values$outData = outData;
-      plotSIR_2Viruses(outData, flt = input$optType2V)
+      if(input$optSensitivity2V == "2V") {
+        outData = initSIR_2Viruses(custom, valTime) 
+        values$outData = outData;
+        plotSIR_2Viruses(outData, flt = input$optType2V)
     }
-   # TV3D(input$iters, 2)
+    else{
+        Sensitivity_2Viruses(input$optSensitivity2V, custom, valTime, flt = input$optType2V);
+    }
+    }
   })
   
   ### Age Groups
@@ -207,10 +210,8 @@ server <- function(input, output){
     if(input$toggleAG3 == FALSE) {
       outData = initSIR_AG3(custom, valTime) 
       values$outData = outData;
-      print(outData)
       plotSIR_AG3(outData, flt = input$optTypeAG3)
     }
-    # TV3D(input$iters, 2)
   })
   
   output$doStatistics = renderTable({
