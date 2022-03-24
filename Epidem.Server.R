@@ -177,9 +177,9 @@ server <- function(input, output){
         values$outData = outData;
         plotSIR_2Viruses(outData, flt = input$optType2V)
     }
-    else{
+      else{
         Sensitivity_2Viruses(input$optSensitivity2V, custom, valTime, flt = input$optType2V);
-    }
+      }
     }
   })
   
@@ -216,7 +216,6 @@ server <- function(input, output){
   
   output$doStatistics = renderTable({
     summarySIR(values$outData);
-    #summarySIRDeath(values$outData);
   }, align = c('c'))
   
   ### Save Data
