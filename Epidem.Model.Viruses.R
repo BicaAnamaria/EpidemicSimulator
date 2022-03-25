@@ -8,11 +8,11 @@ getDisplayTypes2V = function(){
 
 getSensitivity2V = function() {
   c("2 Viruses Model" = "2V", 
-    "Infection rate (V1)" = "infect.v1",
-    "Infection rate (V2)" = "infect.v2",
-    "Hosp rate (V1)" = "hosp.v1", "Hosp rate (V2)" = "hosp.v2",
-    "Death rate (V1)" = "death.v1", "Death rate (V2)" = "death.v2",
-    "Death rate hosp(V1)" = "death.hv1", "Death rate hosp(V2)" = "death.hv2"
+    "Infection rate (V1)" = "infectV1",
+    "Infection rate (V2)" = "infectV2",
+    "Hosp rate (V1)" = "hospV1", "Hosp rate (V2)" = "hospV2",
+    "Death rate (V1)" = "deathV1", "Death rate (V2)" = "deathV2",
+    "Death rate hosp(V1)" = "deathV1.h", "Death rate hosp(V2)" = "deathV2.h"
   );
 }
 
@@ -51,10 +51,7 @@ sir2Viruses <- function(time, state, parameters) {
 
 initSIR_2Viruses = function(param, end.time)
 {
-  
-  times = seq(0, end.time, by = 1)
-  parameters = list(opt.delay.2V = param$delayV2,
-                    infect.v1 = param$infectV1,
+  parameters = list(infect.v1 = param$infectV1,
                     infect.v2 = param$infectV2,
                     hosp.v1 = param$hospV1,
                     hosp.v2 = param$hospV2,
@@ -75,10 +72,11 @@ initSIR_2Viruses = function(param, end.time)
   
   # Period 1:
   # set also: initi$IV2 = 0;
-  times1 = seq(0, opt.delay.2V);
+  delayV2 = param$delayV2
+  times1 = seq(0, delayV2);
   out1 = solve.sir(sir2Viruses, init, parameters, times1);
   # Period 2:
-  times2 = seq(opt.delay.2V, end.time);
+  times2 = seq(delayV2, end.time);
   idIV1 = which(names(init) == 'IV1')
   idIV2 = which(names(init) == 'IV2')
   len = nrow(out1);
@@ -99,7 +97,7 @@ plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...)
   lbl = c( "Susceptible", "Infected (Virus1)", "Infected (Virus2)", "Hosp (cumulative)", 
            "Hosp (Virus1)", "Hosp (Virus2)", "Death (Virus1)", "Death (Virus2)",
            "Recovered (Virus1)", "Recovered (Virus2)") ;
-  leg.off=c(-0.0, 0.3);
+  leg.off=c(-200, 0.3);
   
   type = match(flt, getDisplayTypes2V());
   if(type > 1) {
@@ -113,6 +111,7 @@ plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...)
     } 
     else if(type == 4){
       r = filter.out(out, c("S", "IV1", "HV1", "DV1", "RV1"), lbl);
+      leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.7;
     }
     
     out = r$out; lbl = r$lbl;

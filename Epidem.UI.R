@@ -173,7 +173,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            fluidRow(
                              column(4, textOutput("VirusT"),
                                     checkboxInput("toggle2V","Toggle between plot and diagram")),
-                             column(4, selectInput("optType2V", "Display", getDisplayTypes2V(), selected="V1")),
+                             column(4, selectInput("optType2V", "Display", getDisplayTypes2V(), selected="Compact")),
                              column(4, selectInput("optSensitivity2V", "Sensitivity Analysis", getSensitivity2V(), selected="2V")) ,
                              #column(4, selectInput("optSensitivityH", "Sensitivity Analysis", getSensitivity_Hosp(), selected="SIR"))
                            ),
@@ -181,7 +181,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            
                            
                            column(3, sliderTime("time2V", label = "Time", 400),
-                                  sliderTime("delayV2", label = "Time delay", opt.delay.2V, max = 165),
+                                  sliderTime("delayV2", label = "Time delay", 110, max = 200),
                                   sliderBase("recovV1", label="Recovery rate (Virus 1)"),
                                   sliderBase("recovV2", label="Recovery rate (Virus 2)")
                            ),

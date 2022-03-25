@@ -56,15 +56,15 @@ summarySIR_Infected = function(x)
   type = attr(x, "Model");
   
   if(type == "Hospitalization" ){
-    param_Iy = computeSummary(x$Sy, 0, "Infected young: ")
-    param_Io = computeSummary(x$So, 0,  "Infected old: ")
+    param_Iy = computeSummary(x$Sy, 0, "Young: ")
+    param_Io = computeSummary(x$So, 0,  "Old: ")
     param_IAll = computeSummary(x$T, 0,  "Total: ")
     
     results = rbind(param_IAll, param_Iy, param_Io);
   }
   else if( type == "Vaccination" | type == "Vaccination Stratified"){
-    param_Iy = computeSummary(x$Sy, x$Vy, "Infected young: ")
-    param_Io = computeSummary(x$So, x$Vo,  "Infected old: ")
+    param_Iy = computeSummary(x$Sy, x$Vy, "Young: ")
+    param_Io = computeSummary(x$So, x$Vo,  "Old: ")
     param_IAll = computeSummary(x$T, x$Vy + x$Vo,  "Total: ")
     
     results = rbind(param_IAll, param_Iy, param_Io);
@@ -75,9 +75,9 @@ summarySIR_Infected = function(x)
     results = param_I;
   }
   else if( type == "AG3" ){
-    param_Ic = computeSummary(x$Sc, 0, "Infected young: ")
-    param_Ia = computeSummary(x$Sa, 0, "Infected adults: ")
-    param_Io = computeSummary(x$So, 0,  "Infected old: ")
+    param_Ic = computeSummary(x$Sc, 0, "Young: ")
+    param_Ia = computeSummary(x$Sa, 0, "Adults: ")
+    param_Io = computeSummary(x$So, 0,  "Old: ")
     param_IAll = computeSummary(x$T, 0,  "Total: ")
     
     results = rbind(param_IAll, param_Ic, param_Ia, param_Io);
@@ -166,17 +166,17 @@ summarySIR_Hosp = function(x){
   
   if(type == "Hospitalization" | type == "Vaccination Stratified"){
     #results = calculate_death(x, type, list(c('Dc', 'Dh')))
-    param_H = computeSummary1(x$H,  "Hosp: ")
-    param_Hy = computeSummary1(x$Hy,  "Hosp young: ")
-    param_Ho = computeSummary1(x$Ho, "Hosp old: ");
-    param_Hcum = computeSummary1(x$Hcum, "Hosp cumulative: ");
+    param_H = computeSummary1(x$H,  "Total: ")
+    param_Hy = computeSummary1(x$Hy,  "Young: ")
+    param_Ho = computeSummary1(x$Ho, "Old: ");
+    param_Hcum = computeSummary1(x$Hcum, "Cumulative: ");
     
     results = rbind(param_H, param_Hy, param_Ho, param_Hcum);
   }
   else if(type == "2 Viruses"){
     param_HV1 = computeSummary1(x$HV1,  "Hops V1: ")
     param_HV2 = computeSummary1(x$HV2,  "Hops V2: ")
-    param_Hcum = computeSummary1(x$Hcum, "Hosp cumulative: ");
+    param_Hcum = computeSummary1(x$Hcum, "Cumulative: ");
     
     results = rbind(param_HV1, param_HV2, param_Hcum);
   }
@@ -190,7 +190,7 @@ summarySIR_Hosp = function(x){
     param_Hc = computeSummary1(x$Hc,  "Children: ")
     param_Ha = computeSummary1(x$Ha,  "Adults: ")
     param_Ho = computeSummary1(x$Ho,  "Old: ")
-    param_Hcum = computeSummary1(x$Hcum, "Hosp cumulative: ");
+    param_Hcum = computeSummary1(x$Hcum, "Cumulative: ");
     
     results = rbind(param_Hc, param_Ha, param_Ho, param_Hcum);
   }

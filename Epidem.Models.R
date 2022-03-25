@@ -155,7 +155,7 @@ sirHosp <- function(time, state, parameters) {
     dHcum = hosp.y * Iy + hosp.o * Io; # used to extract daily rates;
     dHy =  hosp.y * Iy - recov.h * Hy - death.h * Hy;
     dHo =  hosp.o * Io - recov.h * Ho - death.h * Ho;
-    dH  =  dHcum - recov.h * H - death.h * H;
+    dH  =  dHcum - recov.h * H - death.h * H; # Hy + Ho
     dR  =  recov.c * Iy + recov.c * Io + recov.h * H;
     dDc =  death.y * Iy + death.o * Io; # check if death.old useful?
     dDh =  death.h * H;

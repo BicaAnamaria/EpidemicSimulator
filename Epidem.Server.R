@@ -144,7 +144,10 @@ server <- function(input, output){
       } else {
         idParam = match(input$optSensitivityVaccStrat, c("vacc.y", "vacc.o"));
         max   = if(is.na(idParam)) 1 else 0.005;
-        Sensitivity_VaccineStrat(input$optSensitivityVaccStrat, custom, valTime, max=max, flt=input$optTypeVS);
+        idParam = match(input$optSensitivityVaccStrat, c("infect"));
+        max   = if(is.na(idParam)) max else 1.5*custom$infect;
+        min = if(is.na(idParam)) 0 else 0.5*custom$infect;
+        Sensitivity_VaccineStrat(input$optSensitivityVaccStrat, custom, valTime, min=min, max=max, flt=input$optTypeVS);
       }
     } else diagramVS(scaleX=0.4, scaleY=0.4)
     
@@ -153,8 +156,8 @@ server <- function(input, output){
   
   ### 2 Viruses
   output$Virus=renderPlot({
-    valTime = GetTime("2V", "time2V");
-    custom = list(delayV2 = input$opt.delay.2V,
+    valTime = input$time2V; # GetTime("2V", "time2V");
+    custom = list(delayV2 = input$delayV2,
                   infectV1 = input$infectV1,
                   infectV2 = input$infectV2,
                   #infectV1V2 = input$infectV1V2,
