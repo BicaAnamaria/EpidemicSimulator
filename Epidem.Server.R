@@ -211,9 +211,13 @@ server <- function(input, output){
                   
     )
     if(input$toggleAG3 == FALSE) {
-      outData = initSIR_AG3(custom, valTime) 
-      values$outData = outData;
-      plotSIR_AG3(outData, flt = input$optTypeAG3)
+      if(input$optSensitivity2V == "AG3") {
+        outData = initSIR_AG3(custom, valTime) 
+        values$outData = outData;
+        plotSIR_AG3(outData, flt = input$optTypeAG3)
+      } else{
+        Sensitivity_AG3(input$optSensitivityAG3, custom, valTime, flt = input$optTypeAG3);
+      }
     }
   })
   

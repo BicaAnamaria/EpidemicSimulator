@@ -6,6 +6,25 @@ getDisplayTypesAG3 = function(){
   c("All", "Compact", "Children", "Adults", "Old")
 }
 
+getSensitivityAG3 = function() {
+  c("Age Groups Model" = "AG3", 
+    "Infection rate btw children" = "infectAG3.cc",
+    "Infection rate btw children and others" = "infectAG3.cn",
+    "Infection rate btw others and children" = "infectAG3.nc",
+    "Infection rate btw others " = "infectAG3.nn",
+    "Hosp rate (Children)" = "hospAG3.c", 
+    "Hosp rate (Adults)" = "hospAG3.a",
+    "Hosp rate (Old)" = "hospAG3.o",
+    "Death rate (Children)" = "deathAG3.c", 
+    "Death rate (Adults)" = "deathAG3.a",
+    "Death rate (Old)" = "deathAG3.o",
+    "Death rate (Hosp, Children)" = "deathAG3.hc",
+    "Death rate (Hosp, Adults)" = "deathAG3.ha",
+    "Death rate (Hosp, Old)" = "deathAG3.ho"
+
+  );
+}
+
 sirAG3 <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
@@ -102,4 +121,24 @@ plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...
   
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Age Groups Model", 
            add = add, plot.legend = plot.legend, ...)
+}
+# Sensivity Analysis
+Sensitivity_AG3 = function(param, opt, end.time, min=0, max=1, flt = "Adults") {
+  by = (max - min)/20;
+  for(p in seq(min, max, by = by)) {
+    opt[[param]] = p;
+    
+    out = initSIR_AG3(opt, end.time);
+    
+    plotSIR_AG3(out, flt = flt, add = if(p == min) FALSE else TRUE,
+                     plot.legend = FALSE, lty = opt.sensitivity.lty);
+  }
+  
+  opt[[param]] = min;
+  
+  out = initSIR_AG3(opt, end.time);
+  
+  plotSIR_AG3(out, flt = flt,
+                   add = TRUE, plot.legend = TRUE,
+                   lty = 1);
 }

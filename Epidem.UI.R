@@ -212,6 +212,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            column(4, textOutput("txtAgeGroups3"),
                                   checkboxInput("toggleAG3","Toggle between plot and diagram"),),
                            column(4, selectInput("optTypeAG3", "Display", getDisplayTypesAG3(), selected="Adults")),
+                           column(4, selectInput("optSensitivityAG3", "Sensitivity Analysis", getSensitivityAG3(), selected="AG3")) ,
                            plotOutput("AgeGroupsModel"),
                            
                            fluidRow(

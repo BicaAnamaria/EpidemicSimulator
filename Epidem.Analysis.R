@@ -16,7 +16,7 @@
 ###   Liviu Sopon and Dragos Ursan
 ###   West University, Timisoara
 
-
+# TODO: VaccStrat -> visualization in Analysis ????
 calculate_parameters <- function(dX, category = NULL, type = "Infected"){
   # maximum number of infected persons/day
   maxCutoff = max(dX) * opt.stat.max.cutoff;
@@ -62,7 +62,14 @@ summarySIR_Infected = function(x)
     
     results = rbind(param_IAll, param_Iy, param_Io);
   }
-  else if( type == "Vaccination" | type == "Vaccination Stratified"){
+  else if( type == "Vaccination" ){
+    param_Iy = computeSummary(x$Sy, x$Vy, "Young: ")
+    param_Io = computeSummary(x$So, x$Vo,  "Old: ")
+    param_IAll = computeSummary(x$T, x$Vy + x$Vo,  "Total: ")
+    
+    results = rbind(param_IAll, param_Iy, param_Io);
+  }
+  else if(type == "Vaccination Stratified"){
     param_Iy = computeSummary(x$Sy, x$Vy, "Young: ")
     param_Io = computeSummary(x$So, x$Vo,  "Old: ")
     param_IAll = computeSummary(x$T, x$Vy + x$Vo,  "Total: ")
@@ -123,8 +130,8 @@ summarySIR_Death = function(x){
     results = rbind(param_DT, param_Dy, param_Do);
   }
   else if(type == "2 Viruses"){
-    param_DV1 = computeSummary0(x$DV1,  "Virus1: ")
-    param_DV2 = computeSummary0(x$DV2,  "Virus2: ")
+    param_DV1 = computeSummary0(x$DV1,  "Virus 1: ")
+    param_DV2 = computeSummary0(x$DV2,  "Virus 2: ")
     param_DT = computeSummary0(x$DV1 + x$DV2 , "Total: ");
     
     results = rbind(param_DT, param_DV1, param_DV2);
@@ -164,7 +171,7 @@ computeSummary1 = function(x, ctgs) {
 summarySIR_Hosp = function(x){
   type = attr(x, "Model");
   
-  if(type == "Hospitalization" | type == "Vaccination Stratified"){
+  if(type == "Hospitalization" ){
     #results = calculate_death(x, type, list(c('Dc', 'Dh')))
     param_H = computeSummary1(x$H,  "Total: ")
     param_Hy = computeSummary1(x$Hy,  "Young: ")
@@ -173,9 +180,16 @@ summarySIR_Hosp = function(x){
     
     results = rbind(param_H, param_Hy, param_Ho, param_Hcum);
   }
+  else if(type == "Vaccination Stratified"){
+    param_Hy = computeSummary1(x$Hy,  "Young: ")
+    param_Ho = computeSummary1(x$Ho, "Old: ");
+    param_Hcum = computeSummary1(x$Hcum, "Cumulative: ");
+    
+    results = rbind(param_Hy, param_Ho, param_Hcum);
+  }
   else if(type == "2 Viruses"){
-    param_HV1 = computeSummary1(x$HV1,  "Hops V1: ")
-    param_HV2 = computeSummary1(x$HV2,  "Hops V2: ")
+    param_HV1 = computeSummary1(x$HV1,  "Virus 1: ")
+    param_HV2 = computeSummary1(x$HV2,  "Virus 2: ")
     param_Hcum = computeSummary1(x$Hcum, "Cumulative: ");
     
     results = rbind(param_HV1, param_HV2, param_Hcum);
