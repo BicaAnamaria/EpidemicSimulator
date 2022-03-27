@@ -41,8 +41,9 @@ summarySIR = function(x){
   return(results)
 }
 
-computeSummary = function(x, y, ctgs) {
+computeSummary = function(x, y, ctgs, isCummulative = FALSE) {
   
+  if(isCummulative) y = c(0, diff(y));
   Dx_cum = - x + x[1] - y;
   dDx = diff(Dx_cum);
   param_Dx = calculate_parameters(dDx, ctgs, "Infected");

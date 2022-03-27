@@ -137,7 +137,7 @@ server <- function(input, output){
       )
     
     if(input$toggleVS == FALSE) {
-      if(input$optSensitivityVacc == "VaccStrat") {
+      if(input$optSensitivityVaccStrat == "VaccStrat") {
         outData = initSIR_VaccineStrat(custom, valTime) 
         values$outData = outData;
         plotSIR_VaccineStrat(outData, flt = input$optTypeVS)
@@ -211,7 +211,7 @@ server <- function(input, output){
                   
     )
     if(input$toggleAG3 == FALSE) {
-      if(input$optSensitivity2V == "AG3") {
+      if(input$optSensitivityAG3 == "AG3") {
         outData = initSIR_AG3(custom, valTime) 
         values$outData = outData;
         plotSIR_AG3(outData, flt = input$optTypeAG3)

@@ -56,7 +56,6 @@ initSIR_AG3 = function(param, end.time)
 {
   
   times = seq(0, end.time, by = 1)
-  print(param)
   parameters = list(infect.cc = param$infectAG3.cc,
                     infect.cn = param$infectAG3.cn,
                     infect.nn = param$infectAG3.nn,
