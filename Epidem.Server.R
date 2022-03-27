@@ -145,8 +145,8 @@ server <- function(input, output){
         idParam = match(input$optSensitivityVaccStrat, c("vacc.y", "vacc.o"));
         max   = if(is.na(idParam)) 1 else 0.005;
         idParam = match(input$optSensitivityVaccStrat, c("infect"));
-        max   = if(is.na(idParam)) max else 1.5*custom$infect;
-        min = if(is.na(idParam)) 0 else 0.5*custom$infect;
+        max   = if(is.na(idParam)) max else opt.sensitivity.infect.max * custom$infect;
+        min = if(is.na(idParam)) 0 else opt.sensitivity.infect.min*custom$infect;
         Sensitivity_VaccineStrat(input$optSensitivityVaccStrat, custom, valTime, min=min, max=max, flt=input$optTypeVS);
       }
     } else diagramVS(scaleX=0.4, scaleY=0.4)

@@ -11,3 +11,7 @@ opt.2V.pmutation = 0.1; # 10% of V1 will mutate to V2;
 ### Global options - Analysis
 opt.stat.max.cutoff = 0.8; # 80% 
 opt.population.size = 1E+6
+
+# Sensistivity Analysis
+opt.sensitivity.infect.min = 0.75;
+opt.sensitivity.infect.max = 1.25
