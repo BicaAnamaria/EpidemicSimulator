@@ -138,7 +138,7 @@ Sensitivity_Vaccine = function(param, opt, end.time, min=0, max=1, p.old = opt.p
 ###############################
 
 getSensitivityVaccStrat = function() {
-  c("Vaccination Startified Model" = "VaccStart", 
+  c("Vaccination Startified Model" = "VaccStrat", 
     "Infection rate (Young)" = "infect",
     "Hospitalization rate (Young)" = "hosp.y", "Hospitalization rate (Old)" = "hosp.o", 
     "Death rate (Young)" = "death.y", "Death rate (Old)" = "death.o", 
