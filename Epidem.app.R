@@ -37,7 +37,8 @@ source("Epidem.Diagrams.R");
 # source("TwoViruses3D(with seed).R")
 # Analysis
 source("Epidem.Analysis.R");
-
+# Help
+source("Epidem.UI.Help.R");
 
 ### App
 # user interface

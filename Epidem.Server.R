@@ -110,7 +110,10 @@ server <- function(input, output){
       }else {
         idParam = match(input$optSensitivityVacc, c("vacc.y", "vacc.o"));
         max   = if(is.na(idParam)) 1 else 0.005;
-        Sensitivity_Vaccine(input$optSensitivityVacc, custom, valTime, max=max, flt=input$optTypeV);
+        idParam = match(input$optSensitivityVacc, c("infect"));
+        max   = if(is.na(idParam)) max else opt.sensitivity.infect.max * custom$infect;
+        min = if(is.na(idParam)) 0 else opt.sensitivity.infect.min * custom$infect;
+        Sensitivity_Vaccine(input$optSensitivityVacc, custom, valTime, min=min, max=max, flt=input$optTypeV);
       } 
     }
     else
@@ -118,8 +121,8 @@ server <- function(input, output){
     
   })
   
-  
-  output$VaccS = renderPlot({
+  # Vaccination Stratified
+  output$VaccVS = renderPlot({
     valTime = GetTime("VS", "timeVS");
     custom = list(
       infect = input$infectVS,
@@ -146,7 +149,7 @@ server <- function(input, output){
         max   = if(is.na(idParam)) 1 else 0.005;
         idParam = match(input$optSensitivityVaccStrat, c("infect"));
         max   = if(is.na(idParam)) max else opt.sensitivity.infect.max * custom$infect;
-        min = if(is.na(idParam)) 0 else opt.sensitivity.infect.min*custom$infect;
+        min = if(is.na(idParam)) 0 else opt.sensitivity.infect.min * custom$infect;
         Sensitivity_VaccineStrat(input$optSensitivityVaccStrat, custom, valTime, min=min, max=max, flt=input$optTypeVS);
       }
     } else diagramVS(scaleX=0.4, scaleY=0.4)
@@ -181,7 +184,19 @@ server <- function(input, output){
         plotSIR_2Viruses(outData, flt = input$optType2V)
     }
       else{
-        Sensitivity_2Viruses(input$optSensitivity2V, custom, valTime, flt = input$optType2V);
+        idParam = match(input$optSensitivity2V, c("infectV1", "infectV2"));
+        if(is.na(idParam)) {
+          max = 1
+          min = 0
+        } else if(idParam == 1){ 
+          max = opt.sensitivity.infect.max * custom$infectV1
+          min = opt.sensitivity.infect.min * custom$infectV1;
+        } else {
+          max = opt.sensitivity.infect.max * custom$infectV2;
+          min = opt.sensitivity.infect.min * custom$infectV2;
+        }
+        
+        Sensitivity_2Viruses(input$optSensitivity2V, custom, valTime, min=min, max=max, flt = input$optType2V);
       }
     }
   })

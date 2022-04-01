@@ -335,6 +335,7 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
   m[[2,4]] = ""
   m[[5,4]] = ""
   m[[7,4]] = ""
+  m[[7,5]] = ""
   #m[[6,5]] = ""
   #m[[8,4]] = ""
   #m[[8,5]] = ""

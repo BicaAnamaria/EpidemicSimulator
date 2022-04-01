@@ -136,7 +136,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     checkboxInput("toggleVS","Toggle between plot and diagram")),
                              column(3, selectInput("optTypeVS", "Display", getDisplayTypesVaccStrat(), selected="Old")), 
                              column(3, selectInput("optSensitivityVaccStrat", "Sensitivity Analysis", getSensitivityVaccStrat(), selected="VaccStrat")) ),
-                           plotOutput("VaccS"),
+                           plotOutput("VaccVS"),
                            # hr() 
                            
                            
@@ -260,8 +260,11 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            downloadButton("downloadData", "Download")
                   ),
                   
-                  tabPanel("Help"
+                  tabPanel("Help",
+                         fluidRow( 
+                           column(1, div(HTML("&nbsp;"))),
                            
+                           column(10, helpEpidem()) )   
                   )
                 ))
 
