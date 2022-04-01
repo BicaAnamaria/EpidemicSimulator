@@ -71,7 +71,7 @@ diagram1()
 #############################
 
 
-diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1/2, scaleY = 1/2) {
+diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1/2, scaleY = 1/2) {
   
   if(save.png) {
     # run this to save as png;
@@ -109,6 +109,8 @@ diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
   m[[6,5]] = ""
   m[[8,4]] = ""
   m[[8,5]] = ""
+  m[[6,3]] = ""
+  m[[8,3]] = ""
   
   # positions of boxes
   coord = matrix(nrow = Numgenerations, ncol = 2)
@@ -173,7 +175,7 @@ diagram3  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
               curve = -0.2, arr.pos = 0.9)     
   
 }
-diagram3()
+diagramV()
 
 
 ##########################
@@ -334,6 +336,8 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
   m[[7,3]] = ""
   m[[2,4]] = ""
   m[[5,4]] = ""
+  m[[7,2]] = ""
+  m[[5,2]] = ""
   m[[7,4]] = ""
   m[[7,5]] = ""
   #m[[6,5]] = ""

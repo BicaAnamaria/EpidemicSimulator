@@ -117,7 +117,7 @@ server <- function(input, output){
       } 
     }
     else
-      diagram3(scaleX=0.9, scaleY=0.9)
+      diagramV(scaleX=0.9, scaleY=0.9)
     
   })
   
