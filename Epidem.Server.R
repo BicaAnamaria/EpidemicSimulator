@@ -82,7 +82,10 @@ server <- function(input, output){
         values$outData = outData;
         plotSIR_Hosp(outData, flt=input$optType)
       } else {
-        Sensitivity_Hosp(input$optSensitivityH, custom, valTime, flt=input$optType);
+        idParam = match(input$optSensitivityH, c("infect"));
+        max = if(is.na(idParam)) max else opt.sensitivity.infect.max * custom$infect;
+        min = if(is.na(idParam)) 0 else opt.sensitivity.infect.min * custom$infect;
+        Sensitivity_Hosp(input$optSensitivityH, custom, valTime, min=min, max=max, flt=input$optType);
       }
     } else
       diagram.H();
@@ -195,7 +198,6 @@ server <- function(input, output){
           max = opt.sensitivity.infect.max * custom$infectV2;
           min = opt.sensitivity.infect.min * custom$infectV2;
         }
-        
         Sensitivity_2Viruses(input$optSensitivity2V, custom, valTime, min=min, max=max, flt = input$optType2V);
       }
     }
@@ -231,7 +233,25 @@ server <- function(input, output){
         values$outData = outData;
         plotSIR_AG3(outData, flt = input$optTypeAG3)
       } else{
-        Sensitivity_AG3(input$optSensitivityAG3, custom, valTime, flt = input$optTypeAG3);
+        idParam = match(input$optSensitivityAG3, c("infectAG3.cc", "infectAG3.cn", 
+                                                   "infectAG3.nc", "infectAG3.nn"));
+        if(is.na(idParam)) {
+          max = 1
+          min = 0
+        } else if(idParam == 1){ 
+          max = opt.sensitivity.infect.max * custom$infectAG3.cc
+          min = opt.sensitivity.infect.min * custom$infectAG3.cc;
+        } else if(idParam == 2){
+          max = opt.sensitivity.infect.max * custom$infectAG3.cn;
+          min = opt.sensitivity.infect.min * custom$infectAG3.cn;
+        } else if(idParam == 3){
+          max = opt.sensitivity.infect.max * custom$infectAG3.nc;
+          min = opt.sensitivity.infect.min * custom$infectAG3.nc;
+        } else {
+          max = opt.sensitivity.infect.max * custom$infectAG3.nn;
+          min = opt.sensitivity.infect.min * custom$infectAG3.nn;
+        }
+        Sensitivity_AG3(input$optSensitivityAG3, custom, valTime, min=min, max=max, flt = input$optTypeAG3);
       }
     }
   })
