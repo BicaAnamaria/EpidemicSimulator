@@ -155,7 +155,7 @@ server <- function(input, output){
         min = if(is.na(idParam)) 0 else opt.sensitivity.infect.min * custom$infect;
         Sensitivity_VaccineStrat(input$optSensitivityVaccStrat, custom, valTime, min=min, max=max, flt=input$optTypeVS);
       }
-    } else diagramVS(scaleX=0.4, scaleY=0.4)
+    } else diagramVS(scaleX=0.9, scaleY=0.9)
     
     
   })
@@ -200,7 +200,7 @@ server <- function(input, output){
         }
         Sensitivity_2Viruses(input$optSensitivity2V, custom, valTime, min=min, max=max, flt = input$optType2V);
       }
-    }
+    } else diagram.2V(scaleX=0.4, scaleY=0.4)
   })
   
   ### Age Groups

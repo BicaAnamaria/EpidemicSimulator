@@ -116,36 +116,36 @@ summarySIR_Death = function(x){
   type = attr(x, "Model");
  
   if(type == "Hospitalization"){
-    param_Dc = computeSummary0(x$Dc,  "Community: ", isCumulative = FALSE)
-    param_Dh = computeSummary0(x$Dh,  "Hospital: ", isCumulative = FALSE)
-    param_DT = computeSummary0(x$Dc + x$Dh , "Total: ", isCumulative = FALSE);
+    param_Dc = computeSummary0(x$Dc,  "Community: ")
+    param_Dh = computeSummary0(x$Dh,  "Hospital: ")
+    param_DT = computeSummary0(x$Dc + x$Dh , "Total: ");
     
     results = rbind(param_DT, param_Dc, param_Dh);
   }
   else if(type == "Vaccination Stratified"){
-    param_Dy = computeSummary0(x$Dy,  "Young: ", isCumulative = FALSE)
-    param_Do = computeSummary0(x$Do,  "Old: ", isCumulative = FALSE)
-    param_DT = computeSummary0(x$Dy + x$Do , "Total: ", isCumulative = FALSE);
+    param_Dy = computeSummary0(x$Dy,  "Young: ")
+    param_Do = computeSummary0(x$Do,  "Old: ")
+    param_DT = computeSummary0(x$Dy + x$Do , "Total: ");
     
     results = rbind(param_DT, param_Dy, param_Do);
   }
   else if(type == "2 Viruses"){
-    param_DV1 = computeSummary0(x$DV1,  "Virus 1: ", isCumulative = FALSE)
-    param_DV2 = computeSummary0(x$DV2,  "Virus 2: ", isCumulative = FALSE)
-    param_DT = computeSummary0(x$DV1 + x$DV2 , "Total: ", isCumulative = FALSE);
+    param_DV1 = computeSummary0(x$DV1,  "Virus 1: ")
+    param_DV2 = computeSummary0(x$DV2,  "Virus 2: ")
+    param_DT = computeSummary0(x$DV1 + x$DV2 , "Total: ");
     
     results = rbind(param_DT, param_DV1, param_DV2);
   }
   else if(type == "Vaccination"){
-    param_D = computeSummary0(x$D,  "Death: ", isCumulative = FALSE)
+    param_D = computeSummary0(x$D,  "Death: ")
     
     results = param_D;
   }
   else if(type == "AG3"){
-    param_Dc = computeSummary0(x$Dc,  "Children: ", isCumulative = FALSE)
-    param_Da = computeSummary0(x$Da,  "Adults: ", isCumulative = FALSE)
-    param_Do = computeSummary0(x$Do,  "Old: ", isCumulative = FALSE)
-    param_DT = computeSummary0(x$Dc + x$Da + x$Do , "Total: ", isCumulative = FALSE);
+    param_Dc = computeSummary0(x$Dc,  "Children: ")
+    param_Da = computeSummary0(x$Da,  "Adults: ")
+    param_Do = computeSummary0(x$Do,  "Old: ")
+    param_DT = computeSummary0(x$Dc + x$Da + x$Do , "Total: ");
     
     results = rbind(param_DT, param_Dc, param_Da, param_Do);
   }

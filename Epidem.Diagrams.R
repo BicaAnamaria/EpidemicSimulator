@@ -222,7 +222,10 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   m[[8,4]] = ""
   m[[10,5]] = ""
   m[[10,6]] = ""
-  
+  m[[10, 3]] = ""
+  m[[10, 4]] = ""
+  m[[10, 7]] = ""
+  m[[10, 8]] = ""
   
   # positions of boxes
   coord = matrix(nrow = Numgenerations, ncol = 2)
@@ -233,7 +236,7 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   
   # Sy
   coord[2,1] = 0.5 - 0.55 * scaleX
-  coord[2,2] = 0.5 + 0.3 * scaleY
+  coord[2,2] = 0.5 + 0.4 * scaleY
   
   # H[Y]
   coord[3,1] = 0.5 + 0.4 * scaleX
@@ -244,12 +247,12 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   coord[4,2] = 0.5 - 0.3 * scaleY
   
   # I[Y]
-  coord[5,1] = 0.5 - 0.1 * scaleX
-  coord[5,2] = 0.5 + 0.2 * scaleY
+  coord[5,1] = 0.5 - 0.2 * scaleX
+  coord[5,2] = 0.5 + 0.3 * scaleY
   
   # I[O]
   coord[6,1] = 0.5 - 0.2 * scaleX
-  coord[6,2] = 0.5 - 0.3 * scaleY
+  coord[6,2] = 0.5 - 0.4 * scaleY
   
   # D[Y]
   coord[7,1] = 0.5 + 0.75 * scaleX
@@ -261,11 +264,11 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   
   # S[O]
   coord[9,1] = 0.5 - 0.55 * scaleX
-  coord[9,2] = 0.5 - 0.2 * scaleY
+  coord[9,2] = 0.5 - 0.3 * scaleY
   
   # R
-  coord[10,1] = 0.5 + 0.2 * scaleX
-  coord[10,2] = 0.5 - 0.6 * scaleY
+  coord[10,1] = 0.5 + 0.25 * scaleX
+  coord[10,2] = 0.5 - 1 * scaleY
   
   # V[O]
   coord[11,1] = 0.5 - 0.8 * scaleX
@@ -339,7 +342,6 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
   m[[7,2]] = ""
   m[[5,2]] = ""
   m[[7,4]] = ""
-  m[[7,5]] = ""
   #m[[6,5]] = ""
   #m[[8,4]] = ""
   #m[[8,5]] = ""
@@ -428,40 +430,35 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
   }
   
   # numarul de categorii ale modelului
-  Numgenerations <- 10;
+  Numgenerations <- 9;
   Diffmatrix = matrix(data = 0, nrow = Numgenerations, ncol = Numgenerations)
   
   m <- as.data.frame(Diffmatrix)
   
   # colori si nume cercuri
   name <- c("S", #1
-            expression(I[1]), #2
-            expression(I[2]), #3 
-            expression(Q[1]), #4 = QUARANTINED
-            expression(Q[2]), #5
-            expression(R[1]), #6
-            expression(R[2]), #7
-            expression(V[2]), #8 = infectati cu v2
-            expression(V[1]), #9 = infectati cu v1
-            "W" #10 = indivizi care se vindeca de ambii virusi
-            
+            expression(IV1[1]), #2
+            expression(IV2[2]), #3 
+            expression(HV1[1]), #4 
+            expression(HV2[2]), #5
+            expression(RV1[1]), #6
+            expression(RV2[2]), #7
+            expression(DV1[2]), #8 
+            expression(DV2[1]) #9 
             
             )
-  color <-  c("light green", "yellow", "yellow", "red", "red", "grey", "grey", "green", "light green", "white")
+  color <-  c("light green", "yellow", "yellow", "red", "red", "grey", "grey", "green", "light green")
   
   #sageti
   m[[2,1]] = ""
   m[[3,1]] = ""
   m[[4,2]] = ""
   m[[6,2]] = ""
-  m[[6,4]] = ""
-  m[[8,6]] = ""
-  m[[10,8]] = ""
-  m[[5,3]] = ""
-  m[[7,3]] = ""
-  m[[7,5]] = ""
-  m[[9,7]] = ""
-  m[[10,9]] = ""
+  m[[8,2]] = ""
+  m[[4,3]] = ""
+  m[[6,3]] = ""
+  m[[8,3]] = ""
+  
   
   #pozitii
   coord = matrix(nrow = Numgenerations, ncol = 2)
@@ -470,50 +467,48 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
   coord[1,1] = 0.5 -0.8 * scaleX
   coord[1,2] = 0.5 -0.2 * scaleY
   
-  # I[1]
+  # IV1[1]
   
   coord[2,1] = 0.5 - 0.4 * scaleX
   coord[2,2] = 0.5 + 0.2 * scaleY
   
-  # I[2]
+  # IV2[2]
   
   coord[3,1] = 0.5 -0.4 * scaleX
   coord[3,2] = 0.5 -0.5 * scaleY
   
-  # Q[1]
+  # HV1[1]
   
   coord[4,1] = 0.5 - 0.2 * scaleX
   coord[4,2] = 0.5 + 0.4 * scaleY
   
-  # Q[2]
+  # HV2[2]
   
   coord[5,1] = 0.5 - 0.2 * scaleX 
   coord[5,2] = 0.5 -0.7 * scaleY
   
-  # R[1]
-  
-  coord[6,1] = 0.5 + 0.1 * scaleX
-  coord[6,2] = 0.5 + 0.2 * scaleY
-
-  # R[2]
-  
-  coord[7,1] = 0.5 + 0.1 * scaleX
-  coord[7,2] = 0.5 -0.5 * scaleY
-    
-  # V[2]
-  
-  coord[8,1] = 0.5 + 0.5 * scaleX
-  coord[8,2] = 0.5 + 0.2 * scaleY
-  
-  # V[1]
+  # DV1[1]
   
   coord[9,1] = 0.5 + 0.5 * scaleX
   coord[9,2] = 0.5 - 0.5 * scaleY
   
-  # W
+  # DV2[2]
   
-  coord[10,1] = 0.5 + 0.85 * scaleX
-  coord[10,2] = 0.5 -0.2 * scaleY
+  coord[8,1] = 0.5 + 0.5 * scaleX
+  coord[8,2] = 0.5 + 0.2 * scaleY
+  
+  # RV1[1]
+  
+  coord[6,1] = 0.5 + 0.1 * scaleX
+  coord[6,2] = 0.5 + 0.2 * scaleY
+
+  # RV2[2]
+  
+  coord[7,1] = 0.5 + 0.1 * scaleX
+  coord[7,2] = 0.5 -0.5 * scaleY
+    
+  
+  
 
   plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.5, curve = 0,
