@@ -527,3 +527,48 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
   }
 diagram.2V()
 
+############################
+####Diagram Age Groups######
+############################
+
+
+diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX = 1/3, scaleY = 1/3){
+  
+  if(save.png) {
+    # run this to save as png;
+    png(file = file, width = 11.7, height = 8.3, units = "in", res=100)
+  } else {
+    #dev.new(width = 11.7, height = 8.3)
+  }
+  
+  # numarul de categorii ale modelului
+  Numgenerations <- 13;
+  Diffmatrix = matrix(data = 0, nrow = Numgenerations, ncol = Numgenerations)
+  
+  m <- as.data.frame(Diffmatrix)
+  
+  # colori si nume cercuri
+  name <- c(expression(Sc), #1
+            expression(Sa), #2
+            expression(Sa), #3 
+            expression(Ic), #4 
+            expression(Ia), #5
+            expression(Io), #6 
+            expression(Dc), #7
+            expression(Da), #8
+            expression(Do), #9
+            expression(Hc), #10
+            expression(Ha), #11
+            expression(Ho), #12
+            expression(R) #13
+            
+  )
+  color <-  c("light green", "yellow", "yellow", "red", "red", "grey", "grey", "green", "light green")
+  
+  #sageti
+  m[[4,1]] = ""
+  m[[5,2]] = ""
+  m[[6,3]] = ""
+  
+  
+}
