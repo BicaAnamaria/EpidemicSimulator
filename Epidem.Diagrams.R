@@ -219,7 +219,9 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   m[[3,5]] = ""
   m[[4,6]] = ""
   m[[7,3]] = ""
+  m[[7,5]] = ""
   m[[8,4]] = ""
+  m[[8,6]] = ""
   m[[10,5]] = ""
   m[[10,6]] = ""
   m[[10, 3]] = ""
@@ -227,52 +229,55 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   m[[10, 7]] = ""
   m[[10, 8]] = ""
   
+  
   # positions of boxes
   coord = matrix(nrow = Numgenerations, ncol = 2)
   
-  # Vy
+  # V[Y]
   coord[1,1] = 0.5 - 0.8 * scaleX
   coord[1,2] = 0.5 + 0.5 * scaleY
   
-  # Sy
+  # V[O]
+  coord[11,1] = 0.5 - 0.8 * scaleX
+  coord[11,2] = 0.5 - 0.5 * scaleY
+  
+  # S[Y]
   coord[2,1] = 0.5 - 0.55 * scaleX
-  coord[2,2] = 0.5 + 0.4 * scaleY
-  
-  # H[Y]
-  coord[3,1] = 0.5 + 0.4 * scaleX
-  coord[3,2] = 0.5 + 0.3 * scaleY
-  
-  # H[O]
-  coord[4,1] = 0.5 + 0.4 * scaleX
-  coord[4,2] = 0.5 - 0.3 * scaleY
-  
-  # I[Y]
-  coord[5,1] = 0.5 - 0.2 * scaleX
-  coord[5,2] = 0.5 + 0.3 * scaleY
-  
-  # I[O]
-  coord[6,1] = 0.5 - 0.2 * scaleX
-  coord[6,2] = 0.5 - 0.4 * scaleY
-  
-  # D[Y]
-  coord[7,1] = 0.5 + 0.75 * scaleX
-  coord[7,2] =0.5 + 0.2 * scaleY
-  
-  # D[O]
-  coord[8,1] = 0.5 + 0.75 * scaleX
-  coord[8,2] = 0.5 - 0.2 * scaleY
+  coord[2,2] = 0.5 + 0.5 * scaleY
   
   # S[O]
   coord[9,1] = 0.5 - 0.55 * scaleX
-  coord[9,2] = 0.5 - 0.3 * scaleY
+  coord[9,2] = 0.5 - 0.5 * scaleY
+  
+  # H[Y]
+  coord[3,1] = 0.5 + 0.2 * scaleX
+  coord[3,2] = 0.5 + 0.85 * scaleY
+  
+  # H[O]
+  coord[4,1] = 0.5 + 0.25 * scaleX#0.5 + 0.3 * scaleX
+  coord[4,2] = 0.5 - 1 * scaleY#0.5 - 0.1 * scaleY
+  
+  # I[Y]
+  coord[5,1] = 0.5 - 0.2 * scaleX
+  coord[5,2] = 0.5 + 0.5 * scaleY
+  
+  # I[O]
+  coord[6,1] = 0.5 - 0.2 * scaleX
+  coord[6,2] = 0.5 - 0.5 * scaleY
+  
+  # D[Y]
+  coord[7,1] = 0.5 + 0.75 * scaleX
+  coord[7,2] =0.5 + 0.4 * scaleY
+  
+  # D[O]
+  coord[8,1] = 0.5 + 0.75 * scaleX
+  coord[8,2] = 0.5 - 0.5 * scaleY
   
   # R
-  coord[10,1] = 0.5 + 0.25 * scaleX
-  coord[10,2] = 0.5 - 1 * scaleY
+  coord[10,1] = 0.5 + 0.3 * scaleX#0.5 + 0.25 * scaleX
+  coord[10,2] = 0.5 - 0.1 * scaleY#0.5 - 1 * scaleY
   
-  # V[O]
-  coord[11,1] = 0.5 - 0.8 * scaleX
-  coord[11,2] = 0.5 - 0.4 * scaleY
+ 
   
   # plotting the diagram
   plotmat(A = m, pos = coord, name = name, lwd = 2,
@@ -282,19 +287,19 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   
   # the curved arrows (coordinates hard coded)
   # from H[Y] -> I[Y]
-  curvedarrow(from = c(0.5 + 0.4 * scaleX, 0.5 + 0.35 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.25 * scaleY), lcol = "red",
+  curvedarrow(from = c(0.5 + 0.2 * scaleX,  0.5 + 0.85 * scaleY), to = c(0.5 - 0.2 * scaleX,  0.5 + 0.65 * scaleY), lcol = "red",
               curve =0.5, arr.pos = 0.9)
   
   # from I[Y] -> S[Y]
-  curvedarrow(from = c(0.5 - 0.1 * scaleX, 0.5 + 0.05 * scaleY), to = c(0.5 - 0.35 * scaleX,  0.5 + 0.15 * scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 + 0.45 * scaleY), to = c(0.5 - 0.45 * scaleX,  0.5 + 0.45 * scaleY), lcol = "orange",
               curve =-0.4, arr.pos = 0.95)
   
   # from H[O] to I[O]
-  curvedarrow(from = c(0.5 + 0.4 * scaleX, 0.5 - 0.25 * scaleY), to = c(0.5 - 0.15 * scaleX, 0.5 - 0.15 * scaleY), lcol = "red",
+  curvedarrow(from = c(0.5 + 0.25 * scaleX, 0.5 - 1 * scaleY), to = c(0.5 - 0.2 * scaleX, 0.5 - 0.4 * scaleY), lcol = "red",
               curve = 0.25, arr.pos = 0.9)
   
   # from I[O] to S[O]
-  curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 - 0.4 * scaleY), to = c(0.5 - 0.35 * scaleX, 0.5 - 0.3 * scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 - 0.5 * scaleY), to = c(0.5 - 0.45 * scaleX, 0.5 - 0.5 * scaleY), lcol = "orange",
               curve = -0.5, arr.pos = 0.9)     
   
 }
@@ -441,11 +446,11 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
             expression(IV2[2]), #3 
             expression(HV1[1]), #4 
             expression(HV2[2]), #5
-            expression(RV1[1]), #6
-            expression(RV2[2]), #7
-            expression(DV1[2]), #8 
-            expression(DV2[1]) #9 
-            
+            expression(DV1[2]), #6 
+            expression(DV2[1]), #7
+            expression(RV1[1]), #8
+            expression(RV2[2])  #9
+             
             )
   color <-  c("light green", "yellow", "yellow", "red", "red", "grey", "grey", "green", "light green")
   
@@ -455,9 +460,13 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
   m[[4,2]] = ""
   m[[6,2]] = ""
   m[[8,2]] = ""
-  m[[4,3]] = ""
-  m[[6,3]] = ""
-  m[[8,3]] = ""
+  m[[5,3]] = ""
+  m[[7,3]] = ""
+  m[[9,3]] = ""
+  m[[6,4]] = ""
+  m[[8,4]] = ""
+  m[[7,5]] = ""
+  m[[9,5]] = ""
   
   
   #pozitii
@@ -479,40 +488,38 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
   
   # HV1[1]
   
-  coord[4,1] = 0.5 - 0.2 * scaleX
-  coord[4,2] = 0.5 + 0.4 * scaleY
+  coord[4,1] = 0.5 - 0.25 * scaleX
+  coord[4,2] = 0.5 + 0.8 * scaleY
   
   # HV2[2]
   
-  coord[5,1] = 0.5 - 0.2 * scaleX 
-  coord[5,2] = 0.5 -0.7 * scaleY
+  coord[5,1] = 0.5 - 0.1 * scaleX 
+  coord[5,2] = 0.5 - 1.3 * scaleY
   
   # DV1[1]
   
-  coord[9,1] = 0.5 + 0.5 * scaleX
-  coord[9,2] = 0.5 - 0.5 * scaleY
+  coord[6,1] = 0.5 + 0.3 * scaleX
+  coord[6,2] = 0.5 + 0.9 * scaleY
   
   # DV2[2]
   
-  coord[8,1] = 0.5 + 0.5 * scaleX
-  coord[8,2] = 0.5 + 0.2 * scaleY
+  coord[7,1] = 0.5 + 0.3 * scaleX
+  coord[7,2] = 0.5 - 1.2 * scaleY
   
   # RV1[1]
   
-  coord[6,1] = 0.5 + 0.1 * scaleX
-  coord[6,2] = 0.5 + 0.2 * scaleY
-
+  coord[9,1] = 0.5 + 0.3 * scaleX
+  coord[9,2] = 0.5 - 0.5 * scaleY
+  
   # RV2[2]
   
-  coord[7,1] = 0.5 + 0.1 * scaleX
-  coord[7,2] = 0.5 -0.5 * scaleY
-    
-  
+  coord[8,1] = 0.5 + 0.3 * scaleX
+  coord[8,2] = 0.5 + 0.2 * scaleY
   
 
   plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.5, curve = 0,
-          box.size = 0.06, box.col = color, arr.type = "simple", 
+          box.size = 0.02, box.col = color, arr.type = "simple", 
           arr.pos = 0.6, main = "2 Viruses")
   
 
