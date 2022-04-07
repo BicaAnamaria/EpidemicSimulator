@@ -287,7 +287,7 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   
   # the curved arrows (coordinates hard coded)
   # from H[Y] -> I[Y]
-  curvedarrow(from = c(0.5 + 0.2 * scaleX,  0.5 + 0.85 * scaleY), to = c(0.5 - 0.2 * scaleX,  0.5 + 0.65 * scaleY), lcol = "red",
+  curvedarrow(from = c(0.5 + 0.2 * scaleX,  0.5 + 0.9 * scaleY), to = c(0.5 - 0.3 * scaleX,  0.5 + 0.65 * scaleY), lcol = "red",
               curve =0.5, arr.pos = 0.9)
   
   # from I[Y] -> S[Y]
@@ -295,8 +295,8 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
               curve =-0.4, arr.pos = 0.95)
   
   # from H[O] to I[O]
-  curvedarrow(from = c(0.5 + 0.25 * scaleX, 0.5 - 1 * scaleY), to = c(0.5 - 0.2 * scaleX, 0.5 - 0.4 * scaleY), lcol = "red",
-              curve = 0.25, arr.pos = 0.9)
+  curvedarrow(from = c(0.5 + 0.25 * scaleX, 0.5 - 1.1 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 - 0.45 * scaleY), lcol = "red",
+              curve = -0.25, arr.pos = 0.9)
   
   # from I[O] to S[O]
   curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 - 0.5 * scaleY), to = c(0.5 - 0.45 * scaleX, 0.5 - 0.5 * scaleY), lcol = "orange",
@@ -563,7 +563,7 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
             expression(R) #13
             
   )
-  color <-  c("light green", "yellow", "yellow", "red", "red", "grey", "grey", "green", "light green")
+  color <-  c("yellow", "yellow", "yellow", "red", "red", "red", "grey", "grey", "grey", "green", "green", "green", "light green")
   
   #sageti
   m[[4,1]] = ""
