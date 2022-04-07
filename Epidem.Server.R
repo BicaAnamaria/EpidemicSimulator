@@ -253,7 +253,7 @@ server <- function(input, output){
         }
         Sensitivity_AG3(input$optSensitivityAG3, custom, valTime, min=min, max=max, flt = input$optTypeAG3);
       }
-    }
+    } else diagram.AG3(scaleX=0.2, scaleY=0.2)
   })
   
   output$doStatistics = renderTable({
