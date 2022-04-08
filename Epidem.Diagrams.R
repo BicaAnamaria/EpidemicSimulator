@@ -226,8 +226,6 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   m[[10,6]] = ""
   m[[10, 3]] = ""
   m[[10, 4]] = ""
-  m[[10, 7]] = ""
-  m[[10, 8]] = ""
   
   
   # positions of boxes
@@ -549,7 +547,7 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
   }
   
   # numarul de categorii ale modelului
-  Numgenerations <- 15;
+  Numgenerations <- 12;
   Diffmatrix = matrix(data = 0, nrow = Numgenerations, ncol = Numgenerations)
   
   m <- as.data.frame(Diffmatrix)
@@ -564,12 +562,12 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
             expression(Hc), #7
             expression(Ha), #8
             expression(Ho), #9
-            expression(Dc), #10
-            expression(Da), #11
-            expression(Do), #12
-            expression(Rc), #13
-            expression(Ra), #14
-            expression(Ro)  #15
+            expression(Dc/Rc), #10
+            expression(Da/Ra), #11
+            expression(Do/Ro) #12
+            #expression(Rc), #13
+            #expression(Ra), #14
+            #expression(Ro)  #15
             
   )
   color <-  c("yellow", "yellow", "yellow", "red", "red", "red", "grey", "grey", "grey", "green", "green", "green", "light green")
@@ -581,6 +579,12 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
   m[[7,4]] = ""
   m[[8,5]] = ""
   m[[9,6]] = ""
+  m[[10,4]] = ""
+  m[[11,5]] = ""
+  m[[12,6]] = ""
+  m[[10,7]] = ""
+  m[[11,8]] = ""
+  m[[12,9]] = ""
   
   
   #pozitii
@@ -599,32 +603,44 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
   coord[3,2] = 0.5 - 0.9 * scaleY
   
   # Ic
-  coord[4,1] = 0.5 - 0.6 * scaleX
+  coord[4,1] = 0.5 - 0.3 * scaleX
   coord[4,2] = 0.5 + 1.1 * scaleY
   
   # Ia
-  coord[5,1] = 0.5 - 0.6 * scaleX
+  coord[5,1] = 0.5 - 0.3 * scaleX
   coord[5,2] = 0.5 + 0.1 * scaleY
   
   # Io
-  coord[6,1] = 0.5 - 0.6 * scaleX
+  coord[6,1] = 0.5 - 0.3 * scaleX
   coord[6,2] = 0.5 - 0.9 * scaleY
   
   # Hc
-  coord[7,1] = 0.5 - 0.3 * scaleX
+  coord[7,1] = 0.5 + 0.3 * scaleX
   coord[7,2] = 0.5 + 1.1 * scaleY
   
   # Ha
-  coord[8,1] = 0.5 - 0.3 * scaleX
+  coord[8,1] = 0.5 + 0.3 * scaleX
   coord[8,2] = 0.5 + 0.1 * scaleY
   
   # Ho
-  coord[9,1] = 0.5 - 0.3 * scaleX
+  coord[9,1] = 0.5 + 0.3 * scaleX
   coord[9,2] = 0.5 - 0.9 * scaleY
+  
+  # Dc
+  coord[10,1] = 0.5 + 0.9 * scaleX
+  coord[10,2] = 0.5 + 2.1 * scaleY
+  
+  # Da
+  coord[11,1] = 0.5 + 0.9 * scaleX
+  coord[11,2] = 0.5 + 1 * scaleY
+  
+  # Do
+  coord[12,1] = 0.5 + 0.9 * scaleX
+  coord[12,2] = 0.5 #- 0.3 * scaleY
   
   plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.5, curve = 0,
-          box.size = 0.01, box.col = color, arr.type = "simple", 
+          box.size = 0.018, box.col = color, arr.type = "simple", 
           arr.pos = 0.6, main = "Age Groups Model")
   
 }

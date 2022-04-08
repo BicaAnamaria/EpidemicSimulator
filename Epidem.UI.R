@@ -36,7 +36,10 @@
 
 
 ### Options
-opt = list(hosp.young = 0.01, hosp.old = 0.1, death.young = 0.001, death.old = 0.05);
+opt = list(
+  H = list(hosp.young = 0.01, hosp.old = 0.1, death.young = 0.001, death.old = 0.05, death.h = 0.07),
+  V = list(hosp.young = 0.01, hosp.old = 0.1, death.young = 0.001, death.old = 0.05, death.h = 0.07)
+);
 
 
 
@@ -78,13 +81,13 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              ),
                              column(4,
                                     sliderBase("infectH", label="Infection rate", 0.25),
-                                    sliderBase("hosp.oH", label="Hospitalization rate (Old)", opt$hosp.old),
-                                    sliderBase("hosp.yH", label="Hospitalization rate (Young)", opt$hosp.young)
+                                    sliderBase("hosp.oH", label="Hospitalization rate (Old)", opt$H$hosp.old),
+                                    sliderBase("hosp.yH", label="Hospitalization rate (Young)", opt$H$hosp.young)
                              ),
                              column(4,
-                                    sliderBase("death.oH", label="Death rate (Old)", opt$death.old),
-                                    sliderBase("death.yH", label="Death rate (Young)", opt$death.young),
-                                    sliderBase("death.hH", label="Death rate (Hosp)")
+                                    sliderBase("death.oH", label="Death rate (Old)", opt$H$death.old),
+                                    sliderBase("death.yH", label="Death rate (Young)", opt$H$death.young),
+                                    sliderBase("death.hH", label="Death rate (Hosp)", opt$H$death.h)
                              )
                            )),
                   
@@ -117,13 +120,13 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              ),
                              column(3,
                                     sliderBase("infectV", label="Infection rate", 0.25),
-                                    sliderBase("hosp.vV", label="Hospitalization rate (Old)"),
-                                    sliderBase("hosp.yV", label="Hospitalization rate (Young)")
+                                    sliderBase("hosp.vV", label="Hospitalization rate (Old)", opt$V$hosp.old),
+                                    sliderBase("hosp.yV", label="Hospitalization rate (Young)", opt$V$hosp.young)
                              ),
                              column(3,
-                                    sliderBase("death.oV", label="Death rate (Old)"),
-                                    sliderBase("deathV", label="Death rate (Young)"),
-                                    sliderBase("death.hV", label="Death rate (Hosp)")),
+                                    sliderBase("death.oV", label="Death rate (Old)", opt$V$death.old),
+                                    sliderBase("deathV", label="Death rate (Young)", opt$V$death.young),
+                                    sliderBase("death.hV", label="Death rate (Hosp)", opt$V$death.h)),
                              column(3,
                                     sliderVaccine("vacc.oV", label="Vaccination rate (Old%) "),
                                     sliderVaccine("vacc.yV", label="Vaccination rate (Young%) ")

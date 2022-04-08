@@ -29,21 +29,20 @@ setwd("C:\\Users\\anama\\OneDrive - e-uvt.ro\\Documents\\ANUL III\\Semestrul 1\\
 ### Options:
 source("Epidem.Options.R")
 
-# SIR models, differential equations
+# SIR models: differential equations
 source("Epidem.Models.R");
-# plot
+# Model Diagrams
 source("Epidem.Diagrams.R");
-# TODO: cleanup / better version
-# source("TwoViruses3D(with seed).R")
+
 # Analysis
 source("Epidem.Analysis.R");
 # Help
 source("Epidem.UI.Help.R");
 
 ### App
-# user interface
+# User Interface
 source("Epidem.UI.R");
-# server
+# Server
 source("Epidem.Server.R");
 
 #vwr = dialogViewer('Epidemic models', width = 1600, height = 1300)
