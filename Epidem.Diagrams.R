@@ -318,36 +318,36 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
   }
   
   # number of categories in the sir model
-  Numgenerations <- 7
+  Numgenerations <- 8
   DiffMat <- matrix(data = 0, nrow = Numgenerations, ncol = Numgenerations)
   m <- as.data.frame(DiffMat)
   
   # names and colors of boxes
   name <- c(
     expression(S[Y]), #1
-    "H", #2
+    expression(S[O]), #2
     expression(I[Y]), #3
     expression(I[O]), #4
-    "D", #5
-    expression(S[O]), #6
-    "R") #7
+    expression(H[Y]), #5
+    expression(H[O]), #6
+    "D", #7
+    "R") #8
   
-  color <-  c("yellow", "orange", "red", "red", "dark red", "grey", "green")
+  color <-  c("yellow", "red", "red", "orange", "orange", "dark red", "grey", "green")
   
   # arrows 
   m[[3,1]] = ""
-  m[[4,6]] = ""
-  m[[2,3]] = ""
+  m[[4,2]] = ""
   m[[5,3]] = ""
   m[[7,3]] = ""
-  m[[2,4]] = ""
-  m[[5,4]] = ""
-  m[[7,2]] = ""
-  m[[5,2]] = ""
+  m[[8,3]] = ""
+  m[[6,4]] = ""
   m[[7,4]] = ""
-  #m[[6,5]] = ""
-  #m[[8,4]] = ""
-  #m[[8,5]] = ""
+  m[[8,4]] = ""
+  m[[7,5]] = ""
+  m[[8,5]] = ""
+  m[[7,6]] = ""
+  m[[8,6]] = ""
   
   # positions of boxes
   coord = matrix(nrow = Numgenerations, ncol = 2)
@@ -360,29 +360,35 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
   coord[1,1] = 0.5 - 0.4 * scaleX
   coord[1,2] = 0.5 + 0.2 * scaleY
   
-  # H
-  coord[2,1] = 0.5 + 0.2 * scaleX
-  coord[2,2] = 0.5 + 0.4 * scaleY
-  
-  # Inf young
-  coord[3,1] = 0.5
-  coord[3,2] = 0.5 + 0.2 * scaleY
-  
-  # Inf old
-  coord[4,1] = 0.5
-  coord[4,2] = 0.5 -0.2 * scaleY
-  
-  # D
-  coord[5,1] = 0.5 + 0.4 * scaleX
-  coord[5,2] = 0.5
   
   # So
-  coord[6,1] = 0.5 - 0.4 * scaleX
-  coord[6,2] =0.5 - 0.2 * scaleY
+  coord[2,1] = 0.5 - 0.4 * scaleX
+  coord[2,2] = 0.5 - 0.2 * scaleY
+  
+  # Iy
+  coord[3,1] = 0.5 - 0.2 * scaleX
+  coord[3,2] = 0.5 + 0.2 * scaleY
+  
+  # Io
+  coord[4,1] = 0.5 - 0.2 * scaleX
+  coord[4,2] = 0.5 - 0.2 * scaleY
+  
+  # Hy
+  coord[5,1] = 0.5 #+ 0.1 * scaleX
+  coord[5,2] = 0.5 + 0.2 * scaleY
+  
+  # Ho
+  coord[6,1] = 0.5 #+ 0.1 * scaleX
+  coord[6,2] = 0.5 - 0.2 * scaleY
+  
+  # D
+  coord[7,1] = 0.5 + 0.2 * scaleX
+  coord[7,2] = 0.5 + 0.4 * scaleY
+  
   
   # R
-  coord[7,1] = 0.5 + 0.2 * scaleY
-  coord[7,2] = 0.5 - 0.4 * scaleY
+  coord[8,1] = 0.5 + 0.2 * scaleY
+  coord[8,2] = 0.5 - 0.4 * scaleY
   
   # Vo
   # coord[9,1] = 0.5 - 0.2 * scaleX
@@ -392,24 +398,24 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
   plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.25, curve = 0,
           box.size = 0.021, box.col = color, arr.type = "simple", 
-          arr.pos = 0.85, main = "SIR + Vaccination model")
+          arr.pos = 0.7, main = "SIR + Vaccination model")
   
   # the curved arrows (coordinates hard coded)
   # from Inf young to SusYoung
-  curvedarrow(from = c(0.5, 0.5 + 0.2 * scaleY), to = c(0.5 - 0.15 * scaleX, 0.5 + 0.2 * scaleY), lcol = "red",
+  curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 + 0.25 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 + 0.2 * scaleY), lcol = "red",
               curve =0.7, arr.pos = 0.95)
   
   # from Inf old to SusOld
-  curvedarrow(from = c(0.5, 0.5 -0.25 * scaleY), to = c(0.5 - 0.15 * scaleX, 0.5 - 0.22 * scaleY), lcol = "red",
+  curvedarrow(from = c(0.5- 0.2 * scaleX, 0.5 -0.25 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 - 0.22 * scaleY), lcol = "red",
               curve =-0.7, arr.pos = 0.95)
   
   # from H to Sy
-  curvedarrow(from = c(0.5 + 0.18*scaleX, 0.5 + 0.4 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.3 * scaleY), lcol = "orange",
-              curve = 0.2, arr.pos = 0.9)
+  curvedarrow(from = c(0.5 , 0.5 + 0.25 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.2 * scaleY), lcol = "orange",
+              curve = 0.9, arr.pos = 0.9)
   
   # from H to So
-  curvedarrow(from = c(0.5 + 0.21 * scaleX, 0.5 +0.37 * scaleY), to = c(0.5 -0.1 * scaleX, 0.5 - 0.34 * scaleY), lcol = "orange",
-              curve = -0.2, arr.pos = 0.9)     
+  curvedarrow(from = c(0.5 , 0.5 - 0.25 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 - 0.2 * scaleY), lcol = "orange",
+              curve = -0.9, arr.pos = 0.9)     
   
 }
 
