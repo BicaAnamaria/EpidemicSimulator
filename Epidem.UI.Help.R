@@ -1,3 +1,18 @@
+######################
+###
+### Epidemic Simulator - Bachelor Thesis
+### Student: Anamaria Bica
+### West University, Timisoara
+### Year 3, Faculty of Computer Science
+###
+### Coordinator: Daniela Zaharie
+### Supervisor: Leonard Mada
+### Syonic SRL
+
+### parts of the project are based
+### on a team project 2021
+### (see comments in Epidem.app.R)
+
 helpEpidem = function(){
   txtSIR = c("S = Susceptible", "I = Infected", "R = Recovered")
   txtHosp = c("Sy = Susceptible young", "So = Susceptible old", "Iy = Infected young", "Io = Infected old", 
@@ -26,7 +41,19 @@ helpEpidem = function(){
               "Vaccine Stratified Model" = 
                 list(txt = "Vaccine Stratified Model", C = txtVS), 
               "2 Viruses Model" = 
-                list(txt = "2 Viruses Model", C = txt2V),
+                list(txt = "Simple model which includes the emergence of a 
+                     virus mutant: The initial virus (Virus 1) can develop 
+                     a mutation during the course of the epidemic. A proportion 
+                     of infected individuals with Virus 1 will be converted to 
+                     infected individuals with Virus 2 on a specified day of 
+                     the infection. This delay can be set explicitly using 
+                     the Delay slider. The proportion is set using the option 
+                     opt..delay.2V (see file Epidem.Options.R). Recovered 
+                     patients become immune to both variants of the virus, 
+                     independent of the infecting virus strain. Currently, 
+                     only infected individuals in the community develop 
+                     the initial mutation. The model is implemented using 
+                     a 'Stop and Go' approach.", C = txt2V),
               "Age Groups Model" = 
                 list(txt = "Age Groups Model", C = txtAG3),
               "Analysis" = list(txt = "Analysis", C = NULL))
