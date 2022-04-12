@@ -534,6 +534,13 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
   curvedarrow(from = c(0.5 - 0.45 * scaleX,  0.5 - 0.6 * scaleY), to = c(0.5 - 0.6 * scaleX,  0.5 - 0.3 * scaleY), lcol = "orange",
               curve =-0.3, arr.pos = 0.9)
 
+  # from HV1 -> SV1
+  curvedarrow(from = c(0.5 - 0.25 * scaleX,  0.5 + 0.85 * scaleY), to = c(0.5 - 0.6 * scaleX,  0.5 ), lcol = "red",
+              curve =0.4, arr.pos = 0.9)
+  
+  # from HV2 -> SV2
+  curvedarrow(from = c(0.5 - 0.15 * scaleX ,  0.5 - 1.3 * scaleY), to = c(0.5 - 0.6 * scaleX,  0.5 - 0.3 * scaleY), lcol = "red",
+              curve =-0.2, arr.pos = 0.9)
   
   }
 diagram.2V()
