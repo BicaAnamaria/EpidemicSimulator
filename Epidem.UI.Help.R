@@ -56,7 +56,18 @@ helpEpidem = function(){
                      a 'Stop and Go' approach.", C = txt2V),
               "Age Groups Model" = 
                 list(txt = "Age Groups Model", C = txtAG3),
-              "Analysis" = list(txt = "Analysis", C = NULL))
+              "Analysis" = list(txt = "Analysis", C = NULL),
+              "Dispay" = 
+                list(txt = "Function for filtering results and desplaying them", C = NULL),
+              "Sensitivity Analysis" = 
+              list(txt = "A sequence of values between 0 and 1 is generated 
+                   for the selected parameter. The Sensitivity analysis runs 
+                   the simulation for each of these values. In the case of 
+                   the infection rate: the values vary between 0.75x and 1.75x 
+                   the current value of the infection rate. These limits are set 
+                   as global options: opt.sensitivity.infect.min and 
+                   opt.sensitivity.infect.max (see file Epidem.Options.R).", C = NULL)
+              )
   txtTitles = names(txtHelp)
   txt = lapply(seq(length(txtTitles)), function(id){
     fluidRow(HTML("<p> <b>", txtTitles[id], "</b> <br>", 
