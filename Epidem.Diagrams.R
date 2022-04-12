@@ -125,26 +125,26 @@ diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
   
   # H
   coord[3,1] = 0.5 + 0.2 * scaleX
-  coord[3,2] = 0.5 + 0.4 * scaleY
+  coord[3,2] = 0.5 #+ 0.4 * scaleY
   
-  # Inf young
+  # Iy
   coord[4,1] = 0.5
   coord[4,2] = 0.5 + 0.2 * scaleY
   
-  # Inf old
+  # Io
   coord[5,1] = 0.5
   coord[5,2] = 0.5 -0.2 * scaleY
   
   # D
-  coord[6,1] = 0.5 + 0.4 * scaleX
-  coord[6,2] = 0.5
+  coord[6,1] = 0.5 + 0.3 * scaleX
+  coord[6,2] = 0.5 + 0.4 * scaleY
   
   # So
   coord[7,1] = 0.5 - 0.4 * scaleX
   coord[7,2] =0.5 - 0.2 * scaleY
   
   # R
-  coord[8,1] = 0.5 + 0.2 * scaleY
+  coord[8,1] = 0.5 + 0.3 * scaleX
   coord[8,2] = 0.5 - 0.4 * scaleY
   
   # Vo
@@ -167,12 +167,12 @@ diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
               curve =-0.7, arr.pos = 0.95)
   
   # from H to Sy
-  curvedarrow(from = c(0.5 + 0.18 * scaleX, 0.5 + 0.4 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.3 * scaleY), lcol = "orange",
-              curve = 0.2, arr.pos = 0.9)
+  curvedarrow(from = c(0.5 + 0.18 * scaleX, 0.5), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.4 * scaleY), lcol = "orange",
+              curve = 0.5, arr.pos = 0.95)
   
   # from H to So
-  curvedarrow(from = c(0.5 + 0.21 * scaleX, 0.5 +0.37 * scaleY), to = c(0.5 -0.1 * scaleX, 0.5 - 0.34 *  scaleY), lcol = "orange",
-              curve = -0.2, arr.pos = 0.9)     
+  curvedarrow(from = c(0.5 + 0.21 * scaleX, 0.5), to = c(0.5 -0.1 * scaleX, 0.5 - 0.4 *  scaleY), lcol = "orange",
+              curve = -0.5, arr.pos = 0.95)     
   
 }
 diagramV()
@@ -264,15 +264,15 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   coord[6,2] = 0.5 - 0.5 * scaleY
   
   # D[Y]
-  coord[7,1] = 0.5 + 0.6 * scaleX
+  coord[7,1] = 0.5 + 0.45 * scaleX
   coord[7,2] =0.5 + 0.9 * scaleY
   
   # D[O]
-  coord[8,1] = 0.5 + 0.6 * scaleX
+  coord[8,1] = 0.5 + 0.45 * scaleX
   coord[8,2] = 0.5 - 0.9 * scaleY
   
   # R
-  coord[10,1] = 0.5 + 0.6 * scaleX#0.5 + 0.25 * scaleX
+  coord[10,1] = 0.5 + 0.45 * scaleX#0.5 + 0.25 * scaleX
   coord[10,2] = 0.5 - 0.1 * scaleY#0.5 - 1 * scaleY
   
  
@@ -410,11 +410,11 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
               curve =-0.7, arr.pos = 0.95)
   
   # from H to Sy
-  curvedarrow(from = c(0.5 , 0.5 + 0.25 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.2 * scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 , 0.5 + 0.25 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 + 0.2 * scaleY), lcol = "orange",
               curve = 0.9, arr.pos = 0.9)
   
   # from H to So
-  curvedarrow(from = c(0.5 , 0.5 - 0.25 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 - 0.2 * scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 , 0.5 - 0.25 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 - 0.2 * scaleY), lcol = "orange",
               curve = -0.9, arr.pos = 0.9)     
   
 }
