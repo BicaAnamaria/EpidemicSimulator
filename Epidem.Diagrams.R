@@ -167,11 +167,11 @@ diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
               curve =-0.7, arr.pos = 0.95)
   
   # from H to Sy
-  curvedarrow(from = c(0.5 + 0.18 * scaleX, 0.5), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.4 * scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 + 0.2 * scaleX, 0.5 + 0.05 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.25 * scaleY), lcol = "orange",
               curve = 0.5, arr.pos = 0.95)
   
   # from H to So
-  curvedarrow(from = c(0.5 + 0.21 * scaleX, 0.5), to = c(0.5 -0.1 * scaleX, 0.5 - 0.4 *  scaleY), lcol = "orange",
+  curvedarrow(from = c(0.5 + 0.2 * scaleX, 0.5 - 0.05 * scaleY), to = c(0.5 -0.1 * scaleX, 0.5 - 0.25 *  scaleY), lcol = "orange",
               curve = -0.5, arr.pos = 0.95)     
   
 }
