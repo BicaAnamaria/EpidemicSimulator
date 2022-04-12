@@ -446,14 +446,14 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
   
   # colori si nume cercuri
   name <- c("S", #1
-            expression(IV1[1]), #2
-            expression(IV2[2]), #3 
-            expression(HV1[1]), #4 
-            expression(HV2[2]), #5
-            expression(DV1[2]), #6 
-            expression(DV2[1]), #7
-            expression(RV1[1]), #8
-            expression(RV2[2])  #9
+            expression(IV1), #2
+            expression(IV2), #3 
+            expression(HV1), #4 
+            expression(HV2), #5
+            expression(DV1), #6 
+            expression(DV2), #7
+            expression(RV1), #8
+            expression(RV2)  #9
              
             )
   color <-  c("light green", "yellow", "yellow", "red", "red", "grey", "grey", "green", "light green")
