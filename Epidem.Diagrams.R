@@ -24,6 +24,8 @@
 
 library(diagram)
 
+col = list(S = "green", V = "light green", I = "yellow", H = "orange", D = "gray", R = "green");
+
 ##################
 ###Schema SIR#####
 ##################
@@ -44,7 +46,7 @@ diagram1  = function(file = "BasicSIR.png", save.png = FALSE) {
   
   # names and colors of boxes
   name <- c('S', 'I', 'R')
-  color <-  c("green", "yellow", "green")
+  color <-  c(col[[1]], col[[3]], col[[6]])
   
   # arrows 
   m[[2,1]] = ""
@@ -96,7 +98,9 @@ diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
             "R", #8
             expression(V[O])) #9
   
-  color <-  c("light green","green","light yellow","yellow","yellow","gray","green","green","light green")
+  color <-  c(col[[2]], col[[1]], col[[4]], 
+              col[[3]], col[[3]], col[[5]], 
+              col[[1]], col[[6]], col[[2]])
   
   # arrows 
   m[[1,2]] = ""
@@ -209,7 +213,10 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
             "R", #10
             expression(V[O])) #11
   
-  color <-  c("light green","green","light yellow", "light yellow", "yellow","yellow","gray", "gray", "green","green","light green")
+  color <-  c(col[[2]], col[[1]], col[[4]], 
+              col[[4]], col[[3]], col[[3]], 
+              col[[5]], col[[5]], col[[6]], 
+              col[[6]], col[[2]])
   
   # arrows 
   m[[1,2]] = ""
@@ -333,7 +340,10 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
     "D", #7
     "R") #8
   
-  color <-  c("green", "green", "yellow", "yellow", "light yellow", "light yellow", "grey", "green")
+  color <-  c(col[[1]], col[[1]], 
+              col[[3]], col[[3]], 
+              col[[4]], col[[4]], 
+              col[[5]], col[[6]])
   
   # arrows 
   m[[3,1]] = ""
@@ -456,7 +466,9 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
             expression(RV2)  #9
              
             )
-  color <-  c("green", "yellow", "yellow", "light yellow", "light yellow", "grey", "grey", "green", "green")
+  color <-  c(col[[1]], col[[3]], col[[3]], 
+              col[[4]], col[[4]], col[[5]], 
+              col[[5]], col[[6]], col[[6]])
   
   #sageti
   m[[2,1]] = ""
@@ -583,7 +595,10 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
             #expression(Ro)  #15
             
   )
-  color <-  c("green", "green", "green", "yellow", "yellow", "yellow", "grey", "grey", "grey", "green", "green", "green", "light green")
+  color <-  c(col[[1]], col[[1]], col[[1]], 
+              col[[3]], col[[3]], col[[3]], 
+              col[[4]], col[[4]], col[[4]], 
+              col[[5]], col[[5]], col[[5]])
   
   #sageti
   m[[4,1]] = ""
