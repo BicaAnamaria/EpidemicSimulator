@@ -26,6 +26,21 @@ library(diagram)
 
 col = list(S = "green", V = "light green", I = "yellow", H = "orange", D = "gray", R = "green");
 
+curvedArrows2 = function(x, y, dx, dy, curve, lcol, scaleX, scaleY, arr.pos=0.95) {
+  if(length(curve) == 1) curve = c(curve, -curve);
+  # Arrow 1:
+  curvedarrow(
+    from = c(x + dx[1] * scaleX, y + dy[1] * scaleY),
+    to   = c(x + dx[2] * scaleX, y + dy[2] * scaleY),
+    curve = curve[1], arr.pos = arr.pos, lcol=lcol)
+  
+  # Complementary Arrow:
+  curvedarrow(
+    from = c(x + dx[1] * scaleX, y - dy[1] * scaleY),
+    to   = c(x + dx[2] * scaleX, y - dy[2] * scaleY),
+    curve = curve[2], arr.pos = arr.pos, lcol=lcol)
+}
+
 ##################
 ###Schema SIR#####
 ##################
