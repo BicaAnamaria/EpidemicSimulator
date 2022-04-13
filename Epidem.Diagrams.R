@@ -46,7 +46,7 @@ diagram1  = function(file = "BasicSIR.png", save.png = FALSE) {
   
   # names and colors of boxes
   name <- c('S', 'I', 'R')
-  color <-  c(col[[1]], col[[3]], col[[6]])
+  color <-  c(col$S, col$I, col$R)
   
   # arrows 
   m[[2,1]] = ""
@@ -98,9 +98,8 @@ diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
             "R", #8
             expression(V[O])) #9
   
-  color <-  c(col[[2]], col[[1]], col[[4]], 
-              col[[3]], col[[3]], col[[5]], 
-              col[[1]], col[[6]], col[[2]])
+  color <-  c(col$V, col$S, col$H, col$I, col$I, col$D, 
+              col$S, col$R, col$V)
   
   # arrows 
   m[[1,2]] = ""
@@ -213,10 +212,8 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
             "R", #10
             expression(V[O])) #11
   
-  color <-  c(col[[2]], col[[1]], col[[4]], 
-              col[[4]], col[[3]], col[[3]], 
-              col[[5]], col[[5]], col[[6]], 
-              col[[6]], col[[2]])
+  color <-  c(col$V, col$S, col$H, col$H, col$I, col$I, 
+              col$D, col$D, col$S, col$R, col$V)
   
   # arrows 
   m[[1,2]] = ""
@@ -340,10 +337,8 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
     "D", #7
     "R") #8
   
-  color <-  c(col[[1]], col[[1]], 
-              col[[3]], col[[3]], 
-              col[[4]], col[[4]], 
-              col[[5]], col[[6]])
+  color <-  c(col$S, col$S, col$I, col$I, 
+              col$H, col$H, col$D, col$R)
   
   # arrows 
   m[[3,1]] = ""
@@ -466,9 +461,9 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
             expression(RV2)  #9
              
             )
-  color <-  c(col[[1]], col[[3]], col[[3]], 
-              col[[4]], col[[4]], col[[5]], 
-              col[[5]], col[[6]], col[[6]])
+  color <-  c(col$S, col$I, col$I, 
+              col$H, col$H, col$D, 
+              col$D, col$R, col$R)
   
   #sageti
   m[[2,1]] = ""
@@ -595,10 +590,10 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
             #expression(Ro)  #15
             
   )
-  color <-  c(col[[1]], col[[1]], col[[1]], 
-              col[[3]], col[[3]], col[[3]], 
-              col[[4]], col[[4]], col[[4]], 
-              col[[5]], col[[5]], col[[5]])
+  color <-  c(col$S, col$S, col$S, 
+              col$I, col$I, col$I, 
+              col$H, col$H, col$H, 
+              col$R, col$R, col$R)
   
   #sageti
   m[[4,1]] = ""
