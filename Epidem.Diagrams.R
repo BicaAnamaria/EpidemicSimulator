@@ -44,7 +44,7 @@ diagram1  = function(file = "BasicSIR.png", save.png = FALSE) {
   
   # names and colors of boxes
   name <- c('S', 'I', 'R')
-  color <-  c("yellow", "red", "green")
+  color <-  c("green", "yellow", "green")
   
   # arrows 
   m[[2,1]] = ""
@@ -96,7 +96,7 @@ diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
             "R", #8
             expression(V[O])) #9
   
-  color <-  c("light green","yellow","orange","red","red","dark red","grey","green","light green")
+  color <-  c("light green","green","light yellow","yellow","yellow","gray","green","green","light green")
   
   # arrows 
   m[[1,2]] = ""
@@ -209,7 +209,7 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
             "R", #10
             expression(V[O])) #11
   
-  color <-  c("light green","yellow","orange", "orange", "red","red","dark red", "dark red", "grey","green","light green")
+  color <-  c("light green","green","light yellow", "light yellow", "yellow","yellow","gray", "gray", "green","green","light green")
   
   # arrows 
   m[[1,2]] = ""
@@ -333,7 +333,7 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
     "D", #7
     "R") #8
   
-  color <-  c("yellow", "red", "red", "orange", "orange", "dark red", "grey", "green")
+  color <-  c("green", "green", "yellow", "yellow", "light yellow", "light yellow", "grey", "green")
   
   # arrows 
   m[[3,1]] = ""
@@ -456,7 +456,7 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
             expression(RV2)  #9
              
             )
-  color <-  c("light green", "yellow", "yellow", "red", "red", "grey", "grey", "green", "light green")
+  color <-  c("green", "yellow", "yellow", "light yellow", "light yellow", "grey", "grey", "green", "green")
   
   #sageti
   m[[2,1]] = ""
@@ -583,7 +583,7 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
             #expression(Ro)  #15
             
   )
-  color <-  c("yellow", "yellow", "yellow", "red", "red", "red", "grey", "grey", "grey", "green", "green", "green", "light green")
+  color <-  c("green", "green", "green", "yellow", "yellow", "yellow", "grey", "grey", "grey", "green", "green", "green", "light green")
   
   #sageti
   m[[4,1]] = ""
