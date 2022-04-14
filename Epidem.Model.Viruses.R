@@ -1,4 +1,19 @@
 ######################
+###
+### Epidemic Simulator - Bachelor Thesis
+### Student: Anamaria Bica
+### West University, Timisoara
+### Year 3, Faculty of Computer Science
+###
+### Coordinator: Daniela Zaharie
+### Supervisor: Leonard Mada
+### Syonic SRL
+
+### parts of the project are based
+### on a team project 2021
+### (see comments in Epidem.app.R)
+
+######################
 ######2 Viruses#######
 ######################
 
