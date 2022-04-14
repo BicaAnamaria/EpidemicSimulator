@@ -313,21 +313,28 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   
   # the curved arrows (coordinates hard coded)
   # from H[Y] -> I[Y]
-  curvedarrow(from = c(0.5 + 0.2 * scaleX,  0.5 + 0.6 * scaleY), to = c(0.5 - 0.3 * scaleX,  0.5 + 0.55 * scaleY), lcol = "orange",
-              curve =0.9, arr.pos = 0.95)
+  #curvedarrow(from = c(0.5 + 0.2 * scaleX,  0.5 + 0.6 * scaleY), to = c(0.5 - 0.3 * scaleX,  0.5 + 0.55 * scaleY), lcol = "orange",
+  #            curve =0.9, arr.pos = 0.95)
   
   # from I[Y] -> S[Y]
-  curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 + 0.4 * scaleY), to = c(0.5 - 0.4 * scaleX,  0.5 + 0.45 * scaleY), lcol = "red",
-              curve =-0.9, arr.pos = 0.95)
+  #curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 + 0.4 * scaleY), to = c(0.5 - 0.4 * scaleX,  0.5 + 0.45 * scaleY), lcol = "red",
+  #            curve =-0.9, arr.pos = 0.95)
   
   # from H[O] to I[O]
-  curvedarrow(from = c(0.5 + 0.2 * scaleX, 0.5 - 0.55 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 - 0.5 * scaleY), lcol = "orange",
-              curve = -0.9, arr.pos = 0.95)
+  #curvedarrow(from = c(0.5 + 0.2 * scaleX, 0.5 - 0.55 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 - 0.5 * scaleY), lcol = "orange",
+  #            curve = -0.9, arr.pos = 0.95)
   
   # from I[O] to S[O]
-  curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 - 0.4 * scaleY), to = c(0.5 - 0.4 * scaleX, 0.5 - 0.5 * scaleY), lcol = "red",
-              curve = 0.9, arr.pos = 0.95)     
+  #curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 - 0.4 * scaleY), to = c(0.5 - 0.4 * scaleX, 0.5 - 0.5 * scaleY), lcol = "red",
+  #            curve = 0.9, arr.pos = 0.95)    
   
+  # from Iy to Sy & Io to So
+  curvedArrows2(0.5, 0.5, dx = c(-0.2, -0.4), dy = c(0.6, 0.53), curve=0.7, lcol = col$I,
+                scaleX=scaleX, scaleY=scaleY);
+  
+  # from Hy to Sy & Ho to So
+  curvedArrows2(0.5, 0.5, dx = c(0.2, -0.3), dy = c(0.6, 0.53), curve=0.7, lcol = col$H,
+                scaleX=scaleX, scaleY=scaleY);
 }
 diagramVS()
 
