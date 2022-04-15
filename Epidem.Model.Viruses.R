@@ -13,9 +13,9 @@
 ### on a team project 2021
 ### (see comments in Epidem.app.R)
 
-######################
-######2 Viruses#######
-######################
+#######################
+### 2 Viruses Model ###
+#######################
 
 getDisplayTypes2V = function(){
   c("All", "Compact", "V1", "V2")
@@ -33,11 +33,7 @@ getSensitivity2V = function() {
 
 sir2Viruses <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
-    
-   # if(time < opt.delay.2V){
-   #   #IV2 = 0;
-   #   infect.v2 = 0;
-  #  } 
+
     dI1 = S * infect.v1 * (IV1 + HV1);
     dI2 = S * infect.v2 * (IV2 + HV2);
     
@@ -52,14 +48,6 @@ sir2Viruses <- function(time, state, parameters) {
     dRV1 = recov.v1 * IV1 + recov.hv1 * HV1;
     dRV2 = recov.v2 * IV2 + recov.hv2 * HV2;
     
-    #dIV12 = 0;
-    #dIV21 = 0;
-    #dSV12 = 0;
-    #dSV21 = 0;
-    #dHV12 = 0;
-    #dHV21 = 0;
-    
-    #return(list(c(dT, dS, dI, dR, dD, dH, dV, dRo, dHo, dDo)));
     return(list(c(dS, dIV1, dIV2, dHcum, dHV1, dHV2, dDV1, dDV2, dRV1, dRV2)));
   })
 }
@@ -135,7 +123,8 @@ plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...)
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR 2 Virus Model", 
            add = add, plot.legend = plot.legend, ...)
 }
-# Sensivity Analysis
+
+### Sensivity Analysis
 Sensitivity_2Viruses = function(param, opt, end.time, min=0, max=1, flt = "V1") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {

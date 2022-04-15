@@ -42,7 +42,7 @@ curvedArrows2 = function(x, y, dx, dy, curve, lcol, scaleX, scaleY, arr.pos=0.95
 }
 
 ##################
-###Schema SIR#####
+### Schema SIR ###
 ##################
 
 diagram1  = function(file = "BasicSIR.png", save.png = FALSE) {
@@ -80,12 +80,127 @@ diagram1  = function(file = "BasicSIR.png", save.png = FALSE) {
               arr.pos = 0.8, lcol = "red", arr.col = "red")
 }
 
-diagram1() 
+
+##############################
+### Schema Hospitalisation ###
+##############################
+
+diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
+  
+  if(save.png) {
+    # run this to save as png;
+    png(file = file, width = 11.7, height = 8.3, units = "in", res = 100)
+  } else {
+    #dev.new(width = 11.7, height = 8.3)
+  }
+  
+  # number of categories in the sir model
+  Numgenerations <- 8
+  DiffMat <- matrix(data = 0, nrow = Numgenerations, ncol = Numgenerations)
+  m <- as.data.frame(DiffMat)
+  
+  # names and colors of boxes
+  name <- c(
+    expression(S[Y]), #1
+    expression(S[O]), #2
+    expression(I[Y]), #3
+    expression(I[O]), #4
+    expression(H[Y]), #5
+    expression(H[O]), #6
+    "D", #7
+    "R") #8
+  
+  color <-  c(col$S, col$S, col$I, col$I, 
+              col$H, col$H, col$D, col$R)
+  
+  # arrows 
+  m[[3,1]] = ""
+  m[[4,2]] = ""
+  m[[5,3]] = ""
+  m[[7,3]] = ""
+  m[[8,3]] = ""
+  m[[6,4]] = ""
+  m[[7,4]] = ""
+  m[[8,4]] = ""
+  m[[7,5]] = ""
+  m[[8,5]] = ""
+  m[[7,6]] = ""
+  m[[8,6]] = ""
+  
+  # positions of boxes
+  coord = matrix(nrow = Numgenerations, ncol = 2)
+  
+  # Vy
+  # coord[1,1] = 0.5 - 0.2 * scaleX
+  # coord[1,2] = 0.5 + 0.4 * scaleY
+  
+  # Sy
+  coord[1,1] = 0.5 - 0.4 * scaleX
+  coord[1,2] = 0.5 + 0.2 * scaleY
+  
+  
+  # So
+  coord[2,1] = 0.5 - 0.4 * scaleX
+  coord[2,2] = 0.5 - 0.2 * scaleY
+  
+  # Iy
+  coord[3,1] = 0.5 - 0.2 * scaleX
+  coord[3,2] = 0.5 + 0.2 * scaleY
+  
+  # Io
+  coord[4,1] = 0.5 - 0.2 * scaleX
+  coord[4,2] = 0.5 - 0.2 * scaleY
+  
+  # Hy
+  coord[5,1] = 0.5 #+ 0.1 * scaleX
+  coord[5,2] = 0.5 + 0.2 * scaleY
+  
+  # Ho
+  coord[6,1] = 0.5 #+ 0.1 * scaleX
+  coord[6,2] = 0.5 - 0.2 * scaleY
+  
+  # D
+  coord[7,1] = 0.5 + 0.2 * scaleX
+  coord[7,2] = 0.5 + 0.4 * scaleY
+  
+  
+  # R
+  coord[8,1] = 0.5 + 0.2 * scaleY
+  coord[8,2] = 0.5 - 0.4 * scaleY
+  
+  # Vo
+  # coord[9,1] = 0.5 - 0.2 * scaleX
+  #coord[9,2] = 0.5 - 0.4 * scaleY
+  
+  # plotting the diagram
+  plotmat(A = m, pos = coord, name = name, lwd = 2,
+          arr.width = 0.25, curve = 0,
+          box.size = 0.021, box.col = color, arr.type = "simple", 
+          arr.pos = 0.7, main = "SIR + Vaccination model")
+  
+  ### Curved Arrows
+  # coordinates are hard coded;
+  
+  # from Iy to Sy & Io to So
+  curvedArrows2(0.5, 0.5, dx = c(-0.215, -0.3), dy = c(0.295, 0.2),
+                curve=0.7, lcol = col$I,
+                scaleX=scaleX, scaleY=scaleY);
+  
+  # from Hy to Sy & Ho to So
+  curvedArrows2(0.5, 0.5, dx = c(-0.01, -0.3), dy = c(0.30, 0.2),
+                curve=0.7, lcol = col$H,
+                scaleX=scaleX, scaleY=scaleY);
+  
+  curvedArrows2(0.5, 0.5, dx = c(-0.215, -0.3), dy = c(0.12, -0.2),
+                curve=0.2, lcol = col$I,
+                scaleX=scaleX, scaleY=scaleY);
+}
 
 
-#############################
-####Schema Vaccination#######
-#############################
+
+##########################
+### Schema Vaccination ###
+##########################
 
 
 diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1/2, scaleY = 1/2) {
@@ -175,23 +290,9 @@ diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
           box.size = 0.021, box.col = color, arr.type = "simple", 
           arr.pos = 0.85, main = "SIR + Vaccination model")
   
-  # the curved arrows (coordinates hard coded)
-  # from Inf young to SusYoung
-  #curvedarrow(from = c(0.5, 0.5 + 0.2 * scaleY), to = c(0.5 - 0.15 * scaleX, 0.5 + 0.2 * scaleY), lcol = "red",
-  #            curve =0.7, arr.pos = 0.95)
-  
-  # from Inf old to SusOld
-  #curvedarrow(from = c(0.5, 0.5 -0.25 * scaleY), to = c(0.5 - 0.15 * scaleX, 0.5 - 0.22 * scaleY), lcol = "red",
-  #            curve =-0.7, arr.pos = 0.95)
-  
-  # from H to Sy
-  #curvedarrow(from = c(0.5 + 0.2 * scaleX, 0.5 + 0.05 * scaleY), to = c(0.5 - 0.1 * scaleX, 0.5 + 0.25 * scaleY), lcol = "orange",
-  #            curve = 0.5, arr.pos = 0.95)
-  
-  # from H to So
-  #curvedarrow(from = c(0.5 + 0.2 * scaleX, 0.5 - 0.05 * scaleY), to = c(0.5 -0.1 * scaleX, 0.5 - 0.25 *  scaleY), lcol = "orange",
-  #            curve = -0.5, arr.pos = 0.95)  
-  
+  ### Curved Arrows 
+  # coordinates hard coded
+
   # from I[Young] to S[Young]
   # & from I[Old] to S[Old]
   curvedArrows2(0.5, 0.5, dx = c(0, -0.15), dy = c(0.25, 0.22), 
@@ -203,13 +304,17 @@ diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
                 curve=0.7, lcol = col$H,
                 scaleX=scaleX, scaleY=scaleY);
   
+  # from Iy to So & Io to Sy
+  curvedArrows2(0.5, 0.5, dx = c(0, -0.15), dy = c(0.15, -0.19), 
+                curve=0.2, lcol = col$I,
+                scaleX=scaleX, scaleY=scaleY);
+  
 }
-diagramV()
 
 
-##########################
-####Schema VaccStrat######
-##########################
+#####################################
+### Schema Vaccination Stratified ###
+#####################################
 
 diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
   
@@ -313,23 +418,9 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
           box.size = 0.017, box.col = color, arr.type = "simple", 
           arr.pos = 0.57, main = "SIR + Vaccination Stratified model")
   
-  # the curved arrows (coordinates hard coded)
-  # from H[Y] -> I[Y]
-  #curvedarrow(from = c(0.5 + 0.2 * scaleX,  0.5 + 0.6 * scaleY), to = c(0.5 - 0.3 * scaleX,  0.5 + 0.55 * scaleY), lcol = "orange",
-  #            curve =0.9, arr.pos = 0.95)
-  
-  # from I[Y] -> S[Y]
-  #curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 + 0.4 * scaleY), to = c(0.5 - 0.4 * scaleX,  0.5 + 0.45 * scaleY), lcol = "red",
-  #            curve =-0.9, arr.pos = 0.95)
-  
-  # from H[O] to I[O]
-  #curvedarrow(from = c(0.5 + 0.2 * scaleX, 0.5 - 0.55 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 - 0.5 * scaleY), lcol = "orange",
-  #            curve = -0.9, arr.pos = 0.95)
-  
-  # from I[O] to S[O]
-  #curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 - 0.4 * scaleY), to = c(0.5 - 0.4 * scaleX, 0.5 - 0.5 * scaleY), lcol = "red",
-  #            curve = 0.9, arr.pos = 0.95)    
-  
+  ### Curved arrows 
+  # coordinates hard coded
+    
   # from Iy to Sy & Io to So
   curvedArrows2(0.5, 0.5, dx = c(-0.2, -0.4), dy = c(0.6, 0.53), 
                 curve=0.7, lcol = col$I,
@@ -339,146 +430,18 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   curvedArrows2(0.5, 0.5, dx = c(0.2, -0.3), dy = c(0.6, 0.53), 
                 curve=0.7, lcol = col$H,
                 scaleX=scaleX, scaleY=scaleY);
-}
-diagramVS()
-
-
-################################
-####Schema Hospitalisation######
-################################
-
-diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
   
-  if(save.png) {
-    # run this to save as png;
-    png(file = file, width = 11.7, height = 8.3, units = "in", res = 100)
-  } else {
-    #dev.new(width = 11.7, height = 8.3)
-  }
-  
-  # number of categories in the sir model
-  Numgenerations <- 8
-  DiffMat <- matrix(data = 0, nrow = Numgenerations, ncol = Numgenerations)
-  m <- as.data.frame(DiffMat)
-  
-  # names and colors of boxes
-  name <- c(
-    expression(S[Y]), #1
-    expression(S[O]), #2
-    expression(I[Y]), #3
-    expression(I[O]), #4
-    expression(H[Y]), #5
-    expression(H[O]), #6
-    "D", #7
-    "R") #8
-  
-  color <-  c(col$S, col$S, col$I, col$I, 
-              col$H, col$H, col$D, col$R)
-  
-  # arrows 
-  m[[3,1]] = ""
-  m[[4,2]] = ""
-  m[[5,3]] = ""
-  m[[7,3]] = ""
-  m[[8,3]] = ""
-  m[[6,4]] = ""
-  m[[7,4]] = ""
-  m[[8,4]] = ""
-  m[[7,5]] = ""
-  m[[8,5]] = ""
-  m[[7,6]] = ""
-  m[[8,6]] = ""
-  
-  # positions of boxes
-  coord = matrix(nrow = Numgenerations, ncol = 2)
-  
-  # Vy
-  # coord[1,1] = 0.5 - 0.2 * scaleX
-  # coord[1,2] = 0.5 + 0.4 * scaleY
-  
-  # Sy
-  coord[1,1] = 0.5 - 0.4 * scaleX
-  coord[1,2] = 0.5 + 0.2 * scaleY
-  
-  
-  # So
-  coord[2,1] = 0.5 - 0.4 * scaleX
-  coord[2,2] = 0.5 - 0.2 * scaleY
-  
-  # Iy
-  coord[3,1] = 0.5 - 0.2 * scaleX
-  coord[3,2] = 0.5 + 0.2 * scaleY
-  
-  # Io
-  coord[4,1] = 0.5 - 0.2 * scaleX
-  coord[4,2] = 0.5 - 0.2 * scaleY
-  
-  # Hy
-  coord[5,1] = 0.5 #+ 0.1 * scaleX
-  coord[5,2] = 0.5 + 0.2 * scaleY
-  
-  # Ho
-  coord[6,1] = 0.5 #+ 0.1 * scaleX
-  coord[6,2] = 0.5 - 0.2 * scaleY
-  
-  # D
-  coord[7,1] = 0.5 + 0.2 * scaleX
-  coord[7,2] = 0.5 + 0.4 * scaleY
-  
-  
-  # R
-  coord[8,1] = 0.5 + 0.2 * scaleY
-  coord[8,2] = 0.5 - 0.4 * scaleY
-  
-  # Vo
-  # coord[9,1] = 0.5 - 0.2 * scaleX
-  #coord[9,2] = 0.5 - 0.4 * scaleY
-  
-  # plotting the diagram
-  plotmat(A = m, pos = coord, name = name, lwd = 2,
-          arr.width = 0.25, curve = 0,
-          box.size = 0.021, box.col = color, arr.type = "simple", 
-          arr.pos = 0.7, main = "SIR + Vaccination model")
-  
-  # the curved arrows (coordinates hard coded)
-  # from Inf young to SusYoung
-  #curvedarrow(from = c(0.5 - 0.2 * scaleX, 0.5 + 0.25 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 + 0.2 * scaleY), lcol = "red",
-  #            curve =0.7, arr.pos = 0.95)
-  
-  # from Inf old to SusOld
-  #curvedarrow(from = c(0.5- 0.2 * scaleX, 0.5 -0.25 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 - 0.22 * scaleY), lcol = "red",
-  #            curve =-0.7, arr.pos = 0.95)
-  
-  # from H to Sy
-  #curvedarrow(from = c(0.5 , 0.5 + 0.25 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 + 0.2 * scaleY), lcol = "orange",
-  #            curve = 0.9, arr.pos = 0.9)
-  
-  # from H to So
-  #curvedarrow(from = c(0.5 , 0.5 - 0.25 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 - 0.2 * scaleY), lcol = "orange",
-  #            curve = -0.9, arr.pos = 0.9)   
-  
-  ### Curved Arrows
-  # coordinates are hard coded;
-  
-  # from Iy to Sy & Io to So
-  curvedArrows2(0.5, 0.5, dx = c(-0.215, -0.3), dy = c(0.295, 0.2),
-                curve=0.7, lcol = col$I,
-                scaleX=scaleX, scaleY=scaleY);
-  
-  # from Hy to Sy & Ho to So
-  curvedArrows2(0.5, 0.5, dx = c(-0.01, -0.3), dy = c(0.30, 0.2),
-                curve=0.7, lcol = col$H,
+  # from Iy to So & Io to Sy
+  curvedArrows2(0.5, 0.5, dx = c(-0.2, -0.4), dy = c(0.4, -0.48), 
+                curve=0.1, lcol = col$I,
                 scaleX=scaleX, scaleY=scaleY);
 }
 
-### Test
-diagram.H()
 
 
-
-###########################
-####Diagram 2 Viruses######
-###########################
+#######################
+### Schema 2 Viruses###
+#######################
 
 
 diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, scaleY = 1/3){
@@ -490,13 +453,13 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
     #dev.new(width = 11.7, height = 8.3)
   }
   
-  # numarul de categorii ale modelului
+  # number of categories in the sir model
   Numgenerations <- 9;
   Diffmatrix = matrix(data = 0, nrow = Numgenerations, ncol = Numgenerations)
   
   m <- as.data.frame(Diffmatrix)
   
-  # colori si nume cercuri
+  # names and colors of boxes
   name <- c("S", #1
             expression(IV1), #2
             expression(IV2), #3 
@@ -512,7 +475,7 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
               col$H, col$H, col$D, 
               col$D, col$R, col$R)
   
-  #sageti
+  # arrows
   m[[2,1]] = ""
   m[[3,1]] = ""
   m[[4,2]] = ""
@@ -527,7 +490,7 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
   m[[9,5]] = ""
   
   
-  #pozitii
+  # positions of boxes
   coord = matrix(nrow = Numgenerations, ncol = 2)
   
   # S
@@ -580,6 +543,9 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
           box.size = 0.02, box.col = color, arr.type = "simple", 
           arr.pos = 0.6, main = "2 Viruses")
   
+  ### Curved arrows 
+  # coordinates hard coded
+  
   # from IV1 -> SV1
   curvedarrow(from = c(0.5 - 0.45 * scaleX,  0.5 + 0.3 * scaleY), to = c(0.5 - 0.6 * scaleX,  0.5 ), lcol = "yellow",
               curve =0.4, arr.pos = 0.9)
@@ -597,11 +563,11 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
               curve =-0.2, arr.pos = 0.9)
   
   }
-diagram.2V()
 
-############################
-####Diagram Age Groups######
-############################
+
+##########################
+### Diagram Age Groups ###
+##########################
 
 
 diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX = 1/3, scaleY = 1/3){
@@ -613,13 +579,13 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
     #dev.new(width = 11.7, height = 8.3)
   }
   
-  # numarul de categorii ale modelului
+  # number of categories in the sir model
   Numgenerations <- 12;
   Diffmatrix = matrix(data = 0, nrow = Numgenerations, ncol = Numgenerations)
   
   m <- as.data.frame(Diffmatrix)
   
-  # colori si nume cercuri
+  # names and colors of boxes
   name <- c(expression(Sc), #1
             expression(Sa), #2
             expression(Sa), #3 
@@ -642,7 +608,7 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
               col$H, col$H, col$H, 
               col$R, col$R, col$R)
   
-  #sageti
+  # arrows
   m[[4,1]] = ""
   m[[5,2]] = ""
   m[[6,3]] = ""
@@ -657,7 +623,7 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
   m[[12,9]] = ""
   
   
-  #pozitii
+  # positions of boxes
   coord = matrix(nrow = Numgenerations, ncol = 2)
   
   # Sc

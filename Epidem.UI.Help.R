@@ -32,7 +32,7 @@ helpEpidem = function(){
              "Dc = Death children", "Da = Death adults", "Do = Death old",
              "R = Recovered (R = Rc + Ra + Ro)")
   # title = list(description, abrevetions/compartments)
-  txtHelp = list("SIR" = list(txt = "Simple SIR Model", C = txtSIR), 
+  txtHelp = list("SIR Model" = list(txt = "Simple SIR Model", C = txtSIR), 
               "Hospitalization Model" =  
                 list(txt = "The SIR Model was extended with a 
                             Hospitalization compartment.", C = txtHosp),
@@ -57,7 +57,7 @@ helpEpidem = function(){
               "Age Groups Model" = 
                 list(txt = "Age Groups Model", C = txtAG3),
               "Analysis" = list(txt = "Analysis", C = NULL),
-              "Dispay" = 
+              "Display" = 
                 list(txt = "Function for filtering results and desplaying them", C = NULL),
               "Sensitivity Analysis" = 
               list(txt = "A sequence of values between 0 and 1 is generated 

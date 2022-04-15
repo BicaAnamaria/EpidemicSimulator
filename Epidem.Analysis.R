@@ -16,7 +16,6 @@
 ###   Liviu Sopon and Dragos Ursan
 ###   West University, Timisoara
 
-# TODO: VaccStrat -> visualization in Analysis ????
 calculate_parameters <- function(dX, category = NULL, type = "Infected"){
   # maximum number of infected persons/day
   maxCutoff = max(dX) * opt.stat.max.cutoff;
@@ -94,9 +93,6 @@ summarySIR_Infected = function(x)
   
   names(results) = c("Type", "Age", "Duration (days)", "Max", "Cutoff");
   results$Unit = "Persons/million";
-
-  
-  # TODO: coloana in fata cu ce inseamna + statistical hosp
 
   return(results)
 }

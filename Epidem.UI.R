@@ -61,7 +61,6 @@ sliderVaccine = function(id, label, val = 0.001, min = 0, max = 0.01, step = 0.0
 
 
 ### UI
-### H = Hospital
 ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                 tabsetPanel(
                   tabPanel("Hospitalization SIR model",

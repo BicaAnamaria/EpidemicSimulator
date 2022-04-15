@@ -14,7 +14,7 @@
 ### (see comments in Epidem.app.R)
 
 ########################
-####Age Groups Model####
+### Age Groups Model ###
 ########################
 
 getDisplayTypesAG3 = function(){
@@ -45,7 +45,6 @@ sirAG3 <- function(time, state, parameters) {
     
     # infect.xy = Ix infects Sy;
     # in hospital: children get infected as non-children;
-    # dSc = -infect * Sc * ( Ic + Ia + Io + Hc + Ha + Ho) 
     dSc = - Sc * (infect.cc * Ic + infect.nc * (Ia + Io + Hc + Ha + Ho))
     dSa = - Sa * (infect.cn * Ic + infect.nn * (Ia + Io + Hc + Ha + Ho))
     dSo = - So * (infect.cn * Ic + infect.nn * (Ia + Io + Hc + Ha + Ho))
@@ -61,7 +60,6 @@ sirAG3 <- function(time, state, parameters) {
     dR = recov.c * Ic + recov.a * Ia + recov.o * Io + recov.c * Hc + recov.a * Ha + recov.o * Ho;
     dHcum = hosp.c * Io + hosp.a * Ia + hosp.o * Io;
     dT = dSc + dSa + dSo;
-    
     
     return(list(c(dT, dSc, dSa, dSo, dIc, dIa, dIo, dHcum, dHc, dHa, dHo, dDc, dDa, dDo, dR)));
   })
@@ -138,7 +136,8 @@ plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Age Groups Model", 
            add = add, plot.legend = plot.legend, ...)
 }
-# Sensivity Analysis
+
+### Sensivity Analysis
 Sensitivity_AG3 = function(param, opt, end.time, min=0, max=1, flt = "Adults") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {

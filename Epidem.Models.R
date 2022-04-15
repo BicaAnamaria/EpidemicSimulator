@@ -117,10 +117,6 @@ initSIR_Basic = function(list, end.time){
 
 }
 
-
-#######################
-#######################
-
 #######################
 ### Hospitalization ###
 #######################
@@ -219,7 +215,7 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
   plot.sir(out, legend.lbl = lbl, leg.off = leg.off, add = add, plot.legend = plot.legend, title = "SIR Hospitalisation Model", ...);
 }
 
-### Sensitivity
+### Sensitivity Analysis
 
 Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
   by = (max - min)/20;

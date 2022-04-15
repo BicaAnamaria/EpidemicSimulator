@@ -59,7 +59,7 @@ sirVacc <- function(time, state, parameters) {
     dH =  hosp.y * Iy + hosp.o * Io - recov.h * H - death.h * H;
     dR =  recov * Iy + recov * Io + recov.h * H;
     dHcum = hosp.y * Iy + hosp.o * Io;
-    #return(list(c(dT, dS, dI, dR, dD, dH, dV, dRo, dHo, dDo)));
+
     return(list(c(dT, dSy, dSo, dIy, dIo, dHcum, dH, dD, dR, dVy, dVo)));
   })
 }
@@ -127,8 +127,8 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Model", 
            add = add, plot.legend = plot.legend, ...)
 }
-# elimin com de la sensitivity hosp
 
+### Sensitivity Analysis
 Sensitivity_Vaccine = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
@@ -149,9 +149,9 @@ Sensitivity_Vaccine = function(param, opt, end.time, min=0, max=1, p.old = opt.p
                   lty = 1);
 }
 
-###############################
+##############################
 ### Vaccination Stratified ###
-###############################
+##############################
 
 getSensitivityVaccStrat = function() {
   c("Vaccination Startified Model" = "VaccStrat", 
@@ -194,8 +194,6 @@ sirVaccStrat <- function(time, state, parameters) {
     
   }
   )}
-
-# separat models_hosp, models_vaccine -> 3 fisiere
 
 initSIR_VaccineStrat = function(param, end.time, p.old = opt.p.old)
 {
@@ -253,7 +251,6 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
       out$V = out$Vy + out$Vo;
       lbl = c(lbl, "Infected (Total)", "Hospitalised (Total)", "Vaccinated (Total)")
       r = filter.out(out, c("Iy", "Io", "Vy", "Vo", "Hy", "Ho"), lbl);
-      # r = filter.out(out, c("Vo", "Vy", "Dy", "Do", "Ho", "Hy"), lbl);
     }
     
     out = r$out; lbl = r$lbl;
@@ -261,7 +258,8 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
   plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Stratified Model", 
            add = add, plot.legend = plot.legend, ...)
 }
-# Sensitivity Analysis
+
+### Sensitivity Analysis
 Sensitivity_VaccineStrat = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
