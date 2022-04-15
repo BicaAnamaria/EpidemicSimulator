@@ -455,15 +455,18 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
   
   # from H to So
   #curvedarrow(from = c(0.5 , 0.5 - 0.25 * scaleY), to = c(0.5 - 0.3 * scaleX, 0.5 - 0.2 * scaleY), lcol = "orange",
-  #            curve = -0.9, arr.pos = 0.9)     
+  #            curve = -0.9, arr.pos = 0.9)   
+  
+  ### Curved Arrows
+  # coordinates are hard coded;
   
   # from Iy to Sy & Io to So
-  curvedArrows2(0.5, 0.5, dx = c(-0.2, -0.3), dy = c(0.25, 0.2),
+  curvedArrows2(0.5, 0.5, dx = c(-0.215, -0.3), dy = c(0.295, 0.2),
                 curve=0.7, lcol = col$I,
                 scaleX=scaleX, scaleY=scaleY);
   
   # from Hy to Sy & Ho to So
-  curvedArrows2(0.5, 0.5, dx = c(0, -0.3), dy = c(0.25, 0.2),
+  curvedArrows2(0.5, 0.5, dx = c(-0.01, -0.3), dy = c(0.30, 0.2),
                 curve=0.7, lcol = col$H,
                 scaleX=scaleX, scaleY=scaleY);
 }
