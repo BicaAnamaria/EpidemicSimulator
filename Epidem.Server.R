@@ -83,7 +83,7 @@ server <- function(input, output){
         plotSIR_Hosp(outData, flt=input$optType)
       } else {
         idParam = match(input$optSensitivityH, c("infect"));
-        max = if(is.na(idParam)) max else opt.sensitivity.infect.max * custom$infect;
+        max = if(is.na(idParam)) 1 else opt.sensitivity.infect.max * custom$infect;
         min = if(is.na(idParam)) 0 else opt.sensitivity.infect.min * custom$infect;
         Sensitivity_Hosp(input$optSensitivityH, custom, valTime, min=min, max=max, flt=input$optType);
       }

@@ -588,7 +588,7 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
   # names and colors of boxes
   name <- c(expression(Sc), #1
             expression(Sa), #2
-            expression(Sa), #3 
+            expression(So), #3 
             expression(Ic), #4 
             expression(Ia), #5
             expression(Io), #6 
