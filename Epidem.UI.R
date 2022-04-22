@@ -90,6 +90,35 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              )
                            )),
                   
+                  tabPanel("Extended Hospitalization SIR model",
+                           fluidRow(
+                             column(4, textOutput("txtEH"),
+                                    checkboxInput("toggleEH", "Toggle between plot and diagram")), 
+                             column(4, selectInput("optTypeEH", "Display", getDisplayTypesEH(), selected="Old")),
+                             column(4, selectInput("optSensitivityEH", "Sensitivity Analysis", getSensitivity_EH(), selected="SEIR"))
+                           ),
+                           plotOutput("EH"),
+                           # hr(),
+                           
+                           fluidRow(
+                             column(4, sliderTime("timeEH"),
+                                    sliderBase("exposed.yEH", label="Exposed rate (Young)"),
+                                    sliderBase("exposed.oEH", label="Exposed rate (Old)"),
+                                    sliderBase("recov.hEH", label="Recovery rate (Hosp)")
+                             ),
+                             column(4,
+                                    sliderBase("infectEH", label="Infection rate", 0.25),
+                                    sliderBase("hosp.oEH", label="Hospitalization rate (Old)", opt$H$hosp.old),
+                                    sliderBase("hosp.yEH", label="Hospitalization rate (Young)", opt$H$hosp.young),
+                                    sliderBase("recov.cEH", label="Recovery rate")
+                             ),
+                             column(4,
+                                    sliderBase("death.oEH", label="Death rate (Old)", opt$H$death.old),
+                                    sliderBase("death.yEH", label="Death rate (Young)", opt$H$death.young),
+                                    sliderBase("death.hEH", label="Death rate (Hosp)", opt$H$death.h)
+                             )
+                           )),
+                  
                   tabPanel("Basic SIR model",
                            textOutput("BasicT"),
                            checkboxInput("toggleB", "Toggle between diagram and plot", value=FALSE), 

@@ -32,6 +32,7 @@ server <- function(input, output){
   output$txtVirus = renderText("A model showcasing the spread of two viruses over time")
   output$txtBasic = renderText("Basic Model: (S)usceptible (I)nfectious and (R)emoved model")
   output$txtHosp  = renderText("Complex model: includes a hospitalization compartment")
+  output$txtEH = renderText("Extended Hospitalisation model: includes exposed compartment")
   output$txtVacc  = renderText("Complex model: includes a vaccination compartment")
   output$txtVaccStratified = renderText("Complex model: inlude age-stratified vaccination model")
   output$txtTwoVirus = renderText("Complex model: includes two viruses")
@@ -90,6 +91,38 @@ server <- function(input, output){
     } else
       diagram.H();
   })
+  
+  
+  ### Extended Hospital Model (+ Exposed Compartment)
+  output$EH <- renderPlot({
+    valTime = GetTime("EH", "timeEH");
+    custom = list(infect = input$infectEH,
+                  exposed.y = input$exposed.yEH,
+                  exposed.o = input$exposed.oEH,
+                  recov.c = input$recov.cEH, 
+                  recov.h = input$recov.hEH,
+                  death.y = input$death.yEH, 
+                  death.o = input$death.oEH,
+                  death.h = input$death.hEH,
+                  hosp.y = input$hosp.yEH, 
+                  hosp.o = input$hosp.oEH);
+    # Page:
+    if(input$toggleEH == FALSE) {
+      if(input$optSensitivityEH == "SEIR") {
+        outData = initSIR_EH(custom, valTime);
+        values$outData = outData;
+        plotSIR_EH(outData, flt=input$optTypeEH)
+      } else {
+        idParam = match(input$optSensitivityEH, c("infect"));
+        max = if(is.na(idParam)) 1 else opt.sensitivity.infect.max * custom$infect;
+        min = if(is.na(idParam)) 0 else opt.sensitivity.infect.min * custom$infect;
+        Sensitivity_EH(input$optSensitivityEH, custom, valTime, min=min, max=max, flt=input$optType);
+      }
+    } else
+      diagram.EH();
+  })
+  
+  
   
   ### Vaccination
   output$Vacc = renderPlot({

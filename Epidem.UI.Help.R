@@ -55,7 +55,14 @@ helpEpidem = function(){
                      the initial mutation. The model is implemented using 
                      a 'Stop and Go' approach.", C = txt2V),
               "Age Groups Model" = 
-                list(txt = "Age Groups Model", C = txtAG3),
+                list(txt = "The SIHRD compartments are stratified into 3 strata: 
+                     children, young adults and old. The transmission rate is much 
+                     higher between children (schools, kindergartens), then between 
+                     adults. The transmission rates can be set using the sliders: 
+                     between children-children, children-adults and adults-adults. 
+                     The mortality and the hospitalization rate can be much higher 
+                     in older persons than in young adults and can be set using the 
+                     specific sliders.", C = txtAG3),
               "Analysis" = list(txt = "Analysis", C = NULL),
               "Display" = 
                 list(txt = "Function for filtering results and desplaying them", C = NULL),

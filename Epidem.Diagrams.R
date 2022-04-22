@@ -24,7 +24,7 @@
 
 library(diagram)
 
-col = list(S = "green", V = "light green", I = "yellow", H = "orange", D = "gray", R = "green");
+col = list(S = "green", V = "light green", E = "light yellow",I = "yellow", H = "orange", D = "gray", R = "green");
 
 curvedArrows2 = function(x, y, dx, dy, curve, lcol, scaleX, scaleY, arr.pos=0.95) {
   if(length(curve) == 1) curve = c(curve, -curve);
@@ -192,6 +192,135 @@ diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 
                 scaleX=scaleX, scaleY=scaleY);
   
   curvedArrows2(0.5, 0.5, dx = c(-0.215, -0.3), dy = c(0.12, -0.2),
+                curve=0.2, lcol = col$I,
+                scaleX=scaleX, scaleY=scaleY);
+}
+
+
+
+#######################################
+### Schema Extended Hospitalisation ###
+#######################################
+
+diagram.EH  = function(file = "SIR + EH.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
+  
+  if(save.png) {
+    # run this to save as png;
+    png(file = file, width = 11.7, height = 8.3, units = "in", res = 100)
+  } else {
+    #dev.new(width = 11.7, height = 8.3)
+  }
+  
+  # number of categories in the sir model
+  Numgenerations <- 10
+  DiffMat <- matrix(data = 0, nrow = Numgenerations, ncol = Numgenerations)
+  m <- as.data.frame(DiffMat)
+  
+  # names and colors of boxes
+  name <- c(
+    expression(S[Y]), #1
+    expression(S[O]), #2
+    expression(I[Y]), #3
+    expression(I[O]), #4
+    expression(H[Y]), #5
+    expression(H[O]), #6
+    "D", #7
+    "R", #8
+    expression(E[Y]), # 9
+    expression(E[O])  # 10
+    ) 
+  
+  color <-  c(col$S, col$S, col$I, col$I, 
+              col$H, col$H, col$D, col$R)
+  
+  # arrows 
+  m[[9,1]] = ""
+  m[[10,2]] = ""
+  m[[3,9]] = ""
+  m[[4,10]] = ""
+  m[[5,3]] = ""
+  m[[7,3]] = ""
+  m[[8,3]] = ""
+  m[[6,4]] = ""
+  m[[7,4]] = ""
+  m[[8,4]] = ""
+  m[[7,5]] = ""
+  m[[8,5]] = ""
+  m[[7,6]] = ""
+  m[[8,6]] = ""
+  
+  # positions of boxes
+  coord = matrix(nrow = Numgenerations, ncol = 2)
+  
+  
+  # Sy
+  coord[1,1] = 0.5 - 0.4 * scaleX
+  coord[1,2] = 0.5 + 0.2 * scaleY
+  
+  
+  # So
+  coord[2,1] = 0.5 - 0.4 * scaleX
+  coord[2,2] = 0.5 - 0.2 * scaleY
+  
+  # Ey
+  
+  coord[9,1] = 0.5 - 0.2 * scaleX
+  coord[9,2] = 0.5 + 0.2 * scaleY
+  
+  # Eo
+  
+  coord[10,1] = 0.5 - 0.2 * scaleX
+  coord[10,2] = 0.5 - 0.2 * scaleY
+  
+  # Iy
+  coord[3,1] = 0.5 
+  coord[3,2] = 0.5 + 0.2 * scaleY
+  
+  # Io
+  coord[4,1] = 0.5 
+  coord[4,2] = 0.5 - 0.2 * scaleY
+  
+  # Hy
+  coord[5,1] = 0.5 + 0.2 * scaleX
+  coord[5,2] = 0.5 + 0.2 * scaleY
+  
+  # Ho
+  coord[6,1] = 0.5 + 0.2 * scaleX
+  coord[6,2] = 0.5 - 0.2 * scaleY
+  
+  # D
+  coord[7,1] = 0.5 + 0.4 * scaleX
+  coord[7,2] = 0.5 + 0.4 * scaleY
+  
+  
+  # R
+  coord[8,1] = 0.5 + 0.4 * scaleY
+  coord[8,2] = 0.5 - 0.4 * scaleY
+  
+  # Vo
+  # coord[9,1] = 0.5 - 0.2 * scaleX
+  #coord[9,2] = 0.5 - 0.4 * scaleY
+  
+  # plotting the diagram
+  plotmat(A = m, pos = coord, name = name, lwd = 2,
+          arr.width = 0.25, curve = 0,
+          box.size = 0.021, box.col = color, arr.type = "simple", 
+          arr.pos = 0.7, main = "SIR + Vaccination model")
+  
+  ### Curved Arrows
+  # coordinates are hard coded;
+  
+  # from Iy to Sy & Io to So
+  curvedArrows2(0.5, 0.5, dx = c(-0.015, -0.3), dy = c(0.295, 0.2),
+                curve=0.7, lcol = col$I,
+                scaleX=scaleX, scaleY=scaleY);
+  
+  # from Hy to Sy & Ho to So
+  curvedArrows2(0.5, 0.5, dx = c(+0.21, -0.3), dy = c(0.30, 0.2),
+                curve=0.7, lcol = col$H,
+                scaleX=scaleX, scaleY=scaleY);
+  
+  curvedArrows2(0.5, 0.5, dx = c(-0.015, -0.3), dy = c(0.12, -0.2),
                 curve=0.2, lcol = col$I,
                 scaleX=scaleX, scaleY=scaleY);
 }

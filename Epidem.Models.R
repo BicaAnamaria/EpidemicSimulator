@@ -238,3 +238,135 @@ Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, p.old = opt.p.ol
                    lty = 1);
 }
  
+
+
+################################
+### Extended Hospitalization ###
+################################
+
+### Sensitivity Analysis
+getSensitivity_EH = function() {
+  c("Basic Model" = "SIR", "Infection rate" = "infect",
+    "Exposed rate (Young)" = "exposed.y", "Exposed rate (Old)" = "exposed.o",
+    "Hospitalization rate (Old)" = "hosp.o", "Hospitalization rate (Young)" = "hosp.y",
+    "Death rate (Hospital)" = "death.h", 
+    "Death rate (Community Old)" = "death.o", "Death rate (Community Young)" = "death.y"
+  );
+}
+
+### Hospitalization
+getDisplayTypesEH = function() {
+  c("All", "Compact", "Young", "Old");
+}
+
+sirEH <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    ITot = Iy + Io; 
+    # Susceptible
+    dSy = -infect * Sy * ITot - infect * Sy * H; 
+    dSo = -infect * So * ITot - infect * So * H;
+    # Exposed
+    dEy = - dSy;
+    dEo = - dSo;
+    # Total
+    dT  =  dSy + dSo; 
+    # Infected
+    dIy = Ey * exposed.y - recov.c * Iy - death.y * Iy - hosp.y * Iy;
+    dIo = Eo * exposed.o - recov.c * Io - death.o * Io - hosp.o * Io;
+    # Hospitalized
+    dHcum = hosp.y * Iy + hosp.o * Io; 
+    dHy =  hosp.y * Iy - recov.h * Hy - death.h * Hy;
+    dHo =  hosp.o * Io - recov.h * Ho - death.h * Ho;
+    dH  =  dHcum - recov.h * H - death.h * H; 
+    # Recovered
+    dR  =  recov.c * Iy + recov.c * Io + recov.h * H;
+    # Death
+    dDc =  death.y * Iy + death.o * Io; 
+    dDh =  death.h * H;
+    return(list(c(dT, dSy, dSo, dEy, dEo, dIy, dIo, dR, dHcum, dH, dHy, dHo, dDc, dDh)));
+  })
+}
+
+
+initSIR_EH = function(opt, end.time, p.old = opt.p.old) {
+  times = seq(0, end.time, by = 1) 
+
+  parameters = c(infect = opt$infect,
+                 exposed.y = opt$exposed.y,
+                 exposed.o = opt$exposed.o,
+                 recov.c = opt$recov.c, 
+                 recov.h = opt$recov.h,
+                 death.y = opt$recov.c * opt$death.y, 
+                 death.o = opt$recov.c * opt$death.o,
+                 death.h = opt$recov.h * opt$death.h,
+                 hosp.y = opt$hosp.y, 
+                 hosp.o = opt$hosp.o)
+  I0 = 1E-6; 
+  init = c(T = 1 - I0, Sy = (1 - I0) * (1 - p.old), So = (1 - I0) * p.old,
+           Ey = 0.0, Eo = 0.0,
+           Iy = I0, Io = 0.0, R = 0.0,
+           Hcum = 0.0, H = 0.0, Hy = 0.0, Ho = 0.0, Dc = 0.0, Dh = 0.0);
+  
+  ### Solve using ode
+  out = solve.sir(sirEH, init, parameters, times)
+  attr(out, "Model") = "Extended Hospitalization";
+  return(out);
+}
+
+plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.legend = TRUE, ...)
+{ 
+  ### Plot
+  lbl = c("Total", "Young", "Old", "Exposed (Young)", "Exposed (Old)",
+          "Infected: Young (in community)", "Infected: Old (in community)",
+          "Recovered", 
+          "Hosp (cumulative)", "Hosp (All)", "Hosp (Young)", "Hosp (Old)",
+          "Death (Community)", "Death (Hospital)");
+  leg.off=c(-0.1, 0.3);
+  
+  ### Display Types
+  type = match(flt, getDisplayTypesEH())
+  
+  # filter results
+  if(type > 1) {
+    out$DeathAll = out$Dc + out$Dh;
+    out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; 
+    
+    lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
+    if(type == 2) {
+      r = filter.out(out, c("T", "Hy", "Ho", "Dc", "Dh"), lbl);
+    } else if(type == 3) {
+      r = filter.out(out, c("T", "So", "Ho", "Dc", "Dh", "IOld"), lbl); 
+    } else if(type == 4) {
+      r = filter.out(out, c("T", "Sy", "Hy", "Dc", "Dh", "R"), lbl);
+      leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
+    } else r = filter.out(out, c("Hy", "Ho"), lbl=lbl);
+    out = r$out; lbl = r$lbl;
+  }
+  plot.sir(out, legend.lbl = lbl, leg.off = leg.off, add = add, plot.legend = plot.legend, title = "SIR Extended Hospitalisation Model", ...);
+}
+
+
+### Sensitivity Analysis
+
+Sensitivity_EH = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
+  by = (max - min)/20;
+  for(p in seq(min, max, by = by)) {
+    opt[[param]] = p;
+    print(opt)
+    
+    out = initSIR_EH(opt, end.time); 
+    
+    plotSIR_EH(out, flt = flt, add = if(p == min) FALSE else TRUE,
+                 plot.legend = FALSE, lty = opt.sensitivity.lty);
+  }
+  
+  opt[[param]] = min;
+  
+  out = initSIR_EH(opt, end.time);
+  
+  plotSIR_EH(out, flt = flt,
+               add = TRUE, plot.legend = TRUE,
+               lty = 1);
+}
+
+
