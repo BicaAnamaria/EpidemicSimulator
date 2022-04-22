@@ -92,7 +92,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              )
                            )),
                   
-                  tabPanel("Extended Hospitalization SIR model",
+                  tabPanel("Exposed model",
                            fluidRow(
                              column(4, textOutput("txtEH"),
                                     checkboxInput("toggleEH", "Toggle between plot and diagram")), 
