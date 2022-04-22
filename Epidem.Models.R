@@ -246,7 +246,7 @@ Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, p.old = opt.p.ol
 
 ### Sensitivity Analysis
 getSensitivity_EH = function() {
-  c("Basic Model" = "SIR", "Infection rate" = "infect",
+  c("Basic Model" = "SEIR", "Infection rate" = "infect",
     "Exposed rate (Young)" = "exposed.y", "Exposed rate (Old)" = "exposed.o",
     "Hospitalization rate (Old)" = "hosp.o", "Hospitalization rate (Young)" = "hosp.y",
     "Death rate (Hospital)" = "death.h", 
