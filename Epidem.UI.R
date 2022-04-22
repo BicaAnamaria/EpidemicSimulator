@@ -38,6 +38,8 @@
 ### Options
 opt = list(
   H = list(hosp.young = 0.01, hosp.old = 0.1, death.young = 0.001, death.old = 0.05, death.h = 0.07),
+  EH = list(hosp.young = 0.01, hosp.old = 0.1, death.young = 0.001, death.old = 0.05, death.h = 0.07,
+            exposed.y = 0.2, exposed.o = 0.2),
   V = list(hosp.young = 0.01, hosp.old = 0.1, death.young = 0.001, death.old = 0.05, death.h = 0.07)
 );
 
@@ -94,7 +96,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            fluidRow(
                              column(4, textOutput("txtEH"),
                                     checkboxInput("toggleEH", "Toggle between plot and diagram")), 
-                             column(4, selectInput("optTypeEH", "Display", getDisplayTypesEH(), selected="Old")),
+                             column(4, selectInput("optTypeEH", "Display", getDisplayTypesEH(), selected="All")),
                              column(4, selectInput("optSensitivityEH", "Sensitivity Analysis", getSensitivity_EH(), selected="SEIR"))
                            ),
                            plotOutput("EH"),
@@ -102,20 +104,20 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            
                            fluidRow(
                              column(4, sliderTime("timeEH"),
-                                    sliderBase("exposed.yEH", label="Exposed rate (Young)"),
-                                    sliderBase("exposed.oEH", label="Exposed rate (Old)"),
+                                    sliderBase("exposed.yEH", label="Exposed rate (Young)", opt$EH$exposed.y),
+                                    sliderBase("exposed.oEH", label="Exposed rate (Old)", opt$EH$exposed.y),
                                     sliderBase("recov.hEH", label="Recovery rate (Hosp)")
                              ),
                              column(4,
                                     sliderBase("infectEH", label="Infection rate", 0.25),
-                                    sliderBase("hosp.oEH", label="Hospitalization rate (Old)", opt$H$hosp.old),
-                                    sliderBase("hosp.yEH", label="Hospitalization rate (Young)", opt$H$hosp.young),
+                                    sliderBase("hosp.oEH", label="Hospitalization rate (Old)", opt$EH$hosp.old),
+                                    sliderBase("hosp.yEH", label="Hospitalization rate (Young)", opt$EH$hosp.young),
                                     sliderBase("recov.cEH", label="Recovery rate")
                              ),
                              column(4,
-                                    sliderBase("death.oEH", label="Death rate (Old)", opt$H$death.old),
-                                    sliderBase("death.yEH", label="Death rate (Young)", opt$H$death.young),
-                                    sliderBase("death.hEH", label="Death rate (Hosp)", opt$H$death.h)
+                                    sliderBase("death.oEH", label="Death rate (Old)", opt$EH$death.old),
+                                    sliderBase("death.yEH", label="Death rate (Young)", opt$EH$death.young),
+                                    sliderBase("death.hEH", label="Death rate (Hosp)", opt$EH$death.h)
                              )
                            )),
                   

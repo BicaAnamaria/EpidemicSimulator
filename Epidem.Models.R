@@ -266,8 +266,8 @@ sirEH <- function(time, state, parameters) {
     dSy = -infect * Sy * ITot - infect * Sy * H; 
     dSo = -infect * So * ITot - infect * So * H;
     # Exposed
-    dEy = - dSy;
-    dEo = - dSo;
+    dEy = - dSy - Ey * exposed.y;
+    dEo = - dSo - Eo * exposed.o;
     # Total
     dT  =  dSy + dSo; 
     # Infected
