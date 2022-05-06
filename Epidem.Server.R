@@ -127,7 +127,7 @@ server <- function(input, output){
           max = opt.sensitivity.infect.max * custom$exposed.o;
           min = opt.sensitivity.infect.min * custom$exposed.o;
         }
-        Sensitivity_EH(input$optSensitivityEH, custom, valTime, min=min, max=max, flt=input$optType);
+        Sensitivity_EH(input$optSensitivityEH, custom, valTime, min=min, max=max, flt=input$optTypeEH);
       }
     } else
       diagram.EH();
