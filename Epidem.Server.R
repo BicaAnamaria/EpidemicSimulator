@@ -116,6 +116,17 @@ server <- function(input, output){
         idParam = match(input$optSensitivityEH, c("infect"));
         max = if(is.na(idParam)) 1 else opt.sensitivity.infect.max * custom$infect;
         min = if(is.na(idParam)) 0 else opt.sensitivity.infect.min * custom$infect;
+        idParam = match(input$optSensitivityEH, c("exposed.y", "exposed.o"));
+        if(is.na(idParam)) {
+          max = 1
+          min = 0
+        } else if(idParam == 1){ 
+          max = opt.sensitivity.infect.max * custom$exposed.y
+          min = opt.sensitivity.infect.min * custom$exposed.y;
+        } else {
+          max = opt.sensitivity.infect.max * custom$exposed.o;
+          min = opt.sensitivity.infect.min * custom$exposed.o;
+        }
         Sensitivity_EH(input$optSensitivityEH, custom, valTime, min=min, max=max, flt=input$optType);
       }
     } else
