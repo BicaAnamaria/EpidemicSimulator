@@ -113,12 +113,13 @@ server <- function(input, output){
         values$outData = outData;
         plotSIR_EH(outData, flt=input$optTypeEH)
       } else {
-        idParam = match(input$optSensitivityEH, c("infect"));
-        max = if(is.na(idParam)) 1 else opt.sensitivity.infect.max * custom$infect;
-        min = if(is.na(idParam)) 0 else opt.sensitivity.infect.min * custom$infect;
-        idParam = match(input$optSensitivityEH, c("exposed.y", "exposed.o"));
+        min = 0; max = 1;
+        idParam = match(input$optSensitivityEH, c("infect", "exposed.y", "exposed.o"));
         if(!is.na(idParam)) {
-          if(idParam == 1){ 
+          if(idParam == 1) {
+            max = opt.sensitivity.infect.max * custom$infect;
+            min = opt.sensitivity.infect.min * custom$infect;
+          } else if(idParam == 2) { 
             max = opt.sensitivity.infect.max * custom$exposed.y
             min = opt.sensitivity.infect.min * custom$exposed.y;
           } else {
@@ -161,7 +162,7 @@ server <- function(input, output){
         max   = if(is.na(idParam)) max else opt.sensitivity.infect.max * custom$infect;
         min = if(is.na(idParam)) 0 else opt.sensitivity.infect.min * custom$infect;
         Sensitivity_Vaccine(input$optSensitivityVacc, custom, valTime, min=min, max=max, flt=input$optTypeV);
-      } 
+        }
     }
     else
       diagramV(scaleX=0.9, scaleY=0.9)

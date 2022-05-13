@@ -16,7 +16,9 @@
 ###   Liviu Sopon and Dragos Ursan
 ###   West University, Timisoara
 
-calculate_parameters <- function(dX, category = NULL, type = "Infected"){
+### Helper Functions
+# - used by function computeSummary();
+calculate_parameters <- function(dX, category = NULL, type = "Infected") {
   # maximum number of infected persons/day
   maxCutoff = max(dX) * opt.stat.max.cutoff;
   # days with number of infections >= cutoff
@@ -27,36 +29,55 @@ calculate_parameters <- function(dX, category = NULL, type = "Infected"){
   dXMax = round(max(dX) * opt.population.size);
   dXCutoff = round(maxCutoff * opt.population.size);
   if(is.null(category)){
-          return(data.frame(daysHigh, dXMax, dXCutoff));
+    return(data.frame(daysHigh, dXMax, dXCutoff));
   } else {
-          return(data.frame(type, category, daysHigh, dXMax, dXCutoff));
+    return(data.frame(type, category, daysHigh, dXMax, dXCutoff));
   }
 }
 
-
-# generic function
-summarySIR = function(x){
-  results = rbind(summarySIR_Infected(x), summarySIR_Death(x), summarySIR_Hosp(x));
-  print(results)
-  return(results)
-}
-
 computeSummary = function(x, y, ctgs, isCummulative = FALSE) {
-  
   if(isCummulative) y = c(0, diff(y));
   Dx_cum = - x + x[1] - y;
   dDx = diff(Dx_cum);
   param_Dx = calculate_parameters(dDx, ctgs, "Infected");
   
   return(param_Dx)
+}
+
+computeSummary0 = function(x, ctgs,  type = "Death", isCumulative = TRUE) {
+  
+  Dx_cum = x - x[1];
+  dDx = if(isCumulative) diff(Dx_cum) else Dx_cum;
+  param_Dx = calculate_parameters(dDx, ctgs, type);
+  
+  return(param_Dx)
   
 }
+
+
+### Generic Function
+summarySIR = function(x){
+  results = rbind(summarySIR_Infected(x), 
+                  summarySIR_Death(x),
+                  summarySIR_Hosp(x));
+  # Debug
+  print(results)
+  return(results)
+}
+
 
 summarySIR_Infected = function(x)
 {
   type = attr(x, "Model");
   
   if(type == "Hospitalization" ){
+    param_Iy = computeSummary(x$Sy, 0, "Young: ")
+    param_Io = computeSummary(x$So, 0,  "Old: ")
+    param_IAll = computeSummary(x$T, 0,  "Total: ")
+    
+    results = rbind(param_IAll, param_Iy, param_Io);
+  }
+  else if(type == "Extended Hospitalization"){
     param_Iy = computeSummary(x$Sy, 0, "Young: ")
     param_Io = computeSummary(x$So, 0,  "Old: ")
     param_IAll = computeSummary(x$T, 0,  "Total: ")
@@ -98,20 +119,18 @@ summarySIR_Infected = function(x)
 }
 
 
-computeSummary0 = function(x, ctgs,  type = "Death", isCumulative = TRUE) {
-  
-  Dx_cum = x - x[1];
-  dDx = if(isCumulative) diff(Dx_cum) else Dx_cum;
-  param_Dx = calculate_parameters(dDx, ctgs, type);
-  
-  return(param_Dx)
-  
-}
 
 summarySIR_Death = function(x){
   type = attr(x, "Model");
  
   if(type == "Hospitalization"){
+    param_Dc = computeSummary0(x$Dc,  "Community: ")
+    param_Dh = computeSummary0(x$Dh,  "Hospital: ")
+    param_DT = computeSummary0(x$Dc + x$Dh , "Total: ");
+    
+    results = rbind(param_DT, param_Dc, param_Dh);
+  }
+  else if(type == "Extended Hospitalization"){
     param_Dc = computeSummary0(x$Dc,  "Community: ")
     param_Dh = computeSummary0(x$Dh,  "Hospital: ")
     param_DT = computeSummary0(x$Dc + x$Dh , "Total: ");
@@ -160,6 +179,14 @@ summarySIR_Hosp = function(x){
   
   if(type == "Hospitalization" ){
     #results = calculate_death(x, type, list(c('Dc', 'Dh')))
+    param_H = computeSummary0(x$H,  "Total: ", type = typeInHosp, isCumulative = FALSE)
+    param_Hy = computeSummary0(x$Hy,  "Young: ", type = typeInHosp, isCumulative = FALSE)
+    param_Ho = computeSummary0(x$Ho, "Old: ", type = typeInHosp, isCumulative = FALSE);
+    param_Hcum = computeSummary0(x$Hcum, "Total: ", type = "Hosp (daily)");
+    
+    results = rbind(param_H, param_Hy, param_Ho, param_Hcum);
+  }
+  else if(type == "Extended Hospitalization"){
     param_H = computeSummary0(x$H,  "Total: ", type = typeInHosp, isCumulative = FALSE)
     param_Hy = computeSummary0(x$Hy,  "Young: ", type = typeInHosp, isCumulative = FALSE)
     param_Ho = computeSummary0(x$Ho, "Old: ", type = typeInHosp, isCumulative = FALSE);
