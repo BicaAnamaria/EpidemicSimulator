@@ -101,6 +101,8 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              column(4, selectInput("optTypeEH", "Display", getDisplayTypesEH(), selected="All")),
                              column(4, selectInput("optSensitivityEH", "Sensitivity Analysis", getSensitivity_EH(), selected="SEIR"))
                            ),
+                           bsTooltip(id = "optSensitivityEH", title = helpTipSensitivity(TRUE), 
+                                     placement = "left", trigger = "hover"),
                            plotOutput("EH"),
                            # hr(),
                            
@@ -142,6 +144,8 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              column(4, selectInput("optTypeV", "Display", getDisplayTypesVacc(), selected="Old")),
                              column(4, selectInput("optSensitivityVacc", "Sensitivity Analysis", getSensitivityVacc(), selected="Vacc"))),
                            plotOutput("Vacc"),
+                           bsTooltip(id = "optSensitivityVacc", title = helpTipSensitivity(TRUE), 
+                                     placement = "left", trigger = "hover"),
                            #hr() 
                            
                            
@@ -172,6 +176,8 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              column(3, selectInput("optTypeVS", "Display", getDisplayTypesVaccStrat(), selected="Old")), 
                              column(3, selectInput("optSensitivityVaccStrat", "Sensitivity Analysis", getSensitivityVaccStrat(), selected="VaccStrat")) ),
                            plotOutput("VaccVS"),
+                           bsTooltip(id = "optSensitivityVaccStrat", title = helpTipSensitivity(TRUE), 
+                                     placement = "left", trigger = "hover"),
                            # hr() 
                            
                            
@@ -213,6 +219,8 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              #column(4, selectInput("optSensitivityH", "Sensitivity Analysis", getSensitivity_Hosp(), selected="SIR"))
                            ),
                            plotOutput("Virus"),
+                           bsTooltip(id = "optSensitivity2V", title = helpTipSensitivity(TRUE), 
+                                     placement = "left", trigger = "hover"),
                            
                            
                            column(3, sliderTime("time2V", label = "Time", 400),
@@ -249,6 +257,8 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            column(4, selectInput("optTypeAG3", "Display", getDisplayTypesAG3(), selected="Adults")),
                            column(4, selectInput("optSensitivityAG3", "Sensitivity Analysis", getSensitivityAG3(), selected="AG3")) ,
                            plotOutput("AgeGroupsModel"),
+                           bsTooltip(id = "optSensitivityAG3", title = helpTipSensitivity(TRUE), 
+                                     placement = "left", trigger = "hover"),
                            
                            fluidRow(
                              column(3, 
