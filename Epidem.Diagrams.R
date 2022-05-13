@@ -176,7 +176,7 @@ diagram.H  = function(file = "SIR Hospitalisation.png", save.png = FALSE,scaleX 
   plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.25, curve = 0,
           box.size = 0.021, box.col = color, arr.type = "simple", 
-          arr.pos = 0.7, main = "SIR + Vaccination model")
+          arr.pos = 0.7, main = "SIR + Hospitalization Model")
   
   ### Curved Arrows
   # coordinates are hard coded;
