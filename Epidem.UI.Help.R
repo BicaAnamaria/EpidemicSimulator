@@ -13,7 +13,7 @@
 ### on a team project 2021
 ### (see comments in Epidem.app.R)
 
-helpEpidem = function(){
+helpEpidem = function(id = "Help1"){
   txtSIR = c("S = Susceptible", "I = Infected", "R = Recovered")
   txtHosp = c("Sy = Susceptible young", "So = Susceptible old", 
               "Iy = Infected young", "Io = Infected old", 
@@ -54,7 +54,9 @@ helpEpidem = function(){
              "Dc = Death children", "Da = Death adults", "Do = Death old",
              "R = Recovered (R = Rc + Ra + Ro)")
   # title = list(description, abrevetions/compartments)
-  txtHelp = list("SIR Model" = list(txt = "Simple SIR Model", C = txtSIR), 
+  txtHelp = list(
+              "SIR Model" = 
+                list(txt = "Simple SIR Model", C = txtSIR), 
               "Hospitalization Model" =  
                 list(txt = "The SIR Model was extended with a 
                             Hospitalization compartment.", C = txtHosp),
@@ -101,19 +103,38 @@ helpEpidem = function(){
               "Display" = 
                 list(txt = "Function for filtering results and desplaying them", C = NULL),
               "Sensitivity Analysis" = 
-              list(txt = "A sequence of values between 0 and 1 is generated 
-                   for the selected parameter. The Sensitivity analysis runs 
-                   the simulation for each of these values. In the case of 
-                   the infection rate: the values vary between 0.75x and 1.75x 
-                   the current value of the infection rate. These limits are set 
-                   as global options: opt.sensitivity.infect.min and 
-                   opt.sensitivity.infect.max (see file Epidem.Options.R).", C = NULL)
+              list(txt = helpTipSensitivity(), C = NULL)
               )
   txtTitles = names(txtHelp)
+  idActive = as.numeric(substr(id, 5, 6))
   txt = lapply(seq(length(txtTitles)), function(id){
-    fluidRow(HTML("<p> <b>", txtTitles[id], "</b> <br>", 
-                  txtHelp[[id]]$txt, "<br>",
-                  paste("&nbsp;", txtHelp[[id]]$C, collapse = "<br>"), "</p>") )
+    if(id == idActive){
+      txtActive =  #paste(txtHelp[[id]]$txt, "<br>", 
+                   paste("&nbsp;", txtHelp[[id]]$C, collapse = "<br>")
+    } else {
+      txtActive = ""
+    }
+    fluidRow(
+      column(1, actionButton(paste0("Help", id), label = "", icon = icon("expand"))),
+      column(10, HTML("<p> <b>", txtTitles[id], "</b> <br>",
+                txtHelp[[id]]$txt, "<br>", txtActive ) ) )
+                 # paste("&nbsp;", txtHelp[[id]]$C, collapse = "<br>"), "</p>") )
   })
+  return(txt)
+}
+
+helpTipSensitivity = function(opt.brief = FALSE)
+{
+  if(opt.brief){
+    txt = "A sequence of values between 0 and 1 is generated for the selected parameter. The Sensitivity analysis runs the simulation for each of these values. In the case of the infection rate: the values vary between 0.75x and 1.75x the current value of the infection rate. These limits are set as global options: opt.sensitivity.infect.min and opt.sensitivity.infect.max (see file Epidem.Options.R)."
+    return(txt)
+  }
+  txt = "A sequence of values between 0 and 1 is generated 
+      for the selected parameter. The Sensitivity analysis runs 
+      the simulation for each of these values. In the case of 
+      the infection rate: the values vary between 0.75x and 1.75x 
+      the current value of the infection rate. These limits are set 
+      as global options: opt.sensitivity.infect.min and 
+      opt.sensitivity.infect.max (see file Epidem.Options.R)."
   return(txt)
 }

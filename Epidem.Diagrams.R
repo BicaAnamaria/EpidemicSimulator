@@ -85,7 +85,7 @@ diagram1  = function(file = "BasicSIR.png", save.png = FALSE) {
 ### Schema Hospitalisation ###
 ##############################
 
-diagram.H  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
+diagram.H  = function(file = "SIR Hospitalisation.png", save.png = FALSE,scaleX = 3/4, scaleY = 3/4) {
   
   if(save.png) {
     # run this to save as png;
@@ -305,7 +305,7 @@ diagram.EH  = function(file = "SIR + EH.png", save.png = FALSE,scaleX = 3/4, sca
   plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.25, curve = 0,
           box.size = 0.021, box.col = color, arr.type = "simple", 
-          arr.pos = 0.7, main = "SIR + Vaccination model")
+          arr.pos = 0.7, main = "SIR + Exposed model")
   
   ### Curved Arrows
   # coordinates are hard coded;

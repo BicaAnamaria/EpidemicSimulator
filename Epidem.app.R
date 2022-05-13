@@ -19,8 +19,7 @@
 
 library(shiny)
 library(shinyjs)
-
-# library(rsconnect)
+library(shinyBS)
 
 # setting project path
 setwd("C:\\Users\\anama\\OneDrive - e-uvt.ro\\Documents\\ANUL III\\Semestrul 1\\Licenta\\Simulator")
