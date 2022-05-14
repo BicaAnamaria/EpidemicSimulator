@@ -58,19 +58,25 @@ helpEpidem = function(id = "Help1"){
               "SIR Model" = 
                 list(txt = "Simple SIR Model", C = txtSIR), 
               "Hospitalization Model" =  
-                list(txt = "The SIR Model was extended with a 
-                            Hospitalization compartment.", C = txtHosp),
+                list(txt = "The SIR Model was extended with a Hospitalization 
+                     compartment. Infected patients can either recover 
+                     (becoming immune, R) or they can die (D). The population 
+                     is stratified into young and old individuals 
+                     (except for the final common states R & D, which are 
+                     non-stratified in order to reduce visual clutter).", C = txtHosp),
               "Extended Hospitalization Model" =  
-                list(txt = "The Hospitalisation Model was extended with a 
-                            Exposed compartment which includes the individuals
-                            who are infected, but can't infect other individuals
-                            (incubation period).", C = txtHospEH),
+                list(txt = "The Hospitalisation Model was extended with 
+                     an Exposed compartment which includes individuals 
+                     who are infected, but not yet infectious 
+                     (i.e. are in the incubation period and cannot infect 
+                     other individuals).", C = txtHospEH),
               "Vaccination Model" = 
-                list(txt = "The SIR model was extended with more compartments
-                     such as Vaccination compartment, 
-                     Hospitalization compartment and Death compatment. 
-                     Partial stratification of the compartments of susceptible, 
-                     infected and vaccinated individuals was included.", C = txtV), 
+                list(txt = "The Hospitalization model was extended with a 
+                     Vaccination compartment, The population is stratified 
+                     into young and old individuals (S, I, and V compartments). 
+                     The final states H, R, and D are not stratified in order 
+                     to reduce visual clutter. For a fully stratified population, 
+                     see the next model.", C = txtV), 
               "Vaccine Stratified Model" = 
                 list(txt = "This model is developed on the basis of the 
                      simple vaccination model, including an age stratification 

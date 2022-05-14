@@ -65,7 +65,7 @@ sliderVaccine = function(id, label, val = 0.001, min = 0, max = 0.01, step = 0.0
 ### UI
 ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                 tabsetPanel(
-                  tabPanel("Hospitalization SIR model",
+                  tabPanel("Hospitalization SIR Model",
                            fluidRow(
                              column(4, textOutput("txtHosp"),
                                     checkboxInput("toggleH", "Toggle between plot and diagram")), 
@@ -94,7 +94,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              )
                            )),
                   
-                  tabPanel("Exposed model",
+                  tabPanel("Extended Hospitalization Model",
                            fluidRow(
                              column(4, textOutput("txtEH"),
                                     checkboxInput("toggleEH", "Toggle between plot and diagram")), 
@@ -125,7 +125,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              )
                            )),
                   
-                  tabPanel("Basic SIR model",
+                  tabPanel("Basic SIR Model",
                            textOutput("BasicT"),
                            checkboxInput("toggleB", "Toggle between diagram and plot", value=FALSE), 
                            plotOutput("BasicPl"),
@@ -137,7 +137,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              column(4, sliderBase("recovB", label="Recovery rate"))
                            )),
                   
-                  tabPanel("Vaccination SIR model",
+                  tabPanel("Vaccination SIR Model",
                            fluidRow(
                              column(4, textOutput("txtVacc"),
                                     checkboxInput("toggleV","Toggle between plot and diagram")), 
@@ -210,7 +210,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   
                   
                   
-                  tabPanel("Two Viruses",
+                  tabPanel("Two Viruses Model",
                            fluidRow(
                              column(4, textOutput("VirusT"),
                                     checkboxInput("toggle2V","Toggle between plot and diagram")),
@@ -306,10 +306,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                   ),
                   
                   tabPanel("Help",
-                         fluidRow( 
-                           column(1, div(HTML("&nbsp;"))),
-                           
-                           column(10, helpEpidem()) )   
+                           uiOutput("HelpUI")
                   )
                   
                   
