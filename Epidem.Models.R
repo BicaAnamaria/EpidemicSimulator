@@ -31,6 +31,22 @@ source("Epidem.Model.AgeGroups.R");
 #####################
 #####################
 
+### Plot color
+# Xy = Xa (same color)
+# T = green, S = green, I = yellow, H = blue, D = gray, R = green/gray, E = ?
+# HospRate = red
+colors = list(T  = "#32dd97", 
+              S  = "#edf8fb", Sc = "#64f864", Sy = "#32f832", Sa = "#32f832", So = "#32a832",
+              Ey = "#dd3497", Eo = "#dd3497",
+              I  = "#ffffb2", Ic = "#ffffb2", Iy = "#fed932", Ia = "#fed932", Io = "#feb24c", 
+              Hcum = "#8c2d04", 
+              H  = "#feb24c", Hc = "#fd8d3c", Hy = "#feb24c", Ha = "#feb24c", Ho = "#fc4e2a", 
+              D  = "#696969", Dc = "#696969", Dh = "#a96969",
+              Dy = "#969696", Da = "#969696", Do = "#525252", 
+              R  = "#41ae76", Rc = "#66c2a4", Ra = "#41ae76", Ro = "#238b45",
+              HospRate = "#ff0000")
+
+
 ### Basic Functions
 
 ### Solve SIR
@@ -52,13 +68,17 @@ legend.xyf = function(times, x=c(0,0)) {
 
 plot.sir = function(y, times = NULL, legend.lbl = basic.lbl, legend.xy, leg.off = c(0,0),
                     ylab = "Susceptible and Recovered", title = "SIR Model",
-                    lty = 1, lwd = 2, col = 2:10,
+                    lty = 1, lwd = 2, col = NULL,
                     add = FALSE, plot.legend=TRUE, ...) {
   if(is.null(times)) {
     times = y$time;
     if(is.null(times)) stop("The times argument is missing!");
   }
   y$time = NULL;
+  
+  if(is.null(col)){
+    col = unlist(colors[names(y)])
+  }
   
   if(missing(legend.xy)) legend.xy = legend.xyf(times, leg.off)
   if(add) {
@@ -101,6 +121,7 @@ basic_sir <- function(time, state, parameters) {
     return(list(c(dS, dI, dR)))
   })
 }
+
 initSIR_Basic = function(list, end.time){
   times = seq(0, end.time, by=1)
   parameters = c(infect = list[1], recov = list[2])
@@ -198,7 +219,7 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
   
   # filter results
   if(type > 1) {
-    out$DeathAll = out$Dc + out$Dh;
+    out$D = out$Dc + out$Dh;
     out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; # modify hospitalisation rate 
 
     lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));

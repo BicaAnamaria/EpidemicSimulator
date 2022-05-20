@@ -24,7 +24,7 @@
 
 library(diagram)
 
-col = list(S = "green", V = "light green", E = "light yellow",I = "yellow", H = "orange", D = "gray", R = "green");
+col = list(S = "green", V = "light green", E = "light yellow", I = "yellow", H = "orange", D = "gray", R = "green");
 
 curvedArrows2 = function(x, y, dx, dy, curve, lcol, scaleX, scaleY, arr.pos=0.95) {
   if(length(curve) == 1) curve = c(curve, -curve);
