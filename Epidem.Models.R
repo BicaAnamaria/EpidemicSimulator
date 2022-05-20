@@ -36,14 +36,15 @@ source("Epidem.Model.AgeGroups.R");
 # T = green, S = green, I = yellow, H = blue, D = gray, R = green/gray, E = ?
 # HospRate = red
 colors = list(T  = "#32dd97", 
-              S  = "#edf8fb", Sc = "#64f864", Sy = "#32f832", Sa = "#32f832", So = "#32a832",
+              S  = "#00ff00", Sc = "#64f864", Sy = "#32f832", Sa = "#32f832", So = "#32a832",
               Ey = "#dd3497", Eo = "#dd3497",
-              I  = "#ffffb2", Ic = "#ffffb2", Iy = "#fed932", Ia = "#fed932", Io = "#feb24c", 
-              Hcum = "#8c2d04", 
+              I  = "#ffff22", Ic = "#ffffb2", Iy = "#fed932", Ia = "#fed932", Io = "#feb24c", 
+              Hcum = "#9d9dF0", 
               H  = "#feb24c", Hc = "#fd8d3c", Hy = "#feb24c", Ha = "#feb24c", Ho = "#fc4e2a", 
               D  = "#696969", Dc = "#696969", Dh = "#a96969",
               Dy = "#969696", Da = "#969696", Do = "#525252", 
               R  = "#41ae76", Rc = "#66c2a4", Ra = "#41ae76", Ro = "#238b45",
+              Vy = "#64ff84", Vo = "#84ff64",
               HospRate = "#ff0000")
 
 
@@ -92,7 +93,7 @@ plot.sir = function(y, times = NULL, legend.lbl = basic.lbl, legend.xy, leg.off 
   ### Add legend
   if(plot.legend) {
     legend(legend.xy[1], legend.xy[2], legend.lbl,
-           pch = 1, col = col, bty = "n")
+           pch = 19, col = col, bty = "n")
   }
 }
 
@@ -226,9 +227,10 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
     if(type == 2) {
       r = filter.out(out, c("T", "Hy", "Ho", "Dc", "Dh"), lbl);
     } else if(type == 3) {
-      r = filter.out(out, c("T", "So", "Ho", "Dc", "Dh", "IOld"), lbl); 
+      leg.off[2] = max(1-p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
+      r = filter.out(out, c("T", "So", "Io", "Ho", "Dc", "Dh", "R"), lbl); 
     } else if(type == 4) {
-      r = filter.out(out, c("T", "Sy", "Hy", "Dc", "Dh", "R"), lbl);
+      r = filter.out(out, c("T", "Sy", "Iy", "Hy", "Dc", "Dh", "R"), lbl);
       leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } else r = filter.out(out, c("Hy", "Ho"), lbl=lbl);
     out = r$out; lbl = r$lbl;
@@ -349,16 +351,17 @@ plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.lege
   
   # filter results
   if(type > 1) {
-    out$DeathAll = out$Dc + out$Dh;
+    out$D = out$Dc + out$Dh;
     out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; 
     
     lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
     if(type == 2) {
       r = filter.out(out, c("T", "Hy", "Ho", "Dc", "Dh"), lbl);
     } else if(type == 3) {
-      r = filter.out(out, c("T", "So", "Ho", "Dc", "Dh", "IOld"), lbl); 
+      r = filter.out(out, c("T", "So", "Io", "Eo", "Ho", "Dc", "Dh", "R"), lbl); 
+      leg.off[2] = max(1-p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } else if(type == 4) {
-      r = filter.out(out, c("T", "Sy", "Hy", "Dc", "Dh", "R"), lbl);
+      r = filter.out(out, c("T", "Sy", "Iy", "Ey", "Hy", "Dc", "Dh", "R"), lbl);
       leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } else r = filter.out(out, c("Hy", "Ho"), lbl=lbl);
     out = r$out; lbl = r$lbl;

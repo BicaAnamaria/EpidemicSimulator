@@ -16,6 +16,7 @@
 ###   Liviu Sopon and Dragos Ursan
 ###   West University, Timisoara
 
+#TODO: filtrarii !!!!
 
 library(shiny)
 library(shinyjs)

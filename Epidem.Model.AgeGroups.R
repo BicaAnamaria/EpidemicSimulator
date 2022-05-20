@@ -110,7 +110,7 @@ plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...
            "Infected (Children)", "Infected (Adults)", "Infected (Elders)", 
            "Hosp (Cumulative)", "Hosp (Children)", "Hosp (Adults)", "Hosp (Elders)", 
            "Death (Children)", "Death (Adults)", "Death (Elders)",
-           "Recovered (Children)", "Recovered (Adults)", "Recovered (Elders)") ;
+           "Recovered") ;
   leg.off=c(-0.0, 0.3);
   type = match(flt, getDisplayTypesAG3());
   if(type > 1) {
@@ -118,7 +118,7 @@ plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...
     if(type == 2) {
       r = filter.out(out, c("T"), lbl);
     } else if(type == 3) {
-      r = filter.out(out, c("T", "Ia", "Io", "Ha", "Ho", "Da", "Do"), lbl);
+      r = filter.out(out, c("T", "Sa", "So", "Ia", "Io", "Ha", "Ho", "Da", "Do"), lbl);
       leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.3;
     } 
     else if(type == 4){
@@ -126,7 +126,7 @@ plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...
       leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.3;
     }
     else if(type == 5){
-      r = filter.out(out, c("T", "Ic", "Ia", "Hc", "Ha", "Dc", "Da"), lbl);
+      r = filter.out(out, c("T", "Ic", "Ia", "Sc", "Sa", "Hc", "Ha", "Dc", "Da"), lbl);
       leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.3;
     }
     

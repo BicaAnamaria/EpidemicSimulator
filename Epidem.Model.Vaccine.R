@@ -111,8 +111,8 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
       r = filter.out(out, c("T", "Hcum", "Io", "So", "Vo"), lbl);
       leg.off[2] = max(1 - p.old, out$Iy, out$R) - 0.7;
     } else if(type == 3) {
-      r = filter.out(out, c("T", "Hcum", "Sy", "Vy", "R"), lbl);
-      leg.off[2] = max(p.old, out$Iy) - 0.7;
+      r = filter.out(out, c("T", "Hcum", "Sy", "Iy", "Vy"), lbl);
+      leg.off[2] = max(p.old, out$Iy, out$R) - 0.7;
     } 
     else if(type == 4){
       out$T = out$Sy + out$So;
@@ -241,8 +241,9 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
     
     if(type == 2) {
       r = filter.out(out, c("T", "Ho", "Io", "So", "Vo", "Do"), lbl);
+      leg.off[2] = max(1-p.old, r$out$So[1], r$out$Hcum) - 0.7;
     } else if(type == 3) {
-      r = filter.out(out, c("T", "Hy", "Sy", "Vy", "R", "Dy"), lbl);
+      r = filter.out(out, c("T", "Hy", "Sy", "Iy", "Vy", "R", "Dy"), lbl);
       leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.7;
     } 
     else if(type == 4){
