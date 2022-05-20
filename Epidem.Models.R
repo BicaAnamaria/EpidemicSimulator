@@ -366,7 +366,7 @@ plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.lege
     } else r = filter.out(out, c("Hy", "Ho"), lbl=lbl);
     out = r$out; lbl = r$lbl;
   }
-  plot.sir(out, legend.lbl = lbl, leg.off = leg.off, add = add, plot.legend = plot.legend, title = "SIR Exposed Model", ...);
+  plot.sir(out, legend.lbl = lbl, leg.off = leg.off, add = add, plot.legend = plot.legend, title = "SIR Exposed Hospitalization Model", ...);
 }
 
 
