@@ -101,7 +101,7 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
   
   type = match(flt, getDisplayTypesVacc());
   if(type > 1) {
-    out$DeathAll = c(out$D[1], diff(out$D, lag = 1)) * opt.death.rate.scale; 
+    out$DeathRate = c(out$D[1], diff(out$D, lag = 1)) * opt.death.rate.scale; 
     out$HospRate = c(0, diff(out$Hcum)) * opt.hosp.rate.scale;
     lbl = c(lbl, paste0("Death Rate [scale = x", opt.death.rate.scale, "]"),
             paste0("Hosp Rate  [scale = x", opt.hosp.rate.scale, "]") );

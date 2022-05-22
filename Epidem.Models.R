@@ -37,15 +37,15 @@ source("Epidem.Model.AgeGroups.R");
 # HospRate = red
 colors = list(T  = "#32dd97", 
               S  = "#00ff00", Sc = "#64f864", Sy = "#32f832", Sa = "#32f832", So = "#32a832",
-              Ey = "#dd3497", Eo = "#dd3497",
+              Ey = "#dd96FF", Eo = "#cdA6F0",
               I  = "#ffff22", Ic = "#ffffb2", Iy = "#fed932", Ia = "#fed932", Io = "#feb24c", 
-              Hcum = "#9d9dF0", 
-              H  = "#feb24c", Hc = "#fd8d3c", Hy = "#feb24c", Ha = "#feb24c", Ho = "#fc4e2a", 
-              D  = "#696969", Dc = "#696969", Dh = "#a96969",
+              Hcum = "#9d9dF0",
+              H  = "#ff5696", Hc = "#ff64a0", Hy = "#fe84d0", Ha = "#fe84d0", Ho = "#fe74c0", 
+              D  = "#696969", Dc = "#696969", Dh = "#a96969", 
               Dy = "#969696", Da = "#969696", Do = "#525252", 
               R  = "#41ae76", Rc = "#66c2a4", Ra = "#41ae76", Ro = "#238b45",
               Vy = "#64ff84", Vo = "#84ff64",
-              HospRate = "#ff0000")
+              HospRate = "#ff0000", DeathRate = "#F9A9A9")
 
 
 ### Basic Functions
@@ -220,7 +220,7 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
   
   # filter results
   if(type > 1) {
-    out$D = out$Dc + out$Dh;
+    out$DeathRate = out$Dc + out$Dh;
     out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; # modify hospitalisation rate 
 
     lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
@@ -351,7 +351,7 @@ plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.lege
   
   # filter results
   if(type > 1) {
-    out$D = out$Dc + out$Dh;
+    out$DeathRate = out$Dc + out$Dh;
     out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; 
     
     lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
