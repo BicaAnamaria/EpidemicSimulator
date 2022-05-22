@@ -108,11 +108,13 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
     if(type == 1) {
       r = filter.out(out, c("T", "Hcum"), lbl); }
     else if(type == 2) {
-      r = filter.out(out, c("T", "Hcum", "Io", "So", "Vo"), lbl);
-      leg.off[2] = max(1 - p.old, out$Iy, out$R) - 0.7;
+      r = filter.out(out, c("T", "Hcum", "So", "Io", "Vo"), lbl);
+      leg.off[2] = max(1 - p.old, out$Iy) - 0.7;
     } else if(type == 3) {
-      r = filter.out(out, c("T", "Hcum", "Sy", "Iy", "Vy"), lbl);
-      leg.off[2] = max(p.old, out$Iy, out$R) - 0.7;
+      # R: can filter, as it does NOT convey any additional information;
+      # Iy: keep as a reference;
+      r = filter.out(out, c("T", "Hcum", "Sy", "R", "Vy"), lbl);
+      leg.off[2] = max(p.old, out$Iy) - 0.7;
     } 
     else if(type == 4){
       out$T = out$Sy + out$So;
