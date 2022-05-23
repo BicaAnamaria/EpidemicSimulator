@@ -224,7 +224,7 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
   
   # filter results
   if(type > 1) {
-    out$DeathRate = out$Dc + out$Dh;
+    out$D = out$Dc + out$Dh;
     out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; # modify hospitalisation rate 
 
     lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
@@ -355,7 +355,7 @@ plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.lege
   
   # filter results
   if(type > 1) {
-    out$DeathRate = out$Dc + out$Dh;
+    out$D = out$Dc + out$Dh;
     out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; 
     
     lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
