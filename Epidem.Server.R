@@ -31,7 +31,7 @@
 server <- function(input, output){
   output$txtVirus = renderText("A model showcasing the spread of two viruses over time")
   output$txtBasic = renderText("Basic Model: (S)usceptible (I)nfectious and (R)emoved model")
-  output$txtHosp  = renderText("Complex model: includes a hospitalization compartment")
+  output$txtHosp  = renderText("Complex model: includes a hospitalisation compartment")
   output$txtEH = renderText("Exposed Hospitalisation model: includes exposed compartment")
   output$txtVacc  = renderText("Complex model: includes a vaccination compartment")
   output$txtVaccStratified = renderText("Complex model: inlude age-stratified vaccination model")

@@ -65,7 +65,7 @@ sliderVaccine = function(id, label, val = 0.001, min = 0, max = 0.01, step = 0.0
 ### UI
 ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                 tabsetPanel(
-                  tabPanel("Hospitalization SIR Model",
+                  tabPanel("Hospitalisation SIR Model",
                            fluidRow(
                              column(4, textOutput("txtHosp"),
                                     checkboxInput("toggleH", "Toggle between plot and diagram")), 
@@ -94,7 +94,7 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                              )
                            )),
                   
-                  tabPanel("Exposed Hospitalization Model",
+                  tabPanel("Exposed Hospitalisation Model",
                            fluidRow(
                              column(4, textOutput("txtEH"),
                                     checkboxInput("toggleEH", "Toggle between plot and diagram")), 

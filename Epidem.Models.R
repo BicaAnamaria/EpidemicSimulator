@@ -159,7 +159,7 @@ getSensitivity_Hosp = function() {
   );
 }
 
-### Hospitalization
+### Hospitalisation
 getDisplayTypes = function() {
   c("All", "Compact", "Young", "Old");
 }
@@ -207,7 +207,7 @@ initSIR_Hosp = function(opt, end.time, p.old = opt.p.old) {
   
   ### Solve using ode
   out = solve.sir(sirHosp, init, parameters, times)
-  attr(out, "Model") = "Hospitalization";
+  attr(out, "Model") = "Hospitalisation";
   return(out);
 }
 
@@ -268,7 +268,7 @@ Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, p.old = opt.p.ol
 
 
 ################################
-### Extended Hospitalization ###
+### Extended Hospitalisation ###
 ################################
 
 ### Sensitivity Analysis
@@ -336,7 +336,7 @@ initSIR_EH = function(opt, end.time, p.old = opt.p.old) {
   
   ### Solve using ode
   out = solve.sir(sirEH, init, parameters, times)
-  attr(out, "Model") = "Extended Hospitalization";
+  attr(out, "Model") = "Extended Hospitalisation";
   return(out);
 }
 
