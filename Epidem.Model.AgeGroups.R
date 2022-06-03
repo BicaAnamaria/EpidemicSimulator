@@ -104,6 +104,7 @@ initSIR_AG3 = function(param, end.time)
   attr(out, "Model") = "AG3";
   return(out);
 }
+
 plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...) {
   
   lbl = c( "Total", "Susceptible (Children)", "Susceptible (Adults)", "Susceptible (Elders)",
