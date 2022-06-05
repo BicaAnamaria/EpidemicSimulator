@@ -138,8 +138,10 @@ initSIR_Basic = function(list, end.time){
   attr(out, "Model") = "Basic";
   head(out, 10)
   
+  leg.xy = leg.xy = c(0, 0.75);
+  
   ### Plot
-  plot.sir(out, legend.lbl = c("Susceptible", "Infected", "Recovered"), leg.off=c(-0.1, 0.3))
+  plot.sir(out, legend.lbl = c("Susceptible", "Infected", "Recovered"), legend.xy = leg.xy)
 
 }
 
