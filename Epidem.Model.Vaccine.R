@@ -34,7 +34,7 @@ getSensitivityVacc = function() {
 }
 
 getDisplayTypesVacc = function(){
-  c("All", "Young", "Old", "Totals")
+  c("All", "Young", "Old", "Old + Iy", "Totals")
 }
 
 sirVacc <- function(time, state, parameters) {
@@ -109,12 +109,14 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
     if(type == 1) {
       r = filter.out(out, c("T", "Hcum"), lbl);
       leg.xy = c(0, out$Sy[1])
-      }
-    else if(type == 2) {
+    } else if(type == 2) {
       r = filter.out(out, c("T", "Hcum", "So", "Io", "Vo"), lbl);
       leg.xy = c(0, (1 - p.old) * 0.8)
       #leg.off[2] = max(1 - p.old, out$Iy) - 0.7;
     } else if(type == 3) {
+      r = filter.out(out, c("T", "Hcum", "Sy", "R", "Vy", "Iy"), lbl);
+      leg.xy = c(0.7 * max(out$time), p.old * 0.8)
+    } else if(type == 4) {
       # R: can filter, as it does NOT convey any additional information;
       # Iy: keep as a reference;
       r = filter.out(out, c("T", "Hcum", "Sy", "R", "Vy"), lbl);
