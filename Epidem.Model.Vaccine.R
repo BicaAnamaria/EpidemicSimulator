@@ -123,7 +123,7 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
       #leg.off[2] = max(p.old, out$Iy) - 0.7;
       leg.xy = c(0.7 * max(out$time), max(p.old, out$Iy) * 0.8)
     } 
-    else if(type == 4){
+    else if(type == 5){
       out$T = out$Sy + out$So;
       out$I = out$Iy + out$Io;
       out$V = out$Vy + out$Vo;

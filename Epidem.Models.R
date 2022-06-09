@@ -232,13 +232,19 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
     lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
     if(type == 2) {
       r = filter.out(out, c("T", "Hy", "Ho", "Dc", "Dh"), lbl);
+      leg.xy = c(0, 0.75);
     } else if(type == 3) {
-      leg.off[2] = max(1-p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
+      #leg.off[2] = max(1-p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
       r = filter.out(out, c("T", "So", "Io", "Ho", "Dc", "Dh", "R"), lbl); 
+      leg.xy = c(0.9, max(1-p.old, out$IHcum) * 0.8);
     } else if(type == 4) {
       r = filter.out(out, c("T", "Sy", "Iy", "Hy", "Dc", "Dh", "R"), lbl);
-      leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
-    } else r = filter.out(out, c("Hy", "Ho"), lbl=lbl);
+      leg.xy = c(0.9, max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7);
+      #leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
+    } else {
+      r = filter.out(out, c("Hy", "Ho"), lbl=lbl);
+      leg.xy = c(0.9, 0.75);
+    }
     out = r$out; lbl = r$lbl;
   }
   plot.sir(out, legend.lbl = lbl, leg.off = leg.off, add = add, plot.legend = plot.legend, title = "SIR Hospitalisation Model", ...);
