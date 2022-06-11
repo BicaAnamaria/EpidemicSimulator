@@ -240,8 +240,8 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
   lbl = c("Total", "Susceptible (Young)", "Susceptible (Old)", "Infected (Young)", 
           "Infected (Old)", "Hosp (cumulated)", "Hosp (Young)", "Hosp (Old)", 
           "Death (Young)", "Death (Old)", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
-  leg.off=c(-0.1, 0.3);
-  
+  #leg.off=c(-0.1, 0.3);
+  leg.xy = c(0.9, 0.9)
   
   type = match(flt, getDisplayTypesVaccStrat());
   if(type > 1) {
@@ -251,10 +251,12 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
     
     if(type == 2) {
       r = filter.out(out, c("T", "Ho", "Io", "So", "Vo", "Do"), lbl);
-      leg.off[2] = max(1-p.old, r$out$So[1], r$out$Hcum) - 0.7;
+      leg.xy = c(0.9, max(1-p.old, r$out$So[1], r$out$Hcum) * 0.9);
+      #leg.off[2] = max(1-p.old, r$out$So[1], r$out$Hcum) - 0.7;
     } else if(type == 3) {
       r = filter.out(out, c("T", "Hy", "Sy", "Iy", "Vy", "R", "Dy"), lbl);
-      leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.7;
+      leg.xy = c(0.0, max(p.old, r$out$So) * 0.9);
+      #leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.7;
     } 
     else if(type == 4){
       out$I = out$Iy + out$Io;
@@ -262,11 +264,12 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
       out$V = out$Vy + out$Vo;
       lbl = c(lbl, "Infected (Total)", "Hospitalised (Total)", "Vaccinated (Total)")
       r = filter.out(out, c("Iy", "Io", "Vy", "Vo", "Hy", "Ho"), lbl);
+      leg.xy = c(0.0, 0.9);
     }
     
     out = r$out; lbl = r$lbl;
   }
-  plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Vaccination Stratified Model", 
+  plot.sir(out, legend.lbl = lbl, legend.xy = leg.xy, title = "SIR Vaccination Stratified Model", 
            add = add, plot.legend = plot.legend, ...)
 }
 

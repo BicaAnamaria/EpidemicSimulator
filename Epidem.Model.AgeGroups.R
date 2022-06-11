@@ -17,10 +17,12 @@
 ### Age Groups Model ###
 ########################
 
+# Options for filter controller
 getDisplayTypesAG3 = function(){
   c("All", "Compact", "Children", "Adults", "Old")
 }
 
+# Options for sensitivity analysis controller
 getSensitivityAG3 = function() {
   c("Age Groups Model" = "AG3", 
     "Infection rate btw children" = "infectAG3.cc",
@@ -40,31 +42,44 @@ getSensitivityAG3 = function() {
   );
 }
 
+# Differential ecuations for age groups model
 sirAG3 <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
     # infect.xy = Ix infects Sy;
     # in hospital: children get infected as non-children;
+    # c = childrens; a = adults; o = elders
+    # Susceptible
     dSc = - Sc * (infect.cc * Ic + infect.nc * (Ia + Io + Hc + Ha + Ho))
     dSa = - Sa * (infect.cn * Ic + infect.nn * (Ia + Io + Hc + Ha + Ho))
     dSo = - So * (infect.cn * Ic + infect.nn * (Ia + Io + Hc + Ha + Ho))
+    # Infected
     dIc = - dSc - (death.c + hosp.c + recov.c) * Ic;
     dIa = - dSa - (death.a + hosp.a + recov.a) * Ia;
     dIo = - dSo - (death.o + hosp.o + recov.o) * Io;
+    # Hospitalised
     dHc = hosp.c * Ic - recov.c * Hc - death.hc * Hc;
     dHa = hosp.a * Ia - recov.a * Ha - death.ha * Ha;
     dHo = hosp.o * Io - recov.o * Ho - death.ho * Ho;
+    # Hospitalised cumulated
+    dHcum = hosp.c * Io + hosp.a * Ia + hosp.o * Io;
+    #Death
     dDc = death.hc * Hc + death.c * Ic;
     dDa = death.ha * Ha + death.a * Ia;
     dDo = death.ho * Ho + death.o * Io;
+    # Recovered
     dR = recov.c * Ic + recov.a * Ia + recov.o * Io + recov.c * Hc + recov.a * Ha + recov.o * Ho;
-    dHcum = hosp.c * Io + hosp.a * Ia + hosp.o * Io;
+    # Total
     dT = dSc + dSa + dSo;
     
+    # list with all ecuations for every compartment
     return(list(c(dT, dSc, dSa, dSo, dIc, dIa, dIo, dHcum, dHc, dHa, dHo, dDc, dDa, dDo, dR)));
   })
 }
 
+# function for initializing:
+# - parameters (got from the user/test parameters already declared in the app)
+# - compartments
 initSIR_AG3 = function(param, end.time)
 {
   
@@ -89,7 +104,6 @@ initSIR_AG3 = function(param, end.time)
                     recov.ha = param$recovAG3.ha * (1 - param$deathAG3.ha),
                     recov.ho = param$recovAG3.ho * (1 - param$deathAG3.ho)
   )
-  print(parameters)
   init = c(T = 1, Sc = (1 - 1e-6) * opt.p.children, 
            Sa = (1 - 1e-6) * (1 - opt.p.children - opt.p.old), 
            So = (1 - 1e-6) * opt.p.old,
@@ -97,7 +111,6 @@ initSIR_AG3 = function(param, end.time)
            Hcum = 0.0, Hc = 0.0, Ha = 0.0, Ho = 0.0, 
            Dc = 0.0, Da = 0.0, Do = 0.0,
            R = 0.0)
-  print(init)
   
   ### Solve using ode
   out = solve.sir(sirAG3, init, parameters, times)
@@ -105,36 +118,43 @@ initSIR_AG3 = function(param, end.time)
   return(out);
 }
 
+# Function for plotting 
 plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...) {
   
+  # legend labels
   lbl = c( "Total", "Susceptible (Children)", "Susceptible (Adults)", "Susceptible (Elders)",
            "Infected (Children)", "Infected (Adults)", "Infected (Elders)", 
            "Hosp (Cumulative)", "Hosp (Children)", "Hosp (Adults)", "Hosp (Elders)", 
            "Death (Children)", "Death (Adults)", "Death (Elders)",
            "Recovered") ;
-  leg.off=c(-0.0, 0.3);
+  # legend position
+  leg.xy = c(0.0, 0.975)
+  # controller for filtering
   type = match(flt, getDisplayTypesAG3());
+  
+  # type1 = All; type2 = Compact
+  # type3 = Children; type4 = Adults; type5 = Elders
   if(type > 1) {
     
     if(type == 2) {
       r = filter.out(out, c("T"), lbl);
+      leg.xy = c(0.0, 0.83)
     } else if(type == 3) {
       r = filter.out(out, c("T", "Sa", "So", "Ia", "Io", "Ha", "Ho", "Da", "Do"), lbl);
-      leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.3;
-    } 
-    else if(type == 4){
+      leg.xy = c(0.0, 0.7)
+    } else if(type == 4){
       r = filter.out(out, c("T", "Sc", "So", "Ic", "Io", "Hc", "Ho", "Dc", "Do"), lbl);
-      leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.3;
-    }
-    else if(type == 5){
+      leg.xy = c(0.0, max(r$out$Sa, r$out$Hcum) * 0.8)
+    } else if(type == 5){
       r = filter.out(out, c("T", "Ic", "Ia", "Sc", "Sa", "Hc", "Ha", "Dc", "Da"), lbl);
-      leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.3;
+      leg.xy = c(0.0, 0.7)
     }
     
     out = r$out; lbl = r$lbl;
   }
   
-  plot.sir(out, legend.lbl = lbl, leg.off=leg.off, title = "SIR Age Groups Model", 
+  # plotting the grafic
+  plot.sir(out, legend.lbl = lbl, legend.xy = leg.xy, title = "SIR Age Groups Model", 
            add = add, plot.legend = plot.legend, ...)
 }
 

@@ -44,7 +44,6 @@ opt = list(
 );
 
 
-
 ### Helper Functions
 sliderTime = function(id, label = "Number of days", val = 200, max = 720, step = 1) {
   sliderInput(inputId = id, label = label,
