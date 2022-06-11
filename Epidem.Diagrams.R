@@ -19,13 +19,15 @@
 ### Supervisor: Leonard Mada
 ### Syonic SRL
 
-
 # install.packages(diagram)
 
 library(diagram)
 
-col = list(S = "green", V = "light green", E = "light yellow", I = "yellow", H = "orange", D = "gray", R = "green");
+# Colors for compartments
+col = list(S = "green", V = "light green", E = "light yellow", I = "yellow", 
+           H = "orange", D = "gray", R = "green");
 
+# Function for generating two complementary arrows
 curvedArrows2 = function(x, y, dx, dy, curve, lcol, scaleX, scaleY, arr.pos=0.95) {
   if(length(curve) == 1) curve = c(curve, -curve);
   # Arrow 1:
@@ -68,7 +70,6 @@ diagram1  = function(file = "BasicSIR.png", save.png = FALSE) {
   m[[3,2]] = ""
   
   # plotting the diagram
-  
   plotmat(A = m, pos = 3, name = name, lwd = 2,
           arr.width = 0.25, curve = 0,
           box.size = 0.08, box.col = color, arr.type = "simple", 
@@ -130,10 +131,6 @@ diagram.H  = function(file = "SIR Hospitalisation.png", save.png = FALSE,scaleX 
   # positions of boxes
   coord = matrix(nrow = Numgenerations, ncol = 2)
   
-  # Vy
-  # coord[1,1] = 0.5 - 0.2 * scaleX
-  # coord[1,2] = 0.5 + 0.4 * scaleY
-  
   # Sy
   coord[1,1] = 0.5 - 0.4 * scaleX
   coord[1,2] = 0.5 + 0.2 * scaleY
@@ -168,10 +165,6 @@ diagram.H  = function(file = "SIR Hospitalisation.png", save.png = FALSE,scaleX 
   coord[8,1] = 0.5 + 0.2 * scaleY
   coord[8,2] = 0.5 - 0.4 * scaleY
   
-  # Vo
-  # coord[9,1] = 0.5 - 0.2 * scaleX
-  #coord[9,2] = 0.5 - 0.4 * scaleY
-  
   # plotting the diagram
   plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.25, curve = 0,
@@ -191,12 +184,11 @@ diagram.H  = function(file = "SIR Hospitalisation.png", save.png = FALSE,scaleX 
                 curve=0.7, lcol = col$H,
                 scaleX=scaleX, scaleY=scaleY);
   
+  # from Iy to So & Io to Sy
   curvedArrows2(0.5, 0.5, dx = c(-0.215, -0.3), dy = c(0.12, -0.2),
                 curve=0.2, lcol = col$I,
                 scaleX=scaleX, scaleY=scaleY);
 }
-
-
 
 #######################################
 ### Schema Extended Hospitalisation ###
@@ -263,12 +255,10 @@ diagram.EH  = function(file = "SIR + EH.png", save.png = FALSE,scaleX = 3/4, sca
   coord[2,2] = 0.5 - 0.2 * scaleY
   
   # Ey
-  
   coord[9,1] = 0.5 - 0.2 * scaleX
   coord[9,2] = 0.5 + 0.2 * scaleY
   
   # Eo
-  
   coord[10,1] = 0.5 - 0.2 * scaleX
   coord[10,2] = 0.5 - 0.2 * scaleY
   
@@ -292,15 +282,10 @@ diagram.EH  = function(file = "SIR + EH.png", save.png = FALSE,scaleX = 3/4, sca
   coord[7,1] = 0.5 + 0.4 * scaleX
   coord[7,2] = 0.5 + 0.4 * scaleY
   
-  
   # R
   coord[8,1] = 0.5 + 0.4 * scaleY
   coord[8,2] = 0.5 - 0.4 * scaleY
-  
-  # Vo
-  # coord[9,1] = 0.5 - 0.2 * scaleX
-  #coord[9,2] = 0.5 - 0.4 * scaleY
-  
+
   # plotting the diagram
   plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.25, curve = 0,
@@ -320,17 +305,15 @@ diagram.EH  = function(file = "SIR + EH.png", save.png = FALSE,scaleX = 3/4, sca
                 curve=0.7, lcol = col$H,
                 scaleX=scaleX, scaleY=scaleY);
   
+  # from Iy to So & Io to Sy
   curvedArrows2(0.5, 0.5, dx = c(-0.015, -0.3), dy = c(0.12, -0.2),
                 curve=0.2, lcol = col$I,
                 scaleX=scaleX, scaleY=scaleY);
 }
 
-
-
 ##########################
 ### Schema Vaccination ###
 ##########################
-
 
 diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1/2, scaleY = 1/2) {
   
@@ -440,7 +423,6 @@ diagramV  = function(file = "SIR + Vaccination.png", save.png = FALSE,scaleX = 1
   
 }
 
-
 #####################################
 ### Schema Vaccination Stratified ###
 #####################################
@@ -539,8 +521,6 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
   coord[10,1] = 0.5 + 0.45 * scaleX#0.5 + 0.25 * scaleX
   coord[10,2] = 0.5 - 0.1 * scaleY#0.5 - 1 * scaleY
   
- 
-  
   # plotting the diagram
   plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.5, curve = 0,
@@ -566,12 +546,9 @@ diagramVS  = function(file = "SIR + VaccinationAgeStratified.png", save.png = FA
                 scaleX=scaleX, scaleY=scaleY);
 }
 
-
-
 #######################
 ### Schema 2 Viruses###
 #######################
-
 
 diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, scaleY = 1/3){
   
@@ -600,6 +577,7 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
             expression(RV2)  #9
              
             )
+  
   color <-  c(col$S, col$I, col$I, 
               col$H, col$H, col$D, 
               col$D, col$R, col$R)
@@ -618,7 +596,6 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
   m[[7,5]] = ""
   m[[9,5]] = ""
   
-  
   # positions of boxes
   coord = matrix(nrow = Numgenerations, ncol = 2)
   
@@ -627,46 +604,37 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
   coord[1,2] = 0.5 -0.2 * scaleY
   
   # IV1[1]
-  
   coord[2,1] = 0.5 - 0.4 * scaleX
   coord[2,2] = 0.5 + 0.2 * scaleY
   
   # IV2[2]
-  
   coord[3,1] = 0.5 -0.4 * scaleX
   coord[3,2] = 0.5 -0.5 * scaleY
   
   # HV1[1]
-  
   coord[4,1] = 0.5 - 0.25 * scaleX
   coord[4,2] = 0.5 + 0.8 * scaleY
   
   # HV2[2]
-  
   coord[5,1] = 0.5 - 0.1 * scaleX 
   coord[5,2] = 0.5 - 1.3 * scaleY
   
   # DV1[1]
-  
   coord[6,1] = 0.5 + 0.3 * scaleX
   coord[6,2] = 0.5 + 0.9 * scaleY
   
   # DV2[2]
-  
   coord[7,1] = 0.5 + 0.3 * scaleX
   coord[7,2] = 0.5 - 1.2 * scaleY
   
   # RV1[1]
-  
   coord[9,1] = 0.5 + 0.3 * scaleX
   coord[9,2] = 0.5 - 0.5 * scaleY
   
   # RV2[2]
-  
   coord[8,1] = 0.5 + 0.3 * scaleX
   coord[8,2] = 0.5 + 0.2 * scaleY
   
-
   plotmat(A = m, pos = coord, name = name, lwd = 2,
           arr.width = 0.5, curve = 0,
           box.size = 0.02, box.col = color, arr.type = "simple", 
@@ -675,29 +643,27 @@ diagram.2V = function(file = "2 Virusess.png", save.png = FALSE, scaleX = 1/3, s
   ### Curved arrows 
   # coordinates hard coded
   
-  # from IV1 -> SV1
+  # from IV1 to SV1
   curvedarrow(from = c(0.5 - 0.45 * scaleX,  0.5 + 0.3 * scaleY), to = c(0.5 - 0.6 * scaleX,  0.5 ), lcol = "yellow",
               curve =0.4, arr.pos = 0.9)
   
-  # from IV2 -> SV2
+  # from IV2 to SV2
   curvedarrow(from = c(0.5 - 0.45 * scaleX,  0.5 - 0.6 * scaleY), to = c(0.5 - 0.6 * scaleX,  0.5 - 0.3 * scaleY), lcol = "yellow",
               curve =-0.3, arr.pos = 0.9)
 
-  # from HV1 -> SV1
+  # from HV1 to SV1
   curvedarrow(from = c(0.5 - 0.25 * scaleX,  0.5 + 0.85 * scaleY), to = c(0.5 - 0.6 * scaleX,  0.5 ), lcol = "orange",
               curve =0.4, arr.pos = 0.9)
   
-  # from HV2 -> SV2
+  # from HV2 to SV2
   curvedarrow(from = c(0.5 - 0.15 * scaleX ,  0.5 - 1.3 * scaleY), to = c(0.5 - 0.6 * scaleX,  0.5 - 0.3 * scaleY), lcol = "orange",
               curve =-0.2, arr.pos = 0.9)
   
-  }
-
+}
 
 ##########################
 ### Diagram Age Groups ###
 ##########################
-
 
 diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX = 1/3, scaleY = 1/3){
   
@@ -732,6 +698,7 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
             #expression(Ro)  #15
             
   )
+  
   color <-  c(col$S, col$S, col$S, 
               col$I, col$I, col$I, 
               col$H, col$H, col$H, 
@@ -750,7 +717,6 @@ diagram.AG3 = function(file = "Age Groups Model.png", save.png = FALSE, scaleX =
   m[[10,7]] = ""
   m[[11,8]] = ""
   m[[12,9]] = ""
-  
   
   # positions of boxes
   coord = matrix(nrow = Numgenerations, ncol = 2)

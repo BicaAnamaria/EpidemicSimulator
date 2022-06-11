@@ -16,8 +16,6 @@
 ###   Liviu Sopon and Dragos Ursan
 ###   West University, Timisoara
 
-#TODO: filtrarii !!!!
-
 library(shiny)
 library(shinyjs)
 library(shinyBS)
@@ -46,6 +44,5 @@ source("Epidem.UI.R");
 # Server
 source("Epidem.Server.R");
 
-#vwr = dialogViewer('Epidemic models', width = 1600, height = 1300)
-#runGadget(shinyApp(ui=ui, server=server), viewer = vwr)
+# Initialise app
 shinyApp(ui=ui, server=server)

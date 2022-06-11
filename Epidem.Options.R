@@ -1,7 +1,7 @@
 ### Global Options - Models
 opt.delay.vacc = 60;
 opt.delay.2V = 160;
-opt.p.old = 0.2;
+opt.p.old = 0.2; # 0.2 = 20% of the population
 opt.p.children = 0.2
 opt.death.rate.scale = 24;
 opt.hosp.rate.scale = 12;
