@@ -317,82 +317,46 @@ server <- function(input, output){
   )
   
   ### Help
-  ### Help
   idHelp = reactiveVal("Help1")
   output$HelpUI <- renderUI({
     helpEpidem(id = idHelp());
   })
+  checkEpidem = function(sTag){
+    if(idHelp() == sTag){
+      idHelp("Help0")
+    } else{
+      idHelp(sTag);
+    }
+  }
   observeEvent(input$Help1, {
-    idHelp("Help1");
+    checkEpidem("Help1")
   })
   observeEvent(input$Help2, {
-    idHelp("Help2");
+    checkEpidem("Help2");
   })
   observeEvent(input$Help3, {
-    idHelp("Help3");
-  })
-  ### Help
-  idHelp = reactiveVal("Help1")
-  output$HelpUI <- renderUI({
-    helpEpidem(id = idHelp());
-  })
-  observeEvent(input$Help1, {
-    idHelp("Help1");
-  })
-  observeEvent(input$Help2, {
-    idHelp("Help2");
-  })
-  observeEvent(input$Help3, {
-    idHelp("Help3");
-  })
-  ### Help
-  idHelp = reactiveVal("Help1")
-  output$HelpUI <- renderUI({
-    helpEpidem(id = idHelp());
-  })
-  observeEvent(input$Help1, {
-    idHelp("Help1");
-  })
-  observeEvent(input$Help2, {
-    idHelp("Help2");
-  })
-  observeEvent(input$Help3, {
-    idHelp("Help3");
-  })
-  ### Help
-  idHelp = reactiveVal("Help1")
-  output$HelpUI <- renderUI({
-    helpEpidem(id = idHelp());
-  })
-  observeEvent(input$Help1, {
-    idHelp("Help1");
-  })
-  observeEvent(input$Help2, {
-    idHelp("Help2");
-  })
-  observeEvent(input$Help3, {
-    idHelp("Help3");
+    checkEpidem("Help3");
   })
   observeEvent(input$Help4, {
-    idHelp("Help4");
+    checkEpidem("Help4");
   })
   observeEvent(input$Help5, {
-    idHelp("Help5");
+    checkEpidem("Help5");
   })
   observeEvent(input$Help6, {
-    idHelp("Help6");
+    checkEpidem("Help6");
   })
   observeEvent(input$Help7, {
-    idHelp("Help7");
+    checkEpidem("Help7");
   })
   observeEvent(input$Help8, {
-    idHelp("Help8");
+    checkEpidem("Help8");
   })
   observeEvent(input$Help9, {
-    idHelp("Help9");
+    checkEpidem("Help9");
   })
   observeEvent(input$Help10, {
-    idHelp("Help10");
+    checkEpidem("Help10");
   })
 }
 

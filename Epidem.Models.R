@@ -73,7 +73,7 @@ legend.xyf = function(times, x=c(0,0)) {
 
 plot.sir = function(y, times = NULL, legend.lbl = basic.lbl, legend.xy, leg.off = c(0,0),
                     ylab = "Susceptible and Recovered", title = "SIR Model",
-                    lty = 1, lwd = 2, col = NULL,
+                    lty = 1, lwd = 2, col = NULL, ncol = 1,
                     add = FALSE, plot.legend=TRUE, ...) {
   if(is.null(times)) {
     times = y$time;
@@ -97,7 +97,7 @@ plot.sir = function(y, times = NULL, legend.lbl = basic.lbl, legend.xy, leg.off 
   ### Add legend
   if(plot.legend) {
     legend(legend.xy[1], legend.xy[2], legend.lbl,
-           pch = 19, col = col, bty = "n")
+           pch = 19, col = col, bty = "n", ncol = ncol)
   }
 }
 
@@ -357,7 +357,8 @@ plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.lege
           "Hosp (cumulative)", "Hosp (All)", "Hosp (Young)", "Hosp (Old)",
           "Death (Community)", "Death (Hospital)");
   #leg.off=c(-0.1, 0.3);
-  leg.xy = c(0, 0.9);
+  leg.xy = c(0, 0.8);
+  ncol = 2
   
   ### Display Types
   type = match(flt, getDisplayTypesEH())
@@ -366,11 +367,12 @@ plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.lege
   if(type > 1) {
     out$D = out$Dc + out$Dh;
     out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; 
-    
+    ncol = 1
     lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
     if(type == 2) {
       r = filter.out(out, c("T", "Hy", "Ho", "Dc", "Dh"), lbl);
-      #leg.xy = c(0, 0.79);
+      ncol = 2
+      leg.xy = c(0, 0.8);
     } else if(type == 3) {
       r = filter.out(out, c("T", "So", "Io", "Eo", "Ho", "Dc", "Dh", "R"), lbl); 
       #leg.off[2] = max(1-p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
@@ -382,7 +384,8 @@ plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.lege
     } else r = filter.out(out, c("Hy", "Ho"), lbl=lbl);
     out = r$out; lbl = r$lbl;
   }
-  plot.sir(out, legend.lbl = lbl, legend.xy = leg.xy, add = add, plot.legend = plot.legend, title = "SIR Exposed Hospitalization Model", ...);
+  plot.sir(out, legend.lbl = lbl, legend.xy = leg.xy, add = add, 
+           plot.legend = plot.legend, ncol = ncol, title = "SIR Exposed Hospitalization Model", ...);
 }
 
 
