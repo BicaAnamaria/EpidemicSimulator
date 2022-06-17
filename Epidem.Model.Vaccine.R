@@ -238,14 +238,17 @@ initSIR_VaccineStrat = function(param, end.time, p.old = opt.p.old)
 # Function for display options
 plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALSE, plot.legend = TRUE, ...) {
   head(out, 10)
+  # legend labels
   lbl = c("Total", "Susceptible (Young)", "Susceptible (Old)", "Infected (Young)", 
           "Infected (Old)", "Hosp (cumulated)", "Hosp (Young)", "Hosp (Old)", 
           "Death (Young)", "Death (Old)", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
-  #leg.off=c(-0.1, 0.3);
-  leg.xy = c(0.7 * max(out$time), 1)
-  ncol = 2
-  
+  # controller for filtering
   type = match(flt, getDisplayTypesVaccStrat());
+  # legend position
+  leg.xy = c(0.7 * max(out$time), 1)
+  # number of colums for legend
+  ncol = 2
+ 
   if(type > 1) {
     out$HospRate = c(0, diff(out$Hcum)) * opt.hosp.rate.scale;
     lbl = c(lbl, paste0("Hosp Rate  [scale = x", opt.hosp.rate.scale, "]") );
@@ -256,17 +259,15 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
     } else if(type == 3) {
       r = filter.out(out, c("T", "Hy", "Sy", "Iy", "Vy", "R", "Dy"), lbl);
       leg.xy = c(0.0, max(p.old, r$out$So) * 0.9);
-    } 
-    else if(type == 4){
+    } else if(type == 4){
       out$I = out$Iy + out$Io;
       out$H = out$Hy + out$Ho;
       out$V = out$Vy + out$Vo;
       lbl = c(lbl, "Infected (Total)", "Hospitalised (Total)", "Vaccinated (Total)")
       r = filter.out(out, c("Iy", "Io", "Vy", "Vo", "Hy", "Ho"), lbl);
-      leg.xy = c(0.7 * max(out$time) + 0.1, 0.9);
+      leg.xy = c(0.0, 0.74);
       ncol = 2
     }
-    
     out = r$out; lbl = r$lbl;
   }
   plot.sir(out, legend.lbl = lbl, legend.xy = leg.xy, ncol = ncol,

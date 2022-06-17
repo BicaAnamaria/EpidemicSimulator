@@ -127,18 +127,21 @@ plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...
            "Hosp (Cumulative)", "Hosp (Children)", "Hosp (Adults)", "Hosp (Elders)", 
            "Death (Children)", "Death (Adults)", "Death (Elders)",
            "Recovered") ;
-  # legend position
-  leg.xy = c(0.0, 0.975)
   # controller for filtering
   type = match(flt, getDisplayTypesAG3());
+  # legend position
+  leg.xy = c(0.0, 0.975)
+  # number of colums for legend
+  ncol = 3
   
   # type1 = All; type2 = Compact
   # type3 = Children; type4 = Adults; type5 = Elders
   if(type > 1) {
-    
+    ncol = 1
     if(type == 2) {
       r = filter.out(out, c("T"), lbl);
-      leg.xy = c(0.0, 0.83)
+      leg.xy = c(0.0, 0.61)
+      ncol = 2
     } else if(type == 3) {
       r = filter.out(out, c("T", "Sa", "So", "Ia", "Io", "Ha", "Ho", "Da", "Do"), lbl);
       leg.xy = c(0.0, 0.7)
@@ -154,8 +157,8 @@ plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...
   }
   
   # plotting the grafic
-  plot.sir(out, legend.lbl = lbl, legend.xy = leg.xy, title = "SIR Age Groups Model", 
-           add = add, plot.legend = plot.legend, ...)
+  plot.sir(out, legend.lbl = lbl, legend.xy = leg.xy, ncol = ncol,
+           title = "SIR Age Groups Model", add = add, plot.legend = plot.legend, ...)
 }
 
 ### Sensivity Analysis

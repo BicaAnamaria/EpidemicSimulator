@@ -128,7 +128,6 @@ plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...)
     if(type == 2) {
       r = filter.out(out, c("S"), lbl);
       leg.xy = c(0.0, max(out$Hcum, out$RV1, out$RV2, na.rm=TRUE) * 0.8)
-      #leg.off[2] = max(out$Hcum, out$RV1, out$RV2, na.rm=TRUE) - 0.7;
     } else if(type == 3) {
       r = filter.out(out, c("S", "IV2", "HV2", "DV2", "RV2"), lbl);
       leg.xy = c(0.0, max(out$Hcum, out$RV1, out$RV2, na.rm=TRUE) * 0.8)
