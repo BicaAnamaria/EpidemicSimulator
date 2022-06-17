@@ -70,14 +70,14 @@ summarySIR_Infected = function(x)
 {
   type = attr(x, "Model");
   
-  if(type == "Hospitalization" ){
+  if(type == "Hospitalisation" ){
     param_Iy = computeSummary(x$Sy, 0, "Young: ")
     param_Io = computeSummary(x$So, 0,  "Old: ")
     param_IAll = computeSummary(x$T, 0,  "Total: ")
     
     results = rbind(param_IAll, param_Iy, param_Io);
   }
-  else if(type == "Extended Hospitalization"){
+  else if(type == "Extended Hospitalisation"){
     param_Iy = computeSummary(x$Sy, 0, "Young: ")
     param_Io = computeSummary(x$So, 0,  "Old: ")
     param_IAll = computeSummary(x$T, 0,  "Total: ")
@@ -123,14 +123,14 @@ summarySIR_Infected = function(x)
 summarySIR_Death = function(x){
   type = attr(x, "Model");
  
-  if(type == "Hospitalization"){
+  if(type == "Hospitalisation"){
     param_Dc = computeSummary0(x$Dc,  "Community: ")
     param_Dh = computeSummary0(x$Dh,  "Hospital: ")
     param_DT = computeSummary0(x$Dc + x$Dh , "Total: ");
     
     results = rbind(param_DT, param_Dc, param_Dh);
   }
-  else if(type == "Extended Hospitalization"){
+  else if(type == "Extended Hospitalisation"){
     param_Dc = computeSummary0(x$Dc,  "Community: ")
     param_Dh = computeSummary0(x$Dh,  "Hospital: ")
     param_DT = computeSummary0(x$Dc + x$Dh , "Total: ");
@@ -154,7 +154,7 @@ summarySIR_Death = function(x){
   else if(type == "Vaccination"){
     param_D = computeSummary0(x$D,  "Death: ")
     
-    results = param_D;
+    results = rbind(param_D);
   }
   else if(type == "AG3"){
     param_Dc = computeSummary0(x$Dc,  "Children: ")
@@ -177,7 +177,7 @@ summarySIR_Hosp = function(x){
   type = attr(x, "Model");
   typeInHosp = "In Hosp";
   
-  if(type == "Hospitalization" ){
+  if(type == "Hospitalisation" ){
     #results = calculate_death(x, type, list(c('Dc', 'Dh')))
     param_H = computeSummary0(x$H,  "Total: ", type = typeInHosp, isCumulative = FALSE)
     param_Hy = computeSummary0(x$Hy,  "Young: ", type = typeInHosp, isCumulative = FALSE)
@@ -186,7 +186,7 @@ summarySIR_Hosp = function(x){
     
     results = rbind(param_H, param_Hy, param_Ho, param_Hcum);
   }
-  else if(type == "Extended Hospitalization"){
+  else if(type == "Extended Hospitalisation"){
     param_H = computeSummary0(x$H,  "Total: ", type = typeInHosp, isCumulative = FALSE)
     param_Hy = computeSummary0(x$Hy,  "Young: ", type = typeInHosp, isCumulative = FALSE)
     param_Ho = computeSummary0(x$Ho, "Old: ", type = typeInHosp, isCumulative = FALSE);
