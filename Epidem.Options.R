@@ -9,7 +9,7 @@ opt.sensitivity.lty = 4
 opt.2V.pmutation = 0.1; # 10% of V1 will mutate to V2;
 
 ### Global options - Analysis
-opt.stat.max.cutoff = 0.8; # 80% 
+opt.stat.max.cutoff = 0.8; # 80% of maximum value 
 opt.population.size = 1E+6
 
 # Sensitivity Analysis
