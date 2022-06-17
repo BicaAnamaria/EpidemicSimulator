@@ -17,61 +17,61 @@ helpEpidem = function(id = "Help1"){
   txtSIR = c("S = Susceptible", "I = Infected", "R = Recovered")
   txtHosp = c("Sy = Susceptible young", "So = Susceptible old", 
               "Iy = Infected young", "Io = Infected old", 
-              "H = Hospitalised", "Hcum = Hospitalization Cumulated",
-              "Hy = Hospitalized young", "Ho = Hospitalized old",
-              "Dc = Death community", "Dh = Death Hospitalized",
+              "H = Hospitalised", "Hcum = Hospitalisation Cumulated",
+              "Hy = Hospitalised young", "Ho = Hospitalised old",
+              "Dc = Death community", "Dh = Death Hospitalised",
               "R = Recovered")
   txtHospEH = c("Sy = Susceptible young", "So = Susceptible old", 
                 "Ey = Exposed young", "Eo = Exposed old",
                 "Iy = Infected young", "Io = Infected old", 
-                "H = Hospitalised", "Hcum = Hospitalization Cumulated",
-                "Hy = Hospitalized young", "Ho = Hospitalized old",
-                "Dc = Death community", "Dh = Death Hospitalized",
+                "H = Hospitalised", "Hcum = Hospitalisation Cumulated",
+                "Hy = Hospitalised young", "Ho = Hospitalised old",
+                "Dc = Death community", "Dh = Death Hospitalised",
                 "R = Recovered")
   txtV = c("Sy = Susceptible young", "So = Susceptible old", 
            "Iy = Infected young", "Io = Infected old", 
-           "H = Hospitalised", "Hcum = Hospitalization Cumulated",
+           "H = Hospitalised", "Hcum = Hospitalisation Cumulated",
            "D = Death", 
            "R = Recovered", 
            "Vy = Vaccinated young", "Vo = Vaccinated old")
   txtVS = c("Sy = Susceptible young", "So = Susceptible old", 
             "Iy = Infected young", "Io = Infected old", 
-            "Hcum = Hospitalization Cumulated",
+            "Hcum = Hospitalisation Cumulated",
             "Hy = Hospitalised young", "Ho = Hospitalised old", 
             "Dy = Death young", "Do = Death old",
             "R = Recovered", 
             "Vy = Vaccinated young", "Vo = Vaccinated old")
   txt2V = c("S = Susceptible", 
             "IV1 = Infected with virus 1", "IV2 = Infected with virus 2",
-            "Hcum = Hospitalization Cumulated",
+            "Hcum = Hospitalisation Cumulated",
             "HV1 = Hospitalised infected with virus 1", "HV2 = Hospitalised infected with virus 2",
             "DV1 = Death infected with virus 1", "DV2 = Death infected with virus 2", 
             "RV1 = Recovered infected with virus 1", "RV2 = Recovered infected with virus 2")
   txtAG3 = c("Sc = Susceptible children", "Sa = Susceptible adults", "So = Susceptible old",
              "Ic = Infected children", "Ia = Infected adults", "Io = Infected old",
-             "Hcum = Hospitalization Cumulated",
-             "Hc = Hospitalized child", "Ha = Hospitalized adults", "Ho = Hospitalized old",
+             "Hcum = Hospitalisation Cumulated",
+             "Hc = Hospitalised children", "Ha = Hospitalised adults", "Ho = Hospitalised old",
              "Dc = Death children", "Da = Death adults", "Do = Death old",
              "R = Recovered (R = Rc + Ra + Ro)")
   # title = list(description, abrevetions/compartments)
   txtHelp = list(
               "SIR Model" = 
                 list(txt = "Simple SIR Model", C = txtSIR), 
-              "Hospitalization Model" =  
-                list(txt = "The SIR Model was extended with a Hospitalization 
+              "Hospitalisation Model" =  
+                list(txt = "The SIR Model was extended with a Hospitalisation 
                      compartment. Infected patients can either recover 
                      (becoming immune, R) or they can die (D). The population 
                      is stratified into young and old individuals 
                      (except for the final common states R & D, which are 
                      non-stratified in order to reduce visual clutter).", C = txtHosp),
-              "Extended Hospitalization Model" =  
+              "Extended Hospitalisation Model" =  
                 list(txt = "The Hospitalisation Model was extended with 
                      an Exposed compartment which includes individuals 
                      who are infected, but not yet infectious 
                      (i.e. are in the incubation period and cannot infect 
                      other individuals).", C = txtHospEH),
               "Vaccination Model" = 
-                list(txt = "The Hospitalization model was extended with a 
+                list(txt = "The Hospitalisation model was extended with a 
                      Vaccination compartment, The population is stratified 
                      into young and old individuals (S, I, and V compartments). 
                      The final states H, R, and D are not stratified in order 
