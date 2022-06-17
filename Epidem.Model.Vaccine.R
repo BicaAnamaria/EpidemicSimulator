@@ -98,7 +98,8 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
   lbl = c("Total", "Young", "Old", "Infected (Young)", "Infected (Old)", "Hosp (cumulative)", "Hosp", 
           "Death", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
   #leg.off=c(-0.0, 0.3);
-  leg.xy = c(0, 0.75)
+  leg.xy = c(0.7 * max(out$time), 0.75)
+  ncol = 2
   
   type = match(flt, getDisplayTypesVacc());
   if(type > 1) {
@@ -106,13 +107,13 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
     out$HospRate = c(0, diff(out$Hcum)) * opt.hosp.rate.scale;
     lbl = c(lbl, paste0("Death Rate [scale = x", opt.death.rate.scale, "]"),
             paste0("Hosp Rate  [scale = x", opt.hosp.rate.scale, "]") );
+    ncol = 1
     if(type == 1) {
       r = filter.out(out, c("T", "Hcum"), lbl);
       leg.xy = c(0, out$Sy[1])
     } else if(type == 2) {
       r = filter.out(out, c("T", "Hcum", "So", "Io", "Vo"), lbl);
       leg.xy = c(0, (1 - p.old) * 0.8)
-      #leg.off[2] = max(1 - p.old, out$Iy) - 0.7;
     } else if(type == 3) {
       r = filter.out(out, c("T", "Hcum", "Sy", "R", "Vy", "Iy"), lbl);
       leg.xy = c(0.7 * max(out$time), p.old * 0.8)
@@ -120,7 +121,6 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
       # R: can filter, as it does NOT convey any additional information;
       # Iy: keep as a reference;
       r = filter.out(out, c("T", "Hcum", "Sy", "R", "Vy"), lbl);
-      #leg.off[2] = max(p.old, out$Iy) - 0.7;
       leg.xy = c(0.7 * max(out$time), max(p.old, out$Iy) * 0.8)
     } 
     else if(type == 5){
@@ -129,13 +129,14 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
       out$V = out$Vy + out$Vo;
       lbl = c(lbl, "Infected (Total)", "Vaccinated (Total)")
       r = filter.out(out, c("Iy", "Io", "Vo", "Vy"), lbl);
-      leg.xy = c(0, 0.75)
+      leg.xy = c(0.7 * max(out$time), 0.75)
+      ncol = 2
     }
     
     out = r$out; lbl = r$lbl;
   }
-  plot.sir(out, legend.lbl = lbl, legend.xy=leg.xy, title = "SIR Vaccination Model", 
-           add = add, plot.legend = plot.legend, ...)
+  plot.sir(out, legend.lbl = lbl, legend.xy=leg.xy, ncol = ncol,
+           title = "SIR Vaccination Model", add = add, plot.legend = plot.legend, ...)
 }
 
 ### Sensitivity Analysis
@@ -241,22 +242,20 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
           "Infected (Old)", "Hosp (cumulated)", "Hosp (Young)", "Hosp (Old)", 
           "Death (Young)", "Death (Old)", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
   #leg.off=c(-0.1, 0.3);
-  leg.xy = c(0.9, 0.9)
+  leg.xy = c(0.7 * max(out$time), 1)
+  ncol = 2
   
   type = match(flt, getDisplayTypesVaccStrat());
   if(type > 1) {
     out$HospRate = c(0, diff(out$Hcum)) * opt.hosp.rate.scale;
-    
     lbl = c(lbl, paste0("Hosp Rate  [scale = x", opt.hosp.rate.scale, "]") );
-    
+    ncol = 1
     if(type == 2) {
       r = filter.out(out, c("T", "Ho", "Io", "So", "Vo", "Do"), lbl);
       leg.xy = c(0.9, max(1-p.old, r$out$So[1], r$out$Hcum) * 0.9);
-      #leg.off[2] = max(1-p.old, r$out$So[1], r$out$Hcum) - 0.7;
     } else if(type == 3) {
       r = filter.out(out, c("T", "Hy", "Sy", "Iy", "Vy", "R", "Dy"), lbl);
       leg.xy = c(0.0, max(p.old, r$out$So) * 0.9);
-      #leg.off[2] = max(r$out$So[1], r$out$Hcum) - 0.7;
     } 
     else if(type == 4){
       out$I = out$Iy + out$Io;
@@ -264,13 +263,14 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
       out$V = out$Vy + out$Vo;
       lbl = c(lbl, "Infected (Total)", "Hospitalised (Total)", "Vaccinated (Total)")
       r = filter.out(out, c("Iy", "Io", "Vy", "Vo", "Hy", "Ho"), lbl);
-      leg.xy = c(0.0, 0.9);
+      leg.xy = c(0.7 * max(out$time) + 0.1, 0.9);
+      ncol = 2
     }
     
     out = r$out; lbl = r$lbl;
   }
-  plot.sir(out, legend.lbl = lbl, legend.xy = leg.xy, title = "SIR Vaccination Stratified Model", 
-           add = add, plot.legend = plot.legend, ...)
+  plot.sir(out, legend.lbl = lbl, legend.xy = leg.xy, ncol = ncol,
+           title = "SIR Vaccination Stratified Model", add = add, plot.legend = plot.legend, ...)
 }
 
 ### Sensitivity Analysis
