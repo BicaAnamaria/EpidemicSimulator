@@ -80,7 +80,7 @@ sirAG3 <- function(time, state, parameters) {
 # function for initializing:
 # - parameters (got from the user/test parameters already declared in the app)
 # - compartments
-initSIR_AG3 = function(param, end.time)
+initSIR_AG3 = function(param, end.time, options = opt0)
 {
   
   times = seq(0, end.time, by = 1)
@@ -104,9 +104,9 @@ initSIR_AG3 = function(param, end.time)
                     recov.ha = param$recovAG3.ha * (1 - param$deathAG3.ha),
                     recov.ho = param$recovAG3.ho * (1 - param$deathAG3.ho)
   )
-  init = c(T = 1, Sc = (1 - 1e-6) * opt.p.children, 
-           Sa = (1 - 1e-6) * (1 - opt.p.children - opt.p.old), 
-           So = (1 - 1e-6) * opt.p.old,
+  init = c(T = 1, Sc = (1 - 1e-6) * options$opt.p.children, 
+           Sa = (1 - 1e-6) * (1 - options$opt.p.children - options$opt.p.old), 
+           So = (1 - 1e-6) * options$opt.p.old,
            Ic = 0.0, Ia = 1e-6, Io = 0.0, 
            Hcum = 0.0, Hc = 0.0, Ha = 0.0, Ho = 0.0, 
            Dc = 0.0, Da = 0.0, Do = 0.0,
