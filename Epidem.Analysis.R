@@ -18,16 +18,16 @@
 
 ### Helper Functions
 # - used by function computeSummary();
-calculate_parameters <- function(dX, category = NULL, type = "Infected") {
+calculate_parameters <- function(dX, category = NULL, type = "Infected", options = opt0) {
   # maximum number of infected persons/day
-  maxCutoff = max(dX) * opt.stat.max.cutoff;
+  maxCutoff = max(dX) * options$stat.max.cutoff;
   # days with number of infections >= cutoff
   isHigher = (dX >= maxCutoff);
   daysHigh = rle(isHigher);
   daysHigh = daysHigh$lengths[daysHigh$values > 0];
   if(length(daysHigh) == 0) daysHigh = 0;
-  dXMax = round(max(dX) * opt.population.size);
-  dXCutoff = round(maxCutoff * opt.population.size);
+  dXMax = round(max(dX) * options$population.size);
+  dXCutoff = round(maxCutoff * options$population.size);
   if(is.null(category)){
     return(data.frame(daysHigh, dXMax, dXCutoff));
   } else {

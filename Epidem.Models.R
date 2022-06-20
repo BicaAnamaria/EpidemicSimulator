@@ -187,7 +187,7 @@ sirHosp <- function(time, state, parameters) {
   })
 }
 
-initSIR_Hosp = function(opt, end.time, p.old = opt.p.old) {
+initSIR_Hosp = function(opt, end.time, options = opt0) {
   times = seq(0, end.time, by = 1) # flt = filter
   # - S = susceptible young people;
   # - O = susceptible old people;
@@ -203,7 +203,7 @@ initSIR_Hosp = function(opt, end.time, p.old = opt.p.old) {
                  hosp.y = opt$hosp.y, 
                  hosp.o = opt$hosp.o)
   I0 = 1E-6; 
-  init = c(T = 1 - I0, Sy = (1 - I0) * (1 - p.old), So = (1 - I0) * p.old,
+  init = c(T = 1 - I0, Sy = (1 - I0) * (1 - options$p.old), So = (1 - I0) * options$p.old,
            Iy = I0, Io = 0.0, R = 0.0,
            Hcum = 0.0, H = 0.0, Hy = 0.0, Ho = 0.0, Dc = 0.0, Dh = 0.0); # init = state
   
@@ -213,7 +213,7 @@ initSIR_Hosp = function(opt, end.time, p.old = opt.p.old) {
   return(out);
 }
 
-plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.legend = TRUE, ...)
+plotSIR_Hosp = function (out, options = opt0, flt="Old", add = FALSE, plot.legend = TRUE, ...)
 { 
   ### Plot
   lbl = c("Total", "Young", "Old", "Infected: Young (in community)", "Infected: Old (in community)",
@@ -227,19 +227,19 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
   # filter results
   if(type > 1) {
     out$D = out$Dc + out$Dh;
-    out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; # modify hospitalisation rate 
-    lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
+    out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * options$hosp.rate.scale; # modify hospitalisation rate 
+    lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", options$hosp.rate.scale, "]"));
     ncol = 1
     if(type == 2) {
       r = filter.out(out, c("T", "Hy", "Ho", "Dc", "Dh"), lbl);
       leg.xy = c(0, 0.79);
     } else if(type == 3) {
       r = filter.out(out, c("T", "So", "Io", "Ho", "Dc", "Dh", "R"), lbl); 
-      leg.xy = c(0.0, max(1-p.old, out$Io) * 0.8);
+      leg.xy = c(0.0, max(1-options$p.old, out$Io) * 0.8);
       col = 2
     } else if(type == 4) {
       r = filter.out(out, c("T", "Sy", "Iy", "Hy", "Dc", "Dh", "R"), lbl);
-      leg.xy = c(0.0, max(p.old, max(out$Io)) * 0.8) ;
+      leg.xy = c(0.0, max(options$p.old, max(out$Io)) * 0.8) ;
     }
     out = r$out; lbl = r$lbl;
   }
@@ -249,7 +249,7 @@ plotSIR_Hosp = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.le
 
 ### Sensitivity Analysis
 
-Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
+Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, options = opt0, flt = "Old") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
     opt[[param]] = p;
@@ -258,7 +258,7 @@ Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, p.old = opt.p.ol
     out = initSIR_Hosp(opt, end.time); 
     
     plotSIR_Hosp(out, flt = flt, add = if(p == min) FALSE else TRUE,
-                 plot.legend = FALSE, lty = opt.sensitivity.lty);
+                 plot.legend = FALSE, lty = options$sensitivity.lty);
   }
   
   opt[[param]] = min;
@@ -320,7 +320,7 @@ sirEH <- function(time, state, parameters) {
 }
 
 
-initSIR_EH = function(opt, end.time, p.old = opt.p.old) {
+initSIR_EH = function(opt, end.time, options = opt0) {
   times = seq(0, end.time, by = 1) 
 
   parameters = c(infect = opt$infect,
@@ -334,7 +334,7 @@ initSIR_EH = function(opt, end.time, p.old = opt.p.old) {
                  hosp.y = opt$hosp.y, 
                  hosp.o = opt$hosp.o)
   I0 = 1E-6; 
-  init = c(T = 1 - I0, Sy = (1 - I0) * (1 - p.old), So = (1 - I0) * p.old,
+  init = c(T = 1 - I0, Sy = (1 - I0) * (1 - options$p.old), So = (1 - I0) * options$p.old,
            Ey = 0.0, Eo = 0.0,
            Iy = I0, Io = 0.0, R = 0.0,
            Hcum = 0.0, H = 0.0, Hy = 0.0, Ho = 0.0, Dc = 0.0, Dh = 0.0);
@@ -345,7 +345,7 @@ initSIR_EH = function(opt, end.time, p.old = opt.p.old) {
   return(out);
 }
 
-plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.legend = TRUE, ...)
+plotSIR_EH = function (out, options = opt0, flt="Old", add = FALSE, plot.legend = TRUE, ...)
 { 
   ### Plot
   lbl = c("Total", "Young", "Old", "Exposed (Young)", "Exposed (Old)",
@@ -363,9 +363,9 @@ plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.lege
   # filter results
   if(type > 1) {
     out$D = out$Dc + out$Dh;
-    out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * opt.hosp.rate.scale; 
+    out$HospRate = c(out$Hcum[1], diff(out$Hcum)) * options$hosp.rate.scale; 
     ncol = 1
-    lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", opt.hosp.rate.scale, "]"));
+    lbl = c(lbl, "Death: All", paste0("Hosp (rate)[scale = x", options$hosp.rate.scale, "]"));
     if(type == 2) {
       r = filter.out(out, c("T", "Hy", "Ho", "Dc", "Dh"), lbl);
       ncol = 2
@@ -373,10 +373,10 @@ plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.lege
     } else if(type == 3) {
       r = filter.out(out, c("T", "So", "Io", "Eo", "Ho", "Dc", "Dh", "R"), lbl); 
       #leg.off[2] = max(1-p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
-      leg.xy = c(0, max(1-p.old, out$Io, max(out$Hcum)) * 0.8);
+      leg.xy = c(0, max(1-options$p.old, out$Io, max(out$Hcum)) * 0.8);
     } else if(type == 4) {
       r = filter.out(out, c("T", "Sy", "Iy", "Ey", "Hy", "Dc", "Dh", "R"), lbl);
-      leg.xy = c(0, max(p.old, out$Io) * 0.9);
+      leg.xy = c(0, max(options$p.old, out$Io) * 0.9);
       #leg.off[2] = max(p.old, out$I, max(out$Hcum) - 0.1) - 0.7;
     } else r = filter.out(out, c("Hy", "Ho"), lbl=lbl);
     out = r$out; lbl = r$lbl;
@@ -388,7 +388,7 @@ plotSIR_EH = function (out, p.old = opt.p.old, flt="Old", add = FALSE, plot.lege
 
 ### Sensitivity Analysis
 
-Sensitivity_EH = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
+Sensitivity_EH = function(param, opt, end.time, min=0, max=1, options = opt0, flt = "Old") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
     opt[[param]] = p;
@@ -397,7 +397,7 @@ Sensitivity_EH = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old,
     out = initSIR_EH(opt, end.time); 
     
     plotSIR_EH(out, flt = flt, add = if(p == min) FALSE else TRUE,
-                 plot.legend = FALSE, lty = opt.sensitivity.lty);
+                 plot.legend = FALSE, lty = options$sensitivity.lty);
   }
   
   opt[[param]] = min;

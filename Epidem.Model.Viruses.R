@@ -65,7 +65,7 @@ sir2Viruses <- function(time, state, parameters) {
 # function for initializing:
 # - parameters (got from the user/test parameters already declared in the app)
 # - compartments
-initSIR_2Viruses = function(param, end.time)
+initSIR_2Viruses = function(param, end.time, options = opt0)
 {
   parameters = list(infect.v1 = param$infectV1,
                     infect.v2 = param$infectV2,
@@ -97,7 +97,7 @@ initSIR_2Viruses = function(param, end.time)
   idIV2 = which(names(init) == 'IV2')
   len = nrow(out1);
   init = unlist(out1[len, -1]);
-  init[idIV2] = init[idIV1] * opt.2V.pmutation;
+  init[idIV2] = init[idIV1] * options$opt.2V.permutation;
   init[idIV1] = init[idIV1] - init[idIV2];
   out2 = solve.sir(sir2Viruses, init, parameters, times2);
   # Merge results
@@ -146,7 +146,7 @@ plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...)
 }
 
 ### Sensivity Analysis
-Sensitivity_2Viruses = function(param, opt, end.time, min=0, max=1, flt = "V1") {
+Sensitivity_2Viruses = function(param, opt, end.time, min=0, max=1, flt = "V1", options = opt0) {
   by = (max - min)/20;
   # for this interval, run the simulation and plot the result
   for(p in seq(min, max, by = by)) {
@@ -155,7 +155,7 @@ Sensitivity_2Viruses = function(param, opt, end.time, min=0, max=1, flt = "V1") 
     out = initSIR_2Viruses(opt, end.time);
     
     plotSIR_2Viruses(out, flt = flt, add = if(p == min) FALSE else TRUE,
-                    plot.legend = FALSE, lty = opt.sensitivity.lty);
+                    plot.legend = FALSE, lty = options$sensitivity.lty);
   }
   
   opt[[param]] = min;

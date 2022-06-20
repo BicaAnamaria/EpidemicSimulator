@@ -37,10 +37,10 @@ getDisplayTypesVacc = function(){
   c("All", "Young", "Old", "Old + Iy", "Totals")
 }
 
-sirVacc <- function(time, state, parameters) {
+sirVacc <- function(time, state, parameters, options = opt0) {
   with(as.list(c(state, parameters)), {
     
-    if(time < opt.delay.vacc){
+    if(time < options$delay.vacc){
       dVy = 0; 
       dVo = 0;
     } 
@@ -65,7 +65,7 @@ sirVacc <- function(time, state, parameters) {
 }
 
 
-initSIR_Vaccine = function(param, end.time, p.old = opt.p.old) 
+initSIR_Vaccine = function(param, end.time, options = opt0) 
 {
   
   times = seq(0, end.time, by = 1)
@@ -82,8 +82,8 @@ initSIR_Vaccine = function(param, end.time, p.old = opt.p.old)
                     vacc.o = param$vacc.o     
   )
   
-  init = c(T = 1 - 1e-6, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old, 
-           Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, 
+  init = c(T = 1 - 1e-6, Sy = (1 - 1e-6) * (1 - options$p.old), So = (1 - 1e-6) * options$p.old, 
+           Iy = 1e-6 * (1 - options$p.old), Io = 1e-6 * options$p.old, 
            Hcum = 0.0, H = 0.0, D = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
   
   ### Solve using ode
@@ -93,7 +93,7 @@ initSIR_Vaccine = function(param, end.time, p.old = opt.p.old)
 }
 
 
-plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plot.legend = TRUE, ...) {
+plotSIR_Vaccine = function(out, flt = "Old", options = opt0, add = FALSE, plot.legend = TRUE, ...) {
   
   lbl = c("Total", "Young", "Old", "Infected (Young)", "Infected (Old)", "Hosp (cumulative)", "Hosp", 
           "Death", "Recovered", "Vaccinated (Young)", "Vaccinated (Old)");
@@ -103,25 +103,25 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
   
   type = match(flt, getDisplayTypesVacc());
   if(type > 1) {
-    out$DeathRate = c(out$D[1], diff(out$D, lag = 1)) * opt.death.rate.scale; 
-    out$HospRate = c(0, diff(out$Hcum)) * opt.hosp.rate.scale;
-    lbl = c(lbl, paste0("Death Rate [scale = x", opt.death.rate.scale, "]"),
-            paste0("Hosp Rate  [scale = x", opt.hosp.rate.scale, "]") );
+    out$DeathRate = c(out$D[1], diff(out$D, lag = 1)) * options$death.rate.scale; 
+    out$HospRate = c(0, diff(out$Hcum)) * options$hosp.rate.scale;
+    lbl = c(lbl, paste0("Death Rate [scale = x", options$death.rate.scale, "]"),
+            paste0("Hosp Rate  [scale = x", options$hosp.rate.scale, "]") );
     ncol = 1
     if(type == 1) {
       r = filter.out(out, c("T", "Hcum"), lbl);
       leg.xy = c(0, out$Sy[1])
     } else if(type == 2) {
       r = filter.out(out, c("T", "Hcum", "So", "Io", "Vo"), lbl);
-      leg.xy = c(0, (1 - p.old) * 0.8)
+      leg.xy = c(0, (1 - options$p.old) * 0.8)
     } else if(type == 3) {
       r = filter.out(out, c("T", "Hcum", "Sy", "R", "Vy", "Iy"), lbl);
-      leg.xy = c(0.7 * max(out$time), p.old * 0.8)
+      leg.xy = c(0.7 * max(out$time), options$p.old * 0.8)
     } else if(type == 4) {
       # R: can filter, as it does NOT convey any additional information;
       # Iy: keep as a reference;
       r = filter.out(out, c("T", "Hcum", "Sy", "R", "Vy"), lbl);
-      leg.xy = c(0.7 * max(out$time), max(p.old, out$Iy) * 0.8)
+      leg.xy = c(0.7 * max(out$time), max(options$p.old, out$Iy) * 0.8)
     } 
     else if(type == 5){
       out$T = out$Sy + out$So;
@@ -140,7 +140,7 @@ plotSIR_Vaccine = function(out, flt = "Old", p.old = opt.p.old, add = FALSE, plo
 }
 
 ### Sensitivity Analysis
-Sensitivity_Vaccine = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
+Sensitivity_Vaccine = function(param, opt, end.time, min=0, max=1, options = opt0, flt = "Old") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
     opt[[param]] = p;
@@ -148,7 +148,7 @@ Sensitivity_Vaccine = function(param, opt, end.time, min=0, max=1, p.old = opt.p
     out = initSIR_Vaccine(opt, end.time);
     
     plotSIR_Vaccine(out, flt = flt, add = if(p == min) FALSE else TRUE,
-                    plot.legend = FALSE, lty = opt.sensitivity.lty);
+                    plot.legend = FALSE, lty = options$sensitivity.lty);
   }
   
   opt[[param]] = min;
@@ -178,14 +178,14 @@ getDisplayTypesVaccStrat = function(){
   c("All", "Young", "Old", "Totals")
 }
 
-sirVaccStrat <- function(time, state, parameters) {
+sirVaccStrat <- function(time, state, parameters, options = opt0) {
   with(as.list(c(state, parameters)), {
     
-    if(time < opt.delay.vacc){
+    if(time < options$delay.vacc){
       dVy = 0;
     } else  dVy = min(Sy, vacc.y); # variable origin: state
     
-    if(time < opt.delay.vacc){
+    if(time < options$delay.vacc){
       dVo = 0;
     } else  dVo = min(So, vacc.o);
     
@@ -206,7 +206,7 @@ sirVaccStrat <- function(time, state, parameters) {
   }
   )}
 
-initSIR_VaccineStrat = function(param, end.time, p.old = opt.p.old)
+initSIR_VaccineStrat = function(param, end.time, options = opt0)
 {
   
   times = seq(0, end.time, by = 1)
@@ -225,8 +225,8 @@ initSIR_VaccineStrat = function(param, end.time, p.old = opt.p.old)
                     vacc.y = param$vacc.y,     
                     vacc.o = param$vacc.o)
   
-  init = c(T = 1, Sy = (1 - 1e-6) * (1 - p.old), So = (1 - 1e-6) * p.old,
-           Iy = 1e-6 * (1 - p.old), Io = 1e-6 * p.old, Hcum = 0.0, Hy = 0.0, 
+  init = c(T = 1, Sy = (1 - 1e-6) * (1 - options$p.old), So = (1 - 1e-6) * options$p.old,
+           Iy = 1e-6 * (1 - options$p.old), Io = 1e-6 * options$p.old, Hcum = 0.0, Hy = 0.0, 
            Ho = 0.0, Dy = 0.0, Do = 0.0, R = 0.0, Vy =0.0, Vo = 0.0)
   
   
@@ -236,7 +236,7 @@ initSIR_VaccineStrat = function(param, end.time, p.old = opt.p.old)
   return(out);
 }
 # Function for display options
-plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALSE, plot.legend = TRUE, ...) {
+plotSIR_VaccineStrat = function(out, options = opt0,  flt = "Old", add = FALSE, plot.legend = TRUE, ...) {
   head(out, 10)
   # legend labels
   lbl = c("Total", "Susceptible (Young)", "Susceptible (Old)", "Infected (Young)", 
@@ -250,15 +250,15 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
   ncol = 2
  
   if(type > 1) {
-    out$HospRate = c(0, diff(out$Hcum)) * opt.hosp.rate.scale;
-    lbl = c(lbl, paste0("Hosp Rate  [scale = x", opt.hosp.rate.scale, "]") );
+    out$HospRate = c(0, diff(out$Hcum)) * options$hosp.rate.scale;
+    lbl = c(lbl, paste0("Hosp Rate  [scale = x", options$hosp.rate.scale, "]") );
     ncol = 1
     if(type == 2) {
       r = filter.out(out, c("T", "Ho", "Io", "So", "Vo", "Do"), lbl);
-      leg.xy = c(0.9, max(1-p.old, r$out$So[1], r$out$Hcum) * 0.9);
+      leg.xy = c(0.9, max(1-options$p.old, r$out$So[1], r$out$Hcum) * 0.9);
     } else if(type == 3) {
       r = filter.out(out, c("T", "Hy", "Sy", "Iy", "Vy", "R", "Dy"), lbl);
-      leg.xy = c(0.0, max(p.old, r$out$So) * 0.9);
+      leg.xy = c(0.0, max(options$p.old, r$out$So) * 0.9);
     } else if(type == 4){
       out$I = out$Iy + out$Io;
       out$H = out$Hy + out$Ho;
@@ -275,7 +275,7 @@ plotSIR_VaccineStrat = function(out, p.old = opt.p.old,  flt = "Old", add = FALS
 }
 
 ### Sensitivity Analysis
-Sensitivity_VaccineStrat = function(param, opt, end.time, min=0, max=1, p.old = opt.p.old, flt = "Old") {
+Sensitivity_VaccineStrat = function(param, opt, end.time, min=0, max=1, options = opt0, flt = "Old") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
     opt[[param]] = p;
@@ -283,7 +283,7 @@ Sensitivity_VaccineStrat = function(param, opt, end.time, min=0, max=1, p.old = 
     out = initSIR_VaccineStrat(opt, end.time);
     
     plotSIR_VaccineStrat(out, flt = flt, add = if(p == min) FALSE else TRUE,
-                         plot.legend = FALSE, lty = opt.sensitivity.lty);
+                         plot.legend = FALSE, lty = options$sensitivity.lty);
   }
   
   opt[[param]] = min;
