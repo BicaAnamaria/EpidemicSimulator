@@ -76,34 +76,29 @@ summarySIR_Infected = function(x)
     param_IAll = computeSummary(x$T, 0,  "Total: ")
     
     results = rbind(param_IAll, param_Iy, param_Io);
-  }
-  else if(type == "Extended Hospitalisation"){
+  } else if(type == "Extended Hospitalisation"){
     param_Iy = computeSummary(x$Sy, 0, "Young: ")
     param_Io = computeSummary(x$So, 0,  "Old: ")
     param_IAll = computeSummary(x$T, 0,  "Total: ")
     
-    results = rbind(param_IAll, param_Iy, param_Io);
-  }
-  else if( type == "Vaccination" ){
+    results = rbind(param_IAll, param_Iy, param_Io);i
+  } else if( type == "Vaccination" ){
     param_Iy = computeSummary(x$Sy, x$Vy, "Young: ")
     param_Io = computeSummary(x$So, x$Vo,  "Old: ")
     param_IAll = computeSummary(x$T, x$Vy + x$Vo,  "Total: ")
     
     results = rbind(param_IAll, param_Iy, param_Io);
-  }
-  else if(type == "Vaccination Stratified"){
+  } else if(type == "Vaccination Stratified"){
     param_Iy = computeSummary(x$Sy, x$Vy, "Young: ")
     param_Io = computeSummary(x$So, x$Vo,  "Old: ")
     param_IAll = computeSummary(x$T, x$Vy + x$Vo,  "Total: ")
     
     results = rbind(param_IAll, param_Iy, param_Io);
-  }
-  else if( type == "2 Viruses" ){
+  } else if( type == "2 Viruses" ){
     param_I = computeSummary(x$S, 0,  "Total infected: ")
     
     results = param_I;
-  }
-  else if( type == "AG3" ){
+  } else if( type == "AG3" ){
     param_Ic = computeSummary(x$Sc, 0, "Young: ")
     param_Ia = computeSummary(x$Sa, 0, "Adults: ")
     param_Io = computeSummary(x$So, 0,  "Old: ")
@@ -129,34 +124,29 @@ summarySIR_Death = function(x){
     param_DT = computeSummary0(x$Dc + x$Dh , "Total: ");
     
     results = rbind(param_DT, param_Dc, param_Dh);
-  }
-  else if(type == "Extended Hospitalisation"){
+  } else if(type == "Extended Hospitalisation"){
     param_Dc = computeSummary0(x$Dc,  "Community: ")
     param_Dh = computeSummary0(x$Dh,  "Hospital: ")
     param_DT = computeSummary0(x$Dc + x$Dh , "Total: ");
     
     results = rbind(param_DT, param_Dc, param_Dh);
-  }
-  else if(type == "Vaccination Stratified"){
+  } else if(type == "Vaccination Stratified"){
     param_Dy = computeSummary0(x$Dy,  "Young: ")
     param_Do = computeSummary0(x$Do,  "Old: ")
     param_DT = computeSummary0(x$Dy + x$Do , "Total: ");
     
     results = rbind(param_DT, param_Dy, param_Do);
-  }
-  else if(type == "2 Viruses"){
+  } else if(type == "2 Viruses"){
     param_DV1 = computeSummary0(x$DV1,  "Virus 1: ")
     param_DV2 = computeSummary0(x$DV2,  "Virus 2: ")
     param_DT = computeSummary0(x$DV1 + x$DV2 , "Total: ");
     
     results = rbind(param_DT, param_DV1, param_DV2);
-  }
-  else if(type == "Vaccination"){
+  } else if(type == "Vaccination"){
     param_D = computeSummary0(x$D,  "Death: ")
     
     results = rbind(param_D);
-  }
-  else if(type == "AG3"){
+  } else if(type == "AG3"){
     param_Dc = computeSummary0(x$Dc,  "Children: ")
     param_Da = computeSummary0(x$Da,  "Adults: ")
     param_Do = computeSummary0(x$Do,  "Old: ")
