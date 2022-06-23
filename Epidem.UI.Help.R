@@ -65,7 +65,7 @@ helpEpidem = function(id = "Help1"){
                 list(txt = "The SIR Model was extended with a Hospitalisation 
                      compartment. Infected patients can either recover 
                      (becoming immune, R) or they can die (D). The population 
-                     is stratified into young and old individuals 
+                     is stratified into young and old individuals. 
                      The H compartment and the final states R and D are 
                      not stratified in order to reduce visual clutter.", C = txtHosp),
               "Extended Hospitalisation Model" =  
