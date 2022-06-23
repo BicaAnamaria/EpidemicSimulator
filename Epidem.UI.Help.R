@@ -16,28 +16,28 @@
 helpEpidem = function(id = "Help1"){
   txtSIR = c("S = Susceptible", "I = Infected", "R = Recovered")
   txtHosp = c("Sy = Susceptible young", "So = Susceptible old", 
-              "Iy = Infected young", "Io = Infected old", 
+              "Iy = Infected young (staying in the community)", "Io = Infected old (staying in the community)", 
               "H = Hospitalised", "Hcum = Hospitalisation Cumulated",
-              "Hy = Hospitalised young", "Ho = Hospitalised old",
+              "Hy = Hospitalised young (infected and hospitalised)", "Ho = Hospitalised old (infected and hospitalised)",
               "Dc = Death community", "Dh = Death Hospitalised",
               "R = Recovered")
   txtHospEH = c("Sy = Susceptible young", "So = Susceptible old", 
                 "Ey = Exposed young", "Eo = Exposed old",
-                "Iy = Infected young", "Io = Infected old", 
+                "Iy = Infected young (staying in the community)", "Io = Infected old (staying in the community)", 
                 "H = Hospitalised", "Hcum = Hospitalisation Cumulated",
-                "Hy = Hospitalised young", "Ho = Hospitalised old",
+                "Hy = Hospitalised young (infected and hospitalised)", "Ho = Hospitalised old (infected and hospitalised)",
                 "Dc = Death community", "Dh = Death Hospitalised",
                 "R = Recovered")
   txtV = c("Sy = Susceptible young", "So = Susceptible old", 
-           "Iy = Infected young", "Io = Infected old", 
+           "Iy = Infected young (staying in the community)", " Io = Infected old (staying in the community)", 
            "H = Hospitalised", "Hcum = Hospitalisation Cumulated",
            "D = Death", 
            "R = Recovered", 
            "Vy = Vaccinated young", "Vo = Vaccinated old")
   txtVS = c("Sy = Susceptible young", "So = Susceptible old", 
-            "Iy = Infected young", "Io = Infected old", 
+            "Iy = Infected young (staying in the community)", "Io = Infected old (staying in the community)", 
             "Hcum = Hospitalisation Cumulated",
-            "Hy = Hospitalised young", "Ho = Hospitalised old", 
+            "Hy = Hospitalised young (infected and hospitalised)", "Ho = Hospitalised old (infected and hospitalised)", 
             "Dy = Death young", "Do = Death old",
             "R = Recovered", 
             "Vy = Vaccinated young", "Vo = Vaccinated old")
@@ -50,9 +50,13 @@ helpEpidem = function(id = "Help1"){
   txtAG3 = c("Sc = Susceptible children", "Sa = Susceptible adults", "So = Susceptible old",
              "Ic = Infected children", "Ia = Infected adults", "Io = Infected old",
              "Hcum = Hospitalisation Cumulated",
-             "Hc = Hospitalised children", "Ha = Hospitalised adults", "Ho = Hospitalised old",
+             "Hc = Hospitalised children", "Ha = Hospitalised adults", "Ho = Hospitalised old (infected and hospitalised)",
              "Dc = Death children", "Da = Death adults", "Do = Death old",
              "R = Recovered (R = Rc + Ra + Ro)")
+  txtDisplay = c("All = All compartments;",
+                 "Compact = Hide S Total, and plot H (All) and D (All), where All = joined strata;",
+                 "Young = Plot results only for young adults;",
+                 "Old = Plot results only for old age;")
   # title = list(description, abrevetions/compartments)
   txtHelp = list(
               "SIR Model" = 
@@ -62,8 +66,8 @@ helpEpidem = function(id = "Help1"){
                      compartment. Infected patients can either recover 
                      (becoming immune, R) or they can die (D). The population 
                      is stratified into young and old individuals 
-                     (except for the final common states R & D, which are 
-                     non-stratified in order to reduce visual clutter).", C = txtHosp),
+                     The H compartment and the final states R and D are 
+                     not stratified in order to reduce visual clutter.", C = txtHosp),
               "Extended Hospitalisation Model" =  
                 list(txt = "The Hospitalisation Model was extended with 
                      an Exposed compartment which includes individuals 
@@ -107,7 +111,12 @@ helpEpidem = function(id = "Help1"){
                      specific sliders.", C = txtAG3),
               "Analysis" = list(txt = "Analysis", C = NULL),
               "Display" = 
-                list(txt = "Function for filtering results and desplaying them", C = NULL),
+                list(txt = "Various filters are available in the Display drop-down combo-box. 
+                     It is possible to display only the compartments for one of the population 
+                     strata (either old age or young adults, for models stratified using these strata). 
+                     The plots are less cluttered and finer details become visible. The Compact
+                     filter removes the Total compartment and joins the Hospitalized strata and 
+                     the Death strata into one H (All) and one D (All) compartments.", C = txtDisplay),
               "Sensitivity Analysis" = 
               list(txt = helpTipSensitivity(), C = NULL)
               )

@@ -126,7 +126,7 @@ plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...
            "Infected (Children)", "Infected (Adults)", "Infected (Elders)", 
            "Hosp (Cumulative)", "Hosp (Children)", "Hosp (Adults)", "Hosp (Elders)", 
            "Death (Children)", "Death (Adults)", "Death (Elders)",
-           "Recovered") ;
+           "Recovered (All groups)") ;
   # controller for filtering
   type = match(flt, getDisplayTypesAG3());
   # legend position
