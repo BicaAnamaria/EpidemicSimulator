@@ -42,7 +42,7 @@ getSensitivityAG3 = function() {
   );
 }
 
-# Differential ecuations for age groups model
+# Differential ecuations for Age Groups model
 sirAG3 <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
@@ -167,15 +167,15 @@ Sensitivity_AG3 = function(param, opt, end.time, min=0, max=1, flt = "Adults", o
   for(p in seq(min, max, by = by)) {
     opt[[param]] = p;
     
-    out = initSIR_AG3(opt, end.time);
+    out = initSIR_AG3(opt, end.time, options);
     
     plotSIR_AG3(out, flt = flt, add = if(p == min) FALSE else TRUE,
-                     plot.legend = FALSE, lty = opttions$sensitivity.lty);
+                     plot.legend = FALSE, lty = options$sensitivity.lty);
   }
   
   opt[[param]] = min;
   
-  out = initSIR_AG3(opt, end.time);
+  out = initSIR_AG3(opt, end.time, options);
   
   plotSIR_AG3(out, flt = flt,
                    add = TRUE, plot.legend = TRUE,

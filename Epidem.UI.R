@@ -74,7 +74,6 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            bsTooltip(id = "optSensitivityH", title = helpTipSensitivity(TRUE), 
                                      placement = "left", trigger = "hover"),
                            plotOutput("Hosp"),
-                           # hr(),
                            
                            fluidRow(
                              column(4, sliderTime("timeH"),
@@ -103,7 +102,6 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            bsTooltip(id = "optSensitivityEH", title = helpTipSensitivity(TRUE), 
                                      placement = "left", trigger = "hover"),
                            plotOutput("EH"),
-                           # hr(),
                            
                            fluidRow(
                              column(4, sliderTime("timeEH"),
@@ -140,13 +138,11 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            fluidRow(
                              column(4, textOutput("txtVacc"),
                                     checkboxInput("toggleV","Toggle between plot and diagram")), 
-                             column(4, selectInput("optTypeV", "Display", getDisplayTypesVacc(), selected="Old")),
-                             column(4, selectInput("optSensitivityVacc", "Sensitivity Analysis", getSensitivityVacc(), selected="Vacc"))),
+                             column(4, selectInput("optTypeV", "Display", getDisplayTypesVaccine(), selected="Old")),
+                             column(4, selectInput("optSensitivityVacc", "Sensitivity Analysis", getSensitivityVaccine(), selected="Vacc"))),
                            plotOutput("Vacc"),
                            bsTooltip(id = "optSensitivityVacc", title = helpTipSensitivity(TRUE), 
                                      placement = "left", trigger = "hover"),
-                           #hr() 
-                           
                            
                            fluidRow(
                              column(3, sliderTime("timeV"),
@@ -172,13 +168,11 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            fluidRow(
                              column(3, textOutput("txtVaccStratified"),
                                     checkboxInput("toggleVS","Toggle between plot and diagram")),
-                             column(3, selectInput("optTypeVS", "Display", getDisplayTypesVaccStrat(), selected="Old")), 
-                             column(3, selectInput("optSensitivityVaccStrat", "Sensitivity Analysis", getSensitivityVaccStrat(), selected="VaccStrat")) ),
+                             column(3, selectInput("optTypeVS", "Display", getDisplayTypesVaccineStrat(), selected="Old")), 
+                             column(3, selectInput("optSensitivityVaccStrat", "Sensitivity Analysis", getSensitivityVaccineStrat(), selected="VaccStrat")) ),
                            plotOutput("VaccVS"),
                            bsTooltip(id = "optSensitivityVaccStrat", title = helpTipSensitivity(TRUE), 
                                      placement = "left", trigger = "hover"),
-                           # hr() 
-                           
                            
                            fluidRow(
                              column(3, sliderTime("timeVS"),
@@ -186,7 +180,6 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     sliderBase("hosp.oVS", label="Hospitalization rate (Old)"),
                                     sliderBase("hosp.yVS", label="Hospitalization rate (Young)")
                              ),
-                             # sliderBase("recov.hosp.yVS", label="Rate of recovery in hospitals (young)")),
                              column(3,
                                     sliderBase("recov.oVS", label="Recovery rate (Old)"),
                                     sliderBase("recov.yVS", label="Recovery rate (Young)"),
@@ -196,7 +189,6 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                     sliderBase("death.oVS", label="Death rate (Old)"),
                                     sliderBase("death.yVS", label="Death rate (Young)"),
                                     sliderBase("death.hyVS", label="Death rate in hospital (Young)")
-                                    #sliderBase("recov.hosp.oVS", label="Rate of recovery in hospitals (old)")
                              ),
                              
                              column(3,
@@ -213,9 +205,8 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            fluidRow(
                              column(4, textOutput("VirusT"),
                                     checkboxInput("toggle2V","Toggle between plot and diagram")),
-                             column(4, selectInput("optType2V", "Display", getDisplayTypes2V(), selected="Compact")),
-                             column(4, selectInput("optSensitivity2V", "Sensitivity Analysis", getSensitivity2V(), selected="2V")) ,
-                             #column(4, selectInput("optSensitivityH", "Sensitivity Analysis", getSensitivity_Hosp(), selected="SIR"))
+                             column(4, selectInput("optType2V", "Display", getDisplayTypes2Viruses(), selected="Compact")),
+                             column(4, selectInput("optSensitivity2V", "Sensitivity Analysis", getSensitivity2Viruses(), selected="2V")) 
                            ),
                            plotOutput("Virus"),
                            bsTooltip(id = "optSensitivity2V", title = helpTipSensitivity(TRUE), 
@@ -239,8 +230,6 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                                   sliderBase("hospV2", label="Hospitalization rate (Virus 2)")
                            ),
                            column(3,
-                                  #sliderBase("infectV1V2", label="Infection rate V1V2"),
-                                  #sliderBase("infectV2V1", label="Infection rate V1V2"),
                                   sliderBase("deathV1", label="Death rate (Virus 1)", 0.1),
                                   sliderBase("deathV2", label="Death rate (Virus 2)", 0.15),
                                   sliderBase("deathV1.h", label="Death rate (Hosp, Virus 1)"),

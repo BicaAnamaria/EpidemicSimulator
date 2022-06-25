@@ -17,13 +17,13 @@
 ### 2 Viruses Model ###
 #######################
 
-# Options for filter controller
-getDisplayTypes2V = function(){
+### Options for filter controller
+getDisplayTypes2Viruses = function(){
   c("All", "Compact", "V1", "V2")
 }
 
-# Options for sensitivity analysis controller
-getSensitivity2V = function() {
+### Options for sensitivity analysis controller
+getSensitivity2Viruses = function() {
   c("2 Viruses Model" = "2V", 
     "Infection rate (V1)" = "infectV1",
     "Infection rate (V2)" = "infectV2",
@@ -33,7 +33,7 @@ getSensitivity2V = function() {
   );
 }
 
-# Differential ecuations for 2V model
+### Differential ecuations for 2V model
 sir2Viruses <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
 
@@ -62,7 +62,7 @@ sir2Viruses <- function(time, state, parameters) {
   })
 }
 
-# function for initializing:
+### Function for initializing:
 # - parameters (got from the user/test parameters already declared in the app)
 # - compartments
 initSIR_2Viruses = function(param, end.time, options)
@@ -78,10 +78,8 @@ initSIR_2Viruses = function(param, end.time, options)
                     recov.hv1 = param$recovV1.h * (1 - param$deathV1.h),
                     recov.hv2 = param$recovV2.h * (1 - param$deathV2.h),
                     death.hv1 = param$recovV1.h * param$deathV1.h,
-                    death.hv2 = param$recovV2.h * param$deathV2.h
-                    #infect.v1_v2 = param$infectV1V2,
-                    #infect.v2_v1 = param$infectV2V1,
-  )
+                    death.hv2 = param$recovV2.h * param$deathV2.h)
+  # initialise the compartments
   init = c(S = (1 - 1e-6), IV1 = 1e-6 , IV2 = 0.0, 
            Hcum = 0.0, HV1 = 0.0, HV2 = 0.0, 
            DV1 = 0.0, DV2 = 0.0, RV1 = 0.0, RV2 = 0.0)
@@ -108,7 +106,7 @@ initSIR_2Viruses = function(param, end.time, options)
   return(out);
 }
 
-# Function for plotting 
+### Function for plotting 
 plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...) {
   
   # legend labels
@@ -119,7 +117,7 @@ plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...)
   leg.xy = c(0.0, 0.9)
   
   # controller for filtering
-  type = match(flt, getDisplayTypes2V());
+  type = match(flt, getDisplayTypes2Viruses());
   
   # type1 = All; type2 = Compact
   # type3 = virus1; type4 = virus2
@@ -146,21 +144,21 @@ plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...)
 }
 
 ### Sensivity Analysis
-Sensitivity_2Viruses = function(param, opt, end.time, min=0, max=1, flt = "V1", options) {
+Sensitivity_2Viruses = function(paramName, parameters, end.time, min=0, max=1, flt = "V1", options) {
   by = (max - min)/20;
   # for this interval, run the simulation and plot the result
   for(p in seq(min, max, by = by)) {
-    opt[[param]] = p;
+    parameters[[paramName]] = p;
     
-    out = initSIR_2Viruses(opt, end.time);
+    out = initSIR_2Viruses(parameters, end.time, options);
     
     plotSIR_2Viruses(out, flt = flt, add = if(p == min) FALSE else TRUE,
                     plot.legend = FALSE, lty = options$sensitivity.lty);
   }
   
-  opt[[param]] = min;
+  parameters[[paramName]] = min;
   
-  out = initSIR_2Viruses(opt, end.time);
+  out = initSIR_2Viruses(parameters, end.time, options);
   
   plotSIR_2Viruses(out, flt = flt,
                   add = TRUE, plot.legend = TRUE,
