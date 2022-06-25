@@ -65,7 +65,7 @@ sir2Viruses <- function(time, state, parameters) {
 # function for initializing:
 # - parameters (got from the user/test parameters already declared in the app)
 # - compartments
-initSIR_2Viruses = function(param, end.time, options = opt0)
+initSIR_2Viruses = function(param, end.time, options)
 {
   parameters = list(infect.v1 = param$infectV1,
                     infect.v2 = param$infectV2,
@@ -146,7 +146,7 @@ plotSIR_2Viruses = function(out, flt="V1", add = FALSE, plot.legend = TRUE, ...)
 }
 
 ### Sensivity Analysis
-Sensitivity_2Viruses = function(param, opt, end.time, min=0, max=1, flt = "V1", options = opt0) {
+Sensitivity_2Viruses = function(param, opt, end.time, min=0, max=1, flt = "V1", options) {
   by = (max - min)/20;
   # for this interval, run the simulation and plot the result
   for(p in seq(min, max, by = by)) {

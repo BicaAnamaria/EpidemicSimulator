@@ -65,6 +65,17 @@ summarySIR = function(x){
   return(results)
 }
 
+summaryBasicSIR = function(x){
+  last = nrow(x)
+  Dc = x$Dc[last];
+  Dh = x$Dh[last];
+  Dt = Dc + Dh
+  results = data.frame(
+    Comp = c("Dc", "Dh", "Dt", "Hcum"), 
+    Val = c(Dc, Dh, Dt, x$Hcum[last]) )
+  return(results)
+}
+
 
 summarySIR_Infected = function(x)
 {

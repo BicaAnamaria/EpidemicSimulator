@@ -80,7 +80,7 @@ sirAG3 <- function(time, state, parameters) {
 # function for initializing:
 # - parameters (got from the user/test parameters already declared in the app)
 # - compartments
-initSIR_AG3 = function(param, end.time, options = opt0)
+initSIR_AG3 = function(param, end.time, options)
 {
   
   times = seq(0, end.time, by = 1)
@@ -162,7 +162,7 @@ plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...
 }
 
 ### Sensivity Analysis
-Sensitivity_AG3 = function(param, opt, end.time, min=0, max=1, flt = "Adults") {
+Sensitivity_AG3 = function(param, opt, end.time, min=0, max=1, flt = "Adults", options) {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
     opt[[param]] = p;
@@ -170,7 +170,7 @@ Sensitivity_AG3 = function(param, opt, end.time, min=0, max=1, flt = "Adults") {
     out = initSIR_AG3(opt, end.time);
     
     plotSIR_AG3(out, flt = flt, add = if(p == min) FALSE else TRUE,
-                     plot.legend = FALSE, lty = opt.sensitivity.lty);
+                     plot.legend = FALSE, lty = opttions$sensitivity.lty);
   }
   
   opt[[param]] = min;

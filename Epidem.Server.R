@@ -42,6 +42,7 @@ server <- function(input, output){
   # active Tab
   values$Active = "H";
   values$outData = NULL;
+  values$options = getOptions();
   
   # synchronise times across pages
   GetTime = function(type, idInput) {
@@ -79,14 +80,15 @@ server <- function(input, output){
     # Page:
     if(input$toggleH == FALSE) {
       if(input$optSensitivityH == "SIR") {
-        outData = initSIR_Hosp(custom, valTime);
+        outData = initSIR_Hosp(custom, valTime, options = values$options);
         values$outData = outData;
-        plotSIR_Hosp(outData, flt=input$optType)
+        plotSIR_Hosp(outData, flt=input$optType, options = values$options)
       } else {
         idParam = match(input$optSensitivityH, c("infect"));
         max = if(is.na(idParam)) 1 else opt0$sensitivity.infect.max * custom$infect;
         min = if(is.na(idParam)) 0 else opt0$sensitivity.infect.min * custom$infect;
-        Sensitivity_Hosp(input$optSensitivityH, custom, valTime, min=min, max=max, flt=input$optType);
+        Sensitivity_Hosp(input$optSensitivityH, custom, valTime, min=min, max=max, 
+                         flt=input$optType, options = values$options);
       }
     } else
       diagram.H();
@@ -109,9 +111,9 @@ server <- function(input, output){
     # Page:
     if(input$toggleEH == FALSE) {
       if(input$optSensitivityEH == "SEIR") {
-        outData = initSIR_EH(custom, valTime);
+        outData = initSIR_EH(custom, valTime, options = values$options);
         values$outData = outData;
-        plotSIR_EH(outData, flt=input$optTypeEH)
+        plotSIR_EH(outData, flt=input$optTypeEH, options = values$options)
       } else {
         min = 0; max = 1;
         idParam = match(input$optSensitivityEH, c("infect", "exposed.y", "exposed.o"));
@@ -128,7 +130,8 @@ server <- function(input, output){
           }
         }
         
-        Sensitivity_EH(input$optSensitivityEH, custom, valTime, min=min, max=max, flt=input$optTypeEH);
+        Sensitivity_EH(input$optSensitivityEH, custom, valTime, min=min, max=max, 
+                       flt=input$optTypeEH, options = values$options);
       }
     } else
       diagram.EH();
@@ -152,16 +155,17 @@ server <- function(input, output){
                   )
     if(input$toggleV == FALSE){
       if(input$optSensitivityVacc == "Vacc") {
-        outData = initSIR_Vaccine(custom, valTime)
+        outData = initSIR_Vaccine(custom, valTime, options = values$options)
         values$outData = outData;
-        plotSIR_Vaccine(outData, flt = input$optTypeV)
+        plotSIR_Vaccine(outData, flt = input$optTypeV, options = values$options)
       }else {
         idParam = match(input$optSensitivityVacc, c("vacc.y", "vacc.o"));
         max   = if(is.na(idParam)) 1 else 0.005;
         idParam = match(input$optSensitivityVacc, c("infect"));
         max   = if(is.na(idParam)) max else opt0$sensitivity.infect.max * custom$infect;
         min = if(is.na(idParam)) 0 else opt0$sensitivity.infect.min * custom$infect;
-        Sensitivity_Vaccine(input$optSensitivityVacc, custom, valTime, min=min, max=max, flt=input$optTypeV);
+        Sensitivity_Vaccine(input$optSensitivityVacc, custom, valTime, min=min, max=max,
+                            flt=input$optTypeV, options = values$options);
         }
     }
     else
@@ -189,16 +193,17 @@ server <- function(input, output){
     
     if(input$toggleVS == FALSE) {
       if(input$optSensitivityVaccStrat == "VaccStrat") {
-        outData = initSIR_VaccineStrat(custom, valTime) 
+        outData = initSIR_VaccineStrat(custom, valTime, options = values$options) 
         values$outData = outData;
-        plotSIR_VaccineStrat(outData, flt = input$optTypeVS)
+        plotSIR_VaccineStrat(outData, flt = input$optTypeVS, options = values$options)
       } else {
         idParam = match(input$optSensitivityVaccStrat, c("vacc.y", "vacc.o"));
         max   = if(is.na(idParam)) 1 else 0.005;
         idParam = match(input$optSensitivityVaccStrat, c("infect"));
         max   = if(is.na(idParam)) max else opt0$sensitivity.infect.max * custom$infect;
         min = if(is.na(idParam)) 0 else opt0$sensitivity.infect.min * custom$infect;
-        Sensitivity_VaccineStrat(input$optSensitivityVaccStrat, custom, valTime, min=min, max=max, flt=input$optTypeVS);
+        Sensitivity_VaccineStrat(input$optSensitivityVaccStrat, custom, valTime, min=min, max=max,
+                                 flt=input$optTypeVS, options = values$options);
       }
     } else diagramVS(scaleX=0.4, scaleY=0.4)
     
@@ -227,7 +232,7 @@ server <- function(input, output){
     )
     if(input$toggle2V == FALSE) {
       if(input$optSensitivity2V == "2V") {
-        outData = initSIR_2Viruses(custom, valTime) 
+        outData = initSIR_2Viruses(custom, valTime, options = values$options) 
         values$outData = outData;
         plotSIR_2Viruses(outData, flt = input$optType2V)
     }
@@ -243,7 +248,8 @@ server <- function(input, output){
           max = opt0$sensitivity.infect.max * custom$infectV2;
           min = opt0$sensitivity.infect.min * custom$infectV2;
         }
-        Sensitivity_2Viruses(input$optSensitivity2V, custom, valTime, min=min, max=max, flt = input$optType2V);
+        Sensitivity_2Viruses(input$optSensitivity2V, custom, valTime, min=min, max=max, 
+                             flt = input$optType2V, options = values$options);
       }
     } else diagram.2V(scaleX=0.3, scaleY=0.3)
   })
@@ -274,9 +280,9 @@ server <- function(input, output){
     )
     if(input$toggleAG3 == FALSE) {
       if(input$optSensitivityAG3 == "AG3") {
-        outData = initSIR_AG3(custom, valTime) 
+        outData = initSIR_AG3(custom, valTime, options = values$options) 
         values$outData = outData;
-        plotSIR_AG3(outData, flt = input$optTypeAG3)
+        plotSIR_AG3(outData, flt = input$optTypeAG3, options = values$options)
       } else{
         idParam = match(input$optSensitivityAG3, c("infectAG3.cc", "infectAG3.cn", 
                                                    "infectAG3.nc", "infectAG3.nn"));
@@ -296,13 +302,18 @@ server <- function(input, output){
           max = opt0$sensitivity.infect.max * custom$infectAG3.nn;
           min = opt0$sensitivity.infect.min * custom$infectAG3.nn;
         }
-        Sensitivity_AG3(input$optSensitivityAG3, custom, valTime, min=min, max=max, flt = input$optTypeAG3);
+        Sensitivity_AG3(input$optSensitivityAG3, custom, valTime, min=min, max=max, 
+                        flt = input$optTypeAG3, options = values$options);
       }
     } else diagram.AG3(scaleX=0.2, scaleY=0.2)
   })
   
-  output$doStatistics = renderTable({
+  output$doAnalysis = renderTable({
     summarySIR(values$outData);
+  }, align = c('c'))
+  
+  output$doBasicStatistics = renderTable({
+    summaryBasicSIR(values$outData);
   }, align = c('c'))
   
   ### Save Data

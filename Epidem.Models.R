@@ -187,7 +187,7 @@ sirHosp <- function(time, state, parameters) {
   })
 }
 
-initSIR_Hosp = function(opt, end.time, options = opt0) {
+initSIR_Hosp = function(opt, end.time, options) {
   times = seq(0, end.time, by = 1) # flt = filter
   # - S = susceptible young people;
   # - O = susceptible old people;
@@ -213,7 +213,7 @@ initSIR_Hosp = function(opt, end.time, options = opt0) {
   return(out);
 }
 
-plotSIR_Hosp = function (out, options = opt0, flt="Old", add = FALSE, plot.legend = TRUE, ...)
+plotSIR_Hosp = function (out, options, flt="Old", add = FALSE, plot.legend = TRUE, ...)
 { 
   ### Plot
   lbl = c("Total", "Young", "Old", "Infected: Young (in community)", "Infected: Old (in community)",
@@ -249,7 +249,7 @@ plotSIR_Hosp = function (out, options = opt0, flt="Old", add = FALSE, plot.legen
 
 ### Sensitivity Analysis
 
-Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, options = opt0, flt = "Old") {
+Sensitivity_Hosp = function(param, opt, end.time, min=0, max=1, options, flt = "Old") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
     opt[[param]] = p;
@@ -320,7 +320,7 @@ sirEH <- function(time, state, parameters) {
 }
 
 
-initSIR_EH = function(opt, end.time, options = opt0) {
+initSIR_EH = function(opt, end.time, options) {
   times = seq(0, end.time, by = 1) 
 
   parameters = c(infect = opt$infect,
@@ -345,7 +345,7 @@ initSIR_EH = function(opt, end.time, options = opt0) {
   return(out);
 }
 
-plotSIR_EH = function (out, options = opt0, flt="Old", add = FALSE, plot.legend = TRUE, ...)
+plotSIR_EH = function (out, options, flt="Old", add = FALSE, plot.legend = TRUE, ...)
 { 
   ### Plot
   lbl = c("Total", "Young", "Old", "Exposed (Young)", "Exposed (Old)",
@@ -388,7 +388,7 @@ plotSIR_EH = function (out, options = opt0, flt="Old", add = FALSE, plot.legend 
 
 ### Sensitivity Analysis
 
-Sensitivity_EH = function(param, opt, end.time, min=0, max=1, options = opt0, flt = "Old") {
+Sensitivity_EH = function(param, opt, end.time, min=0, max=1, options, flt = "Old") {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
     opt[[param]] = p;
