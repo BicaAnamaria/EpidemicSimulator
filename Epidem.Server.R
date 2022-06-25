@@ -282,7 +282,7 @@ server <- function(input, output){
       if(input$optSensitivityAG3 == "AG3") {
         outData = initSIR_AG3(custom, valTime, options = values$options) 
         values$outData = outData;
-        plotSIR_AG3(outData, flt = input$optTypeAG3, options = values$options)
+        plotSIR_AG3(outData, flt = input$optTypeAG3)
       } else{
         idParam = match(input$optSensitivityAG3, c("infectAG3.cc", "infectAG3.cn", 
                                                    "infectAG3.nc", "infectAG3.nn"));

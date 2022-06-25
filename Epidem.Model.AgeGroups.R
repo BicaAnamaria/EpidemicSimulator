@@ -162,20 +162,20 @@ plotSIR_AG3 = function(out, flt = "Adults", add = FALSE, plot.legend = TRUE, ...
 }
 
 ### Sensivity Analysis
-Sensitivity_AG3 = function(param, opt, end.time, min=0, max=1, flt = "Adults", options) {
+Sensitivity_AG3 = function(paramName, parameters, end.time, min=0, max=1, flt = "Adults", options) {
   by = (max - min)/20;
   for(p in seq(min, max, by = by)) {
-    opt[[param]] = p;
+    parameters[[paramName]] = p;
     
-    out = initSIR_AG3(opt, end.time, options);
+    out = initSIR_AG3(parameters, end.time, options);
     
     plotSIR_AG3(out, flt = flt, add = if(p == min) FALSE else TRUE,
                      plot.legend = FALSE, lty = options$sensitivity.lty);
   }
   
-  opt[[param]] = min;
+  parameters[[paramName]] = min;
   
-  out = initSIR_AG3(opt, end.time, options);
+  out = initSIR_AG3(parameters, end.time, options);
   
   plotSIR_AG3(out, flt = flt,
                    add = TRUE, plot.legend = TRUE,
