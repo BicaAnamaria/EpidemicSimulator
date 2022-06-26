@@ -201,8 +201,6 @@ summarySIR_Death = function(x){
     results = rbind(param_DT, param_Dc, param_Da, param_Do);
   }
   
-  #names(results) = c("Age", "Duration (days)", "Max deaths", "Cutoff");
-  # TODO: Very ugly hack
   names(results) = c("Type", "Age", "Duration (days)", "Max", "Cutoff");
   results$Unit = "Persons/million";
   
