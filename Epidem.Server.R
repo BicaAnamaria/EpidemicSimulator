@@ -85,8 +85,8 @@ server <- function(input, output){
         plotSIR_Hosp(outData, flt=input$optType, options = values$options)
       } else {
         idParam = match(input$optSensitivityH, c("infect"));
-        max = if(is.na(idParam)) 1 else opt0$sensitivity.infect.max * custom$infect;
-        min = if(is.na(idParam)) 0 else opt0$sensitivity.infect.min * custom$infect;
+        max = if(is.na(idParam)) 1 else values$options$sensitivity.infect.max * custom$infect;
+        min = if(is.na(idParam)) 0 else values$options$sensitivity.infect.min * custom$infect;
         Sensitivity_Hosp(input$optSensitivityH, custom, valTime, min=min, max=max, 
                          flt=input$optType, options = values$options);
       }
@@ -119,14 +119,14 @@ server <- function(input, output){
         idParam = match(input$optSensitivityEH, c("infect", "exposed.y", "exposed.o"));
         if(!is.na(idParam)) {
           if(idParam == 1) {
-            max = opt0$sensitivity.infect.max * custom$infect;
-            min = opt0$sensitivity.infect.min * custom$infect;
+            max = values$options$sensitivity.infect.max * custom$infect;
+            min = values$options$sensitivity.infect.min * custom$infect;
           } else if(idParam == 2) { 
-            max = opt0$sensitivity.infect.max * custom$exposed.y
-            min = opt0$sensitivity.infect.min * custom$exposed.y;
+            max = values$options$sensitivity.infect.max * custom$exposed.y
+            min = values$options$sensitivity.infect.min * custom$exposed.y;
           } else {
-            max = opt0$sensitivity.infect.max * custom$exposed.o;
-            min = opt0$sensitivity.infect.min * custom$exposed.o;
+            max = values$options$sensitivity.infect.max * custom$exposed.o;
+            min = values$options$sensitivity.infect.min * custom$exposed.o;
           }
         }
         
@@ -162,8 +162,8 @@ server <- function(input, output){
         idParam = match(input$optSensitivityVacc, c("vacc.y", "vacc.o"));
         max   = if(is.na(idParam)) 1 else 0.005;
         idParam = match(input$optSensitivityVacc, c("infect"));
-        max   = if(is.na(idParam)) max else opt0$sensitivity.infect.max * custom$infect;
-        min = if(is.na(idParam)) 0 else opt0$sensitivity.infect.min * custom$infect;
+        max   = if(is.na(idParam)) max else values$options$sensitivity.infect.max * custom$infect;
+        min = if(is.na(idParam)) 0 else values$options$sensitivity.infect.min * custom$infect;
         Sensitivity_Vaccine(input$optSensitivityVacc, custom, valTime, min=min, max=max,
                             flt=input$optTypeV, options = values$options);
         }
@@ -200,8 +200,8 @@ server <- function(input, output){
         idParam = match(input$optSensitivityVaccStrat, c("vacc.y", "vacc.o"));
         max   = if(is.na(idParam)) 1 else 0.005;
         idParam = match(input$optSensitivityVaccStrat, c("infect"));
-        max   = if(is.na(idParam)) max else opt0$sensitivity.infect.max * custom$infect;
-        min = if(is.na(idParam)) 0 else opt0$sensitivity.infect.min * custom$infect;
+        max   = if(is.na(idParam)) max else values$options$sensitivity.infect.max * custom$infect;
+        min = if(is.na(idParam)) 0 else values$options$sensitivity.infect.min * custom$infect;
         Sensitivity_VaccineStrat(input$optSensitivityVaccStrat, custom, valTime, min=min, max=max,
                                  flt=input$optTypeVS, options = values$options);
       }
@@ -242,11 +242,11 @@ server <- function(input, output){
           max = 1
           min = 0
         } else if(idParam == 1){ 
-          max = opt0$sensitivity.infect.max * custom$infectV1
-          min = opt0$sensitivity.infect.min * custom$infectV1;
+          max = values$options$sensitivity.infect.max * custom$infectV1
+          min = values$options$sensitivity.infect.min * custom$infectV1;
         } else {
-          max = opt0$sensitivity.infect.max * custom$infectV2;
-          min = opt0$sensitivity.infect.min * custom$infectV2;
+          max = values$options$sensitivity.infect.max * custom$infectV2;
+          min = values$options$sensitivity.infect.min * custom$infectV2;
         }
         Sensitivity_2Viruses(input$optSensitivity2V, custom, valTime, min=min, max=max, 
                              flt = input$optType2V, options = values$options);
@@ -290,17 +290,17 @@ server <- function(input, output){
           max = 1
           min = 0
         } else if(idParam == 1){ 
-          max = opt0$sensitivity.infect.max * custom$infectAG3.cc
-          min = opt0$sensitivity.infect.min * custom$infectAG3.cc;
+          max = values$options$sensitivity.infect.max * custom$infectAG3.cc
+          min = values$options$sensitivity.infect.min * custom$infectAG3.cc;
         } else if(idParam == 2){
-          max = opt0$sensitivity.infect.max * custom$infectAG3.cn;
-          min = opt0$sensitivity.infect.min * custom$infectAG3.cn;
+          max = values$options$sensitivity.infect.max * custom$infectAG3.cn;
+          min = values$options$sensitivity.infect.min * custom$infectAG3.cn;
         } else if(idParam == 3){
-          max = opt0$sensitivity.infect.max * custom$infectAG3.nc;
-          min = opt0$sensitivity.infect.min * custom$infectAG3.nc;
+          max = values$options$sensitivity.infect.max * custom$infectAG3.nc;
+          min = values$options$sensitivity.infect.min * custom$infectAG3.nc;
         } else {
-          max = opt0$sensitivity.infect.max * custom$infectAG3.nn;
-          min = opt0$sensitivity.infect.min * custom$infectAG3.nn;
+          max = values$options$sensitivity.infect.max * custom$infectAG3.nn;
+          min = values$options$sensitivity.infect.min * custom$infectAG3.nn;
         }
         Sensitivity_AG3(input$optSensitivityAG3, custom, valTime, min=min, max=max, 
                         flt = input$optTypeAG3, options = values$options);
