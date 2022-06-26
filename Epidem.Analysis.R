@@ -18,7 +18,8 @@
 
 ### Helper Functions
 # - used by function computeSummary();
-calculate_parameters <- function(dX, category = NULL, type = "Infected", options = opt0) {
+
+calculate_parameters <- function(dX, category = NULL, type = "Infected", options = getOptions()) {
   # maximum number of infected persons/day
   maxCutoff = max(dX) * options$stat.max.cutoff;
   # days with number of infections >= cutoff
