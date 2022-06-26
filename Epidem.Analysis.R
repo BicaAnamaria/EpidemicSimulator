@@ -55,7 +55,7 @@ computeSummary0 = function(x, ctgs,  type = "Death", isCumulative = TRUE) {
 }
 
 
-### Generic Function
+### Generic Functions
 summarySIR = function(x){
   results = rbind(summarySIR_Infected(x), 
                   summarySIR_Death(x),
@@ -66,13 +66,48 @@ summarySIR = function(x){
 }
 
 summaryBasicSIR = function(x){
-  last = nrow(x)
-  Dc = x$Dc[last];
-  Dh = x$Dh[last];
-  Dt = Dc + Dh
-  results = data.frame(
-    Comp = c("Dc", "Dh", "Dt", "Hcum"), 
-    Val = c(Dc, Dh, Dt, x$Hcum[last]) )
+  type = attr(x, "Model");
+  
+  if(type == "Vaccination" ){
+    last = nrow(x)
+    D = x$D[last];
+    results = data.frame(
+      Comp = c("D", "Hcum"), 
+      Val = c(D, x$Hcum[last]) )
+  } else if(type == "Vaccination Stratified"){
+    last = nrow(x)
+    Dy = x$Dy[last];
+    Do = x$Do[last];
+    Dt = Dy + Do
+    results = data.frame(
+      Comp = c("Dy", "Do", "Dt", "Hcum"), 
+      Val = c(Dy, Do, Dt, x$Hcum[last]) )
+  } else if(type == "2 Viruses"){
+    last = nrow(x)
+    DV1 = x$DV1[last];
+    DV2 = x$DV2[last];
+    Dt = DV1 + DV2 
+    results = data.frame(
+      Comp = c("DV1", "DV2", "Dt", "Hcum"), 
+      Val = c(DV1, DV2, Dt, x$Hcum[last]) )
+  } else if(type == "AG3"){
+    last = nrow(x)
+    Dc = x$Dc[last];
+    Da = x$Da[last];
+    Do = x$Do[last];
+    Dt = Dc + Da + Do
+    results = data.frame(
+      Comp = c("Dc", "Da", "Do", "Dt", "Hcum"), 
+      Val = c(Dc, Da, Do, Dt, x$Hcum[last]) )
+  } else{
+    last = nrow(x)
+    Dc = x$Dc[last];
+    Dh = x$Dh[last];
+    Dt = Dc + Dh
+    results = data.frame(
+      Comp = c("Dc", "Dh", "Dt", "Hcum"), 
+      Val = c(Dc, Dh, Dt, x$Hcum[last]) )
+  }
   return(results)
 }
 
@@ -92,7 +127,7 @@ summarySIR_Infected = function(x)
     param_Io = computeSummary(x$So, 0,  "Old: ")
     param_IAll = computeSummary(x$T, 0,  "Total: ")
     
-    results = rbind(param_IAll, param_Iy, param_Io);i
+    results = rbind(param_IAll, param_Iy, param_Io);
   } else if( type == "Vaccination" ){
     param_Iy = computeSummary(x$Sy, x$Vy, "Young: ")
     param_Io = computeSummary(x$So, x$Vo,  "Old: ")
