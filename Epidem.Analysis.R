@@ -214,7 +214,6 @@ summarySIR_Hosp = function(x){
   typeInHosp = "In Hosp";
   
   if(type == "Hospitalisation" ){
-    #results = calculate_death(x, type, list(c('Dc', 'Dh')))
     param_H = computeSummary0(x$H,  "Total: ", type = typeInHosp, isCumulative = FALSE)
     param_Hy = computeSummary0(x$Hy,  "Young: ", type = typeInHosp, isCumulative = FALSE)
     param_Ho = computeSummary0(x$Ho, "Old: ", type = typeInHosp, isCumulative = FALSE);
@@ -262,8 +261,6 @@ summarySIR_Hosp = function(x){
     results = rbind(param_T, param_Hc, param_Ha, param_Ho, param_Hcum);
   }
   
-  #names(results) = c("Age", "Duration (days)", "Max deaths", "Cutoff");
-  # TODO: Very ugly hack
   names(results) = c("Type", "Age", "Duration (days)", "Max", "Cutoff");
   results$Unit = "Persons/million";
   
