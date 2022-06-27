@@ -316,9 +316,11 @@ server <- function(input, output){
   
   ### Global options
   output$printOptions= renderTable({
-    opt.df = data.frame(Name = names(values$options), Values = unlist(values$options) );
+    opt.df = data.frame(Name = names(values$options), 
+                        Values = unlist(values$options), 
+                        Description = getOptionsDescription() );
     opt.df;
-  }, align = c('c'))
+  }, align = c('l'))
   
   
   ### Save Data
