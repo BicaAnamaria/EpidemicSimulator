@@ -294,6 +294,10 @@ ui <- fluidPage("Epidemic Simulation", useShinyjs(),
                            downloadButton("downloadData", "Download")
                   ),
                   
+                  tabPanel("Model Options",
+                           tableOutput("printOptions")
+                  ),
+                  
                   tabPanel("Help",
                            uiOutput("HelpUI")
                   )

@@ -216,8 +216,6 @@ server <- function(input, output){
     custom = list(delayV2 = input$delayV2,
                   infectV1 = input$infectV1,
                   infectV2 = input$infectV2,
-                  #infectV1V2 = input$infectV1V2,
-                  #infectV2V1 = input$infectV2V1,
                   recovV1 = input$recovV1,
                   recovV2 = input$recovV2,
                   recovV1.h = input$recovV1.h,
@@ -315,6 +313,13 @@ server <- function(input, output){
   output$doBasicStatistics = renderTable({
     summaryBasicSIR(values$outData);
   }, align = c('c'))
+  
+  ### Global options
+  output$printOptions= renderTable({
+    opt.df = data.frame(Name = names(values$options), Values = unlist(values$options) );
+    opt.df;
+  }, align = c('c'))
+  
   
   ### Save Data
   output$downloadData <- downloadHandler(

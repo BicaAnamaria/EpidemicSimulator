@@ -223,7 +223,8 @@ diagram.EH  = function(file = "SIR + EH.png", save.png = FALSE,scaleX = 3/4, sca
     ) 
   
   color <-  c(col$S, col$S, col$I, col$I, 
-              col$H, col$H, col$D, col$R)
+              col$H, col$H, col$D, col$R, 
+              col$E, col$E)
   
   # arrows 
   m[[9,1]] = ""
