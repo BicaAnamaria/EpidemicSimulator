@@ -16,14 +16,14 @@
 getOptionsDescription = function() {
   
   descriptions = c("Number of days after the vaccination is possible", 
-                   "20% of the total population are older people", 
-                   "20% of the total population are children",
+                   "Proportion of older people in the total population", 
+                   "Proportion of children in the total population",
                    "Used for scalling the mortality rate so it can be visible in the grafic",
-                   "Used for scalling the spitalisation rate so it can be visible in the grafic",
-                   "Used for the 2 Viruses model. 10% of the infected with virus 1 will be infected with virus 2 too",
+                   "Used for scalling the hospitalisation rate so it can be visible in the grafic",
+                   "Used in the 2 Viruses model. Proportion of persons infected with virus 1 which will suffer a mutation to virus 2.",
                    "80% of the maxim value of a compartment in a simulation",
                    "The total population",
-                   "Type of linie used for grafic",
+                   "Line type used in the Sensitivity Analysis",
                    "The minim value used for the sensitivity analysis for different rates (the default one is 0)",
                    "The maximum value used for the sensitivity analysis for different rates (the default one is 1)");
   
