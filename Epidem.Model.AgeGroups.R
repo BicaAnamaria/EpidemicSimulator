@@ -104,9 +104,9 @@ initSIR_AG3 = function(param, end.time, options)
                     recov.ha = param$recovAG3.ha * (1 - param$deathAG3.ha),
                     recov.ho = param$recovAG3.ho * (1 - param$deathAG3.ho)
   )
-  init = c(T = 1, Sc = (1 - 1e-6) * options$p.children, 
-           Sa = (1 - 1e-6) * (1 - options$p.children - options$p.old), 
-           So = (1 - 1e-6) * options$p.old,
+  init = c(T = 1, Sc = options$p.children, 
+           Sa = 1 - options$p.children - options$p.old - 1e-6, 
+           So = options$p.old,
            Ic = 0.0, Ia = 1e-6, Io = 0.0, 
            Hcum = 0.0, Hc = 0.0, Ha = 0.0, Ho = 0.0, 
            Dc = 0.0, Da = 0.0, Do = 0.0,
