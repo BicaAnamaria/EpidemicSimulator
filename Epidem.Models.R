@@ -102,7 +102,7 @@ plot.sir = function(y, times = NULL, legend.lbl = basic.lbl, legend.xy, leg.off 
 }
 
 filter.out = function(x, flt, lbl) {
-  id = match(flt, names(x)); # look for filter name, witch are excluded from the legend 
+  id = match(flt, names(x)); # look for filter name, which are excluded from the legend 
   id = id[ ! is.na(id)];
   if(length(id) > 0) {
     x = x[, - id];
